@@ -25,15 +25,15 @@ class Create_file extends Abstract_model {
         $this->db->_escape_char = ' ';
     }
 
-    
+
     function checkTableName($tablename){
         if($tablename){
-            $sql = " select count(1) cek 
+            $sql = " select count(1) cek
                       from dba_tables
                         where table_name = upper('".$tablename."') ";
             $query = $this->db->query($sql);
             $item  = $query->row_array();
-    
+
             return $item['cek'];
         }else{
             return 0;
@@ -45,7 +45,7 @@ class Create_file extends Abstract_model {
             $sql = " SELECT lower(ispktable(upper('".$tablename."'), null, 'GETPK')) as pkname FROM DUAL";
             $query = $this->db->query($sql);
             $item  = $query->row_array();
-    
+
             return $item['pkname'];
         }else{
             return 0;
@@ -58,9 +58,9 @@ class Create_file extends Abstract_model {
                                 || LOWER (column_name)
                                 || ''''
                                 || '=> array ( '
-                                || case when   hmtri.ispktable(table_name, column_name, 'ISPK') = '1' then 
-                                        ' ''pkey'' => true, ' 
-                                        else null end  
+                                || case when   ispktable(table_name, column_name, 'ISPK') = '1' then
+                                        ' ''pkey'' => true, '
+                                        else null end
                                 || ' ''type'' => '
                                 || ''''
                                 || DECODE (data_type,
@@ -78,7 +78,7 @@ class Create_file extends Abstract_model {
                                 || ''''
                                 || ' )'  array
                             FROM dba_tab_columns
-                            WHERE  table_name = upper('".$tablename."') 
+                            WHERE  table_name = upper('".$tablename."')
                             ORDER BY column_id asc ";
             $query = $this->db->query($sql);
             $item  = $query->result_array();
@@ -93,7 +93,7 @@ class Create_file extends Abstract_model {
                     $ret .= "\t\t\t\t\t\t\t\t".$value['array'].','."\n ";
                 }
             }
-            
+
             return $ret;
 
         }else{
@@ -104,8 +104,8 @@ class Create_file extends Abstract_model {
     function getListCol($tablename, $alias){
         if($tablename){
             $sql = "        SELECT lower(column_name) col
-                            FROM dba_tab_columns
-                            WHERE  table_name = upper('".$tablename."') 
+                            FROM user_tab_columns
+                            WHERE  table_name = upper('".$tablename."')
                             ORDER BY column_id asc ";
             $query = $this->db->query($sql);
             $item  = $query->result_array();
@@ -120,7 +120,7 @@ class Create_file extends Abstract_model {
                     $ret .= "\t\t\t\t\t\t\t\t\t".$alias.$value['col'].','."\n ";
                 }
             }
-            
+
             return $ret;
 
         }else{
@@ -130,13 +130,13 @@ class Create_file extends Abstract_model {
 
     function getListGrid($tablename){
          if($tablename){
-            $sql = "        SELECT  CASE 
-                                        WHEN hmtri.ispktable(table_name, column_name, 'ISPK') = '1' THEN 
-                                            '{label: ' ||  '''ID''' || ', name: ''' ||  lower(column_name) || ''', key: true, width: 5, sorttype: ''number'', editable: true, hidden: true}' 
+            $sql = "        SELECT  CASE
+                                        WHEN ispktable(table_name, column_name, 'ISPK') = '1' THEN
+                                            '{label: ' ||  '''ID''' || ', name: ''' ||  lower(column_name) || ''', key: true, width: 5, sorttype: ''number'', editable: true, hidden: true}'
                                             ELSE
-                                            '{label: '''|| INITCAP (REPLACE (column_name, '_', ' '))  ||''',name: ''' ||  lower(column_name) || ''' ,width: '||case when data_length < 100 then 100 else data_length end||', align: ''' ||  DECODE (data_type, 'NUMBER', 'right','left') || ''',editable: true,#' 
+                                            '{label: '''|| INITCAP (REPLACE (column_name, '_', ' '))  ||''',name: ''' ||  lower(column_name) || ''' ,width: '||case when data_length < 100 then 100 else data_length end||', align: ''' ||  DECODE (data_type, 'NUMBER', 'right','left') || ''',editable: true,#'
                                                ||
-                                                    case when data_length > 100 then  
+                                                    case when data_length > 100 then
                                                          '$5 edittype:''textarea'',#'
                                                     else  null end
                                                  ||   '$5 editoptions:{# '
@@ -145,8 +145,8 @@ class Create_file extends Abstract_model {
                                                  ||   '$5},editrules: {required: false}#'
                                                  || ' $4}'
                                             END listgrid
-                                    FROM dba_tab_columns
-                                    WHERE  table_name = upper('".$tablename."') 
+                                    FROM user_tab_columns
+                                    WHERE  table_name = upper('".$tablename."')
                                      AND column_name not in ('CREATED_BY','CREATED_DATE','UPDATE_BY', 'UPDATE_DATE')
                                     ORDER BY column_id asc
                                             ";
@@ -170,7 +170,7 @@ class Create_file extends Abstract_model {
                     $ret .= "\t\t\t\t".$val.','." \n ";
                 }
             }
-            
+
             return $ret;
 
         }else{
@@ -180,20 +180,20 @@ class Create_file extends Abstract_model {
 
     function getListGrid_bck($tablename, $alias){
         if($tablename){
-            $sql = "        SELECT 
-                                    DECODE(hmtri.ispktable(table_name, column_name, 'ISPK'),'true',1,0 ) ispk,
-                                    INITCAP (REPLACE (column_name, '_', ' ')) label, 
-                                     lower(column_name) name,  
+            $sql = "        SELECT
+                                    DECODE(ispktable(table_name, column_name, 'ISPK'),'true',1,0 ) ispk,
+                                    INITCAP (REPLACE (column_name, '_', ' ')) label,
+                                     lower(column_name) name,
                                      DECODE (data_type,
-                                            'NUMBER', 'right','left') align, 
+                                            'NUMBER', 'right','left') align,
                                      DECODE (data_type,
                                             'NUMBER', 'int',
                                             'VARCHAR2', 'str',
                                             'DATE', 'date',
-                                            'str') dat, 
+                                            'str') dat,
                                             data_length
                             FROM dba_tab_columns
-                            WHERE  table_name = upper('".$tablename."') 
+                            WHERE  table_name = upper('".$tablename."')
                             ORDER BY column_id asc ";
             $query = $this->db->query($sql);
             $item  = $query->result_array();
@@ -201,7 +201,7 @@ class Create_file extends Abstract_model {
             $ret = '';
             $count = 0;
             foreach ($item as $key => $value) {
-                
+
                 if($value['ispk'] == '1'){
                     //$ret .= '{label: 'ID', name: 'icon_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true}
                 }
@@ -213,21 +213,21 @@ class Create_file extends Abstract_model {
                     $ret .= "\t\t\t\t\t\t\t\t\t".$alias.$value['col'].','."\n ";
                 }
             }
-            
+
             return $ret;
 
         }else{
             return 0;
         }
     }
-    
+
     function getFileExists($foldername, $name){
         $pathApp = FCPATH."application\ ";
-        
+
         $pathController = str_replace(' ', '',$pathApp.'libraries\ '.$foldername.'\ '.ucfirst($name).'_controller.php');
         $pathModel = str_replace(' ', '',$pathApp.'models\ '.$foldername.'\ '.ucfirst($name).'.php');
-        $pathView = str_replace(' ', '',$pathApp.'views\ '.$foldername.'\ '.strtolower($name).'.php'); 
-        
+        $pathView = str_replace(' ', '',$pathApp.'views\ '.$foldername.'\ '.strtolower($name).'.php');
+
         $dirController = str_replace(' ', '',$pathApp.'libraries\ '.$foldername);
         $dirModel = str_replace(' ', '',$pathApp.'models\ '.$foldername);
         $dirView = str_replace(' ', '',$pathApp.'views\ '.$foldername);
@@ -238,10 +238,10 @@ class Create_file extends Abstract_model {
         $templateView = str_replace(' ', '',$templatePath.'view.php');
 
         $ret = array('controller' => 0,
-                     'model' => 0, 
+                     'model' => 0,
                      'view' => 0
                      );
-        
+
         if(file_exists($pathController)){
             $ret['controller'] = $pathController;
         }
@@ -257,11 +257,11 @@ class Create_file extends Abstract_model {
 
     function rollbackAction($foldername, $name){
         $pathApp = FCPATH."application\ ";
-        
+
         $pathController = str_replace(' ', '',$pathApp.'libraries\ '.$foldername.'\ '.ucfirst($name).'_controller.php');
         $pathModel = str_replace(' ', '',$pathApp.'models\ '.$foldername.'\ '.ucfirst($name).'.php');
-        $pathView = str_replace(' ', '',$pathApp.'views\ '.$foldername.'\ '.strtolower($name).'.php'); 
-        
+        $pathView = str_replace(' ', '',$pathApp.'views\ '.$foldername.'\ '.strtolower($name).'.php');
+
         $dirController = str_replace(' ', '',$pathApp.'libraries\ '.$foldername);
         $dirModel = str_replace(' ', '',$pathApp.'models\ '.$foldername);
         $dirView = str_replace(' ', '',$pathApp.'views\ '.$foldername);
@@ -272,7 +272,7 @@ class Create_file extends Abstract_model {
         $templateView = str_replace(' ', '',$templatePath.'view.php');
 
         $ret = '';
-        
+
         if(file_exists($pathController)){
             if(!unlink($pathController)){
                 $ret .= 'Failed Delete Controller'." \n";
@@ -299,13 +299,13 @@ class Create_file extends Abstract_model {
     }
 
     function checkFileExists($foldername, $name, $tableName, $alias){
-        
+
         $pathApp = FCPATH."application\ ";
-        
+
         $pathController = str_replace(' ', '',$pathApp.'libraries\ '.$foldername.'\ '.ucfirst($name).'_controller.php');
         $pathModel = str_replace(' ', '',$pathApp.'models\ '.$foldername.'\ '.ucfirst($name).'.php');
-        $pathView = str_replace(' ', '',$pathApp.'views\ '.$foldername.'\ '.strtolower($name).'.php'); 
-        
+        $pathView = str_replace(' ', '',$pathApp.'views\ '.$foldername.'\ '.strtolower($name).'.php');
+
         $dirController = str_replace(' ', '',$pathApp.'libraries\ '.$foldername);
         $dirModel = str_replace(' ', '',$pathApp.'models\ '.$foldername);
         $dirView = str_replace(' ', '',$pathApp.'views\ '.$foldername);
@@ -316,7 +316,7 @@ class Create_file extends Abstract_model {
         $templateView = str_replace(' ', '',$templatePath.'view.php');
 
         $ret = array('controller' => $pathController.' Not Exist', 'model' => $pathModel.' Not Exist', 'view' => $pathView.' Not Exist', );
-        
+
         if(!is_dir($dirController)){
             mkdir($dirController, 0777);
         }
@@ -356,26 +356,26 @@ class Create_file extends Abstract_model {
     }
 
     function submitData($foldername, $name, $tablename, $alias){
-        
+
         $ret = array();
-        // check table 
+        // check table
         $ret['table_status'] = $this->checkTableName($tablename) > 0 ? 'Table OK' : 'Table Not Found';
-        
-        // check file exists 
+
+        // check file exists
         $ret['file_status'] = $this->checkFileExists($foldername,$name, $tablename, $alias);
 
-        // create file 
+        // create file
 
         return $ret;
     }
 
     function submitDataMd($foldername, $name, $tablename, $alias){
-        
+
         $ret = array();
-        // check table 
+        // check table
         $ret['table_status'] = $this->checkTableName($tablename) > 0 ? 'Table OK' : 'Table Not Found';
-        
-        // check file exists 
+
+        // check file exists
         if($ret['table_status'] == 'Table OK'){
 
             $ret['file_status'] = $this->checkFileExists($foldername,$name, $tablename, $alias);
@@ -386,14 +386,14 @@ class Create_file extends Abstract_model {
     }
 
     function replaceFileContent($filepath, $foldername, $tableName, $alias, $type){
-        
+
         if($filepath){
 
             $str            = file_get_contents($filepath);
             $tableName      = strtolower($tableName);
 
             if($type == 'CONTROLLER'){
-                
+
                 $classname      = ucfirst($tableName).'_controller';
                 $versionDate    = date('d-m-Y h:i:s');
                 $pkey           = $this->getPkTable($tableName);
@@ -406,34 +406,34 @@ class Create_file extends Abstract_model {
                 $permissionDel      = 'can-del-'.$tableName;
                 $permissionView     = 'can-view-'.$tableName;
 
-                $str = str_replace( '$classname$', $classname ,$str); 
-                $str = str_replace( '$versionDate$', $versionDate ,$str); 
-                $str = str_replace( '$pkey$', $pkey ,$str); 
-                $str = str_replace( '$modelclass$', $modelclass ,$str); 
-                $str = str_replace( '$modelci$', $modelci ,$str);     
-                $str = str_replace( '$permissionAdd$', $permissionAdd ,$str);     
-                $str = str_replace( '$permissionEdit$', $permissionEdit ,$str);     
-                $str = str_replace( '$permissionDel$', $permissionDel ,$str);     
-                $str = str_replace( '$permissionView$', $permissionView ,$str);   
-                $str = str_replace( '$logging$', $logging ,$str);   
+                $str = str_replace( '$classname$', $classname ,$str);
+                $str = str_replace( '$versionDate$', $versionDate ,$str);
+                $str = str_replace( '$pkey$', $pkey ,$str);
+                $str = str_replace( '$modelclass$', $modelclass ,$str);
+                $str = str_replace( '$modelci$', $modelci ,$str);
+                $str = str_replace( '$permissionAdd$', $permissionAdd ,$str);
+                $str = str_replace( '$permissionEdit$', $permissionEdit ,$str);
+                $str = str_replace( '$permissionDel$', $permissionDel ,$str);
+                $str = str_replace( '$permissionView$', $permissionView ,$str);
+                $str = str_replace( '$logging$', $logging ,$str);
 
             }
 
             if($type == 'MODELS'){
-                
+
                 $versionDate    = date('d-m-Y h:i:s');
                 $aliasDot       = strlen($alias) > 0 ? $alias.'.' : '';
                 $pkTable        =  $this->getPkTable($tableName);
                 $arrayTable     =  $this->getArrayTable($tableName);
                 $listCol        =  $this->getListCol($tableName, $aliasDot);
 
-                $str = str_replace( '$versionDate$', $versionDate ,$str); 
-                $str = str_replace( '$classname$', ucfirst($tableName) ,$str); 
-                $str = str_replace( '$tablename$', $tableName ,$str); 
-                $str = str_replace( '$alias$', $alias ,$str); 
-                $str = str_replace( '$pkey$', $pkTable ,$str);     
-                $str = str_replace( '$arraytable$', $arrayTable ,$str);   
-                $str = str_replace( '$listcol$', $listCol ,$str);     
+                $str = str_replace( '$versionDate$', $versionDate ,$str);
+                $str = str_replace( '$classname$', ucfirst($tableName) ,$str);
+                $str = str_replace( '$tablename$', $tableName ,$str);
+                $str = str_replace( '$alias$', $alias ,$str);
+                $str = str_replace( '$pkey$', $pkTable ,$str);
+                $str = str_replace( '$arraytable$', $arrayTable ,$str);
+                $str = str_replace( '$listcol$', $listCol ,$str);
 
             }
 
@@ -444,13 +444,13 @@ class Create_file extends Abstract_model {
                 $listgrid   = $this->getListGrid($tableName);
                 $caption    = ucfirst($tableName);
 
-                $str = str_replace( '$menu$', $menu ,$str); 
-                $str = str_replace( '$urlclass$', $urlclass ,$str); 
-                $str = str_replace( '$listgrid$', $listgrid ,$str);     
-                $str = str_replace( '$caption$', $caption ,$str);    
+                $str = str_replace( '$menu$', $menu ,$str);
+                $str = str_replace( '$urlclass$', $urlclass ,$str);
+                $str = str_replace( '$listgrid$', $listgrid ,$str);
+                $str = str_replace( '$caption$', $caption ,$str);
 
             }
-            
+
             //$str = str_replace( 'line1', "\r\n" ,$str);
 
             file_put_contents($filepath, $str);
@@ -459,14 +459,14 @@ class Create_file extends Abstract_model {
     }
 
     function replaceFileContentMd($filepath, $foldername, $tableName, $alias, $type){
-        
+
         if($filepath){
 
             $str            = file_get_contents($filepath);
             $tableName      = strtolower($tableName);
 
             if($type == 'CONTROLLER'){
-                
+
                 $classname      = ucfirst($tableName).'_controller';
                 $versionDate    = date('d-m-Y h:i:s');
                 $pkey           = $this->getPkTable($tableName);
@@ -483,37 +483,37 @@ class Create_file extends Abstract_model {
                 $refId      =
                 $varRefId   = */
 
-                $str = str_replace( '$columnRef$', $columnRef ,$str); 
-                $str = str_replace( '$refId$', $refId ,$str); 
-                $str = str_replace( '$varRefId$', $varRefId ,$str); 
-                $str = str_replace( '$classname$', $classname ,$str); 
-                $str = str_replace( '$versionDate$', $versionDate ,$str); 
-                $str = str_replace( '$pkey$', $pkey ,$str); 
-                $str = str_replace( '$modelclass$', $modelclass ,$str); 
-                $str = str_replace( '$modelci$', $modelci ,$str);     
-                $str = str_replace( '$permissionAdd$', $permissionAdd ,$str);     
-                $str = str_replace( '$permissionEdit$', $permissionEdit ,$str);     
-                $str = str_replace( '$permissionDel$', $permissionDel ,$str);     
-                $str = str_replace( '$permissionView$', $permissionView ,$str);   
-                $str = str_replace( '$logging$', $logging ,$str);   
+                $str = str_replace( '$columnRef$', $columnRef ,$str);
+                $str = str_replace( '$refId$', $refId ,$str);
+                $str = str_replace( '$varRefId$', $varRefId ,$str);
+                $str = str_replace( '$classname$', $classname ,$str);
+                $str = str_replace( '$versionDate$', $versionDate ,$str);
+                $str = str_replace( '$pkey$', $pkey ,$str);
+                $str = str_replace( '$modelclass$', $modelclass ,$str);
+                $str = str_replace( '$modelci$', $modelci ,$str);
+                $str = str_replace( '$permissionAdd$', $permissionAdd ,$str);
+                $str = str_replace( '$permissionEdit$', $permissionEdit ,$str);
+                $str = str_replace( '$permissionDel$', $permissionDel ,$str);
+                $str = str_replace( '$permissionView$', $permissionView ,$str);
+                $str = str_replace( '$logging$', $logging ,$str);
 
             }
 
             if($type == 'MODELS'){
-                
+
                 $versionDate    = date('d-m-Y h:i:s');
                 $aliasDot       = strlen($alias) > 0 ? $alias.'.' : '';
                 $pkTable        =  $this->getPkTable($tableName);
                 $arrayTable     =  $this->getArrayTable($tableName);
                 $listCol        =  $this->getListCol($tableName, $aliasDot);
 
-                $str = str_replace( '$versionDate$', $versionDate ,$str); 
-                $str = str_replace( '$classname$', ucfirst($tableName) ,$str); 
-                $str = str_replace( '$tablename$', $tableName ,$str); 
-                $str = str_replace( '$alias$', $alias ,$str); 
-                $str = str_replace( '$pkey$', $pkTable ,$str);     
-                $str = str_replace( '$arraytable$', $arrayTable ,$str);   
-                $str = str_replace( '$listcol$', $listCol ,$str);     
+                $str = str_replace( '$versionDate$', $versionDate ,$str);
+                $str = str_replace( '$classname$', ucfirst($tableName) ,$str);
+                $str = str_replace( '$tablename$', $tableName ,$str);
+                $str = str_replace( '$alias$', $alias ,$str);
+                $str = str_replace( '$pkey$', $pkTable ,$str);
+                $str = str_replace( '$arraytable$', $arrayTable ,$str);
+                $str = str_replace( '$listcol$', $listCol ,$str);
 
             }
 
@@ -524,13 +524,13 @@ class Create_file extends Abstract_model {
                 $listgrid   = $this->getListGrid($tableName);
                 $caption    = ucfirst($tableName);
 
-                $str = str_replace( '$menu$', $menu ,$str); 
-                $str = str_replace( '$urlclass$', $urlclass ,$str); 
-                $str = str_replace( '$listgrid$', $listgrid ,$str);     
-                $str = str_replace( '$caption$', $caption ,$str);    
+                $str = str_replace( '$menu$', $menu ,$str);
+                $str = str_replace( '$urlclass$', $urlclass ,$str);
+                $str = str_replace( '$listgrid$', $listgrid ,$str);
+                $str = str_replace( '$caption$', $caption ,$str);
 
             }
-            
+
             //$str = str_replace( 'line1', "\r\n" ,$str);
 
             file_put_contents($filepath, $str);
@@ -554,7 +554,7 @@ class Create_file extends Abstract_model {
                 $permission = 'can-'.$value.'-'.$tablename;
 
                 if($table->checkNotExistPermission($permission)){
-                    
+
                     $items['permission_name'] = $permission;
                     $items['permission_id'] = $table->generate_id($table->table, $table->pkey);
 
@@ -572,7 +572,7 @@ class Create_file extends Abstract_model {
             return 'NO TABLENAME';
         }
     }
-    
+
     function setPermissionToAdmin($permission_id){
         if($permission_id){
 
@@ -587,7 +587,7 @@ class Create_file extends Abstract_model {
                 $table->setRecord($items);
                 $table->create();
             }
-            
+
             return true;
         }else{
             return false;

@@ -81,7 +81,7 @@ class Permission_role extends Abstract_model {
             $sql = " SELECT decode(count(1),0,'true','false') is_not_exist from permission_role where role_id = ? and permission_id = ? ";
             $query = $this->db->query($sql, array($role_id, $permission_id));
             $item  = $query->row_array();
-    
+
             return $item['is_not_exist'];
     }
 }

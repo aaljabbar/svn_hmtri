@@ -75,7 +75,7 @@ $query_builder = TRUE;
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] ='
+/*$db['default']['hostname'] ='
  (DESCRIPTION=
     (ADDRESS=
       (PROTOCOL=TCP)
@@ -90,6 +90,35 @@ $db['default']['hostname'] ='
 
 $db['default']['username'] = 'HMTRI';
 $db['default']['password'] = 'HMTRI123';
+$db['default']['database'] = 'orcl';
+$db['default']['dbdriver'] = 'oci8';
+$db['default']['dbprefix'] = '';
+$db['default']['pconnect'] = FALSE;
+$db['default']['db_debug'] = TRUE;
+$db['default']['cache_on'] = FALSE;
+$db['default']['cachedir'] = '';
+$db['default']['char_set'] = 'utf8';
+$db['default']['dbcollat'] = 'utf8_general_ci';
+$db['default']['swap_pre'] = '';
+$db['default']['autoinit'] = TRUE;
+$db['default']['stricton'] = FALSE;*/
+
+
+$db['default']['hostname'] ='
+(DESCRIPTION=
+   (ADDRESS=
+     (PROTOCOL=TCP)
+     (HOST=10.62.185.22)
+     (PORT=1521)
+   )
+   (CONNECT_DATA=
+     (SERVER=dedicated)
+     (SID=TIBSDEV)
+   )
+ )';
+
+$db['default']['username'] = 'SMSHUBBERDEV';
+$db['default']['password'] = 'HUBBER';
 $db['default']['database'] = 'orcl';
 $db['default']['dbdriver'] = 'oci8';
 $db['default']['dbprefix'] = '';

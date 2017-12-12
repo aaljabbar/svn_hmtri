@@ -59,19 +59,19 @@ class Permissions extends Abstract_model {
 
     function checkNotExistPermission($permissionName){
 
-            $sql = " SELECT decode(count(1),0,'true','false') is_not_exist from hmtri.permissions where upper(permission_name) = upper('".$permissionName."') ";
+            $sql = " SELECT decode(count(1),0,'true','false') is_not_exist from permissions where upper(permission_name) = upper('".$permissionName."') ";
             $query = $this->db->query($sql);
             $item  = $query->row_array();
-    
+
             return $item['is_not_exist'];
     }
 
     function getPermissionId($permissionName){
 
-            $sql = " SELECT permission_id from hmtri.permissions where permission_name = ?";
+            $sql = " SELECT permission_id from permissions where permission_name = ?";
             $query = $this->db->query($sql, array($permissionName));
             $item  = $query->row_array();
-    
+
             return $item['permission_id'];
     }
 

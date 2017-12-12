@@ -120,10 +120,10 @@
             </div>
 
             <div class="tab-pane fade" id="tab-2">
-                
+
             </div>
         </div>
-            
+
 
     </div>
     <hr>
@@ -133,25 +133,25 @@
 <script>
 
     function submit(a,b,c,d){
-        
+
         $.ajax({
             url: "<?php echo WS_JQGRID.'dev.create_file_controller/submitData'; ?>",
             type: "POST",
             data: {name:a, table_name:b, folder_name:c, alias:d},
             success: function (data) {
                 data = JSON.parse(data);
-                swal({title: "Info!", text: data.status, html: true, type: "info"});
+                swal({title: "Info!", text: 'Find Result in Firebug !', html: true, type: "info"});
             },
             error: function (xhr, status, error) {
                 swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
                 return false;
             }
         });
-        
+
     }
 
     function replace(){
-        
+
         $.ajax({
             url: "<?php echo WS_JQGRID.'dev.create_file_controller/replaceData'; ?>",
             type: "POST",
@@ -164,11 +164,11 @@
                 return false;
             }
         });
-        
+
     }
 
     function permisssion(a,b,c,d){
-        
+
         $.ajax({
             url: "<?php echo WS_JQGRID.'dev.create_file_controller/setPermission'; ?>",
             type: "POST",
@@ -182,7 +182,7 @@
                 return false;
             }
         });
-        
+
     }
 
     function getFileExists(a,b,c){
@@ -201,7 +201,7 @@
                 file = 'Controller : '+ controller + " \n";
                 file += 'Models : '+ model + " \n";
                 file += 'Views : '+ view + " \n";
-                
+
                 rollback(a,b,c,file);
             },
             error: function (xhr, status, error) {
@@ -209,7 +209,7 @@
                 return false;
             }
         });
-        
+
     }
 
     function rollback(a,b,c, file){
@@ -233,7 +233,7 @@
     }
 
     function rollbackAction(a,b,c){
-        
+
         $.ajax({
             url: "<?php echo WS_JQGRID.'dev.create_file_controller/rollbackAction'; ?>",
             type: "POST",
@@ -247,13 +247,13 @@
                 return false;
             }
         });
-        
+
     }
 
     $(document).ready(function(){
         var returnData;
         $('#submit').click(function(){
-            
+
             a = $('#name').val();
             b = $('#table_name').val();
             c = $('#folder_name').val();
@@ -264,7 +264,7 @@
             }else{
                 submit(a,b,c,d);
             }
-           
+
         });
 
         $('#permission').click(function(){
@@ -278,13 +278,13 @@
             }else{
                 permisssion(a,b,c,d);
             }
-           
+
         });
 
         $('#rollback').click(function(e){
-           
+
             e.preventDefault();
-            
+
             a = $('#name').val();
             b = $('#table_name').val();
             c = $('#folder_name').val();
@@ -294,14 +294,14 @@
             }else{
                 getFileExists(a,b,c);
             }
-           
+
         });
 
         $('#replace').click(function(){
-           
+
            replace();
-           
-        }); 
+
+        });
 
     });
 
