@@ -100,12 +100,13 @@ class Process_payroll_controller {
     function submit_dekomposisi(){
         $ci = & get_instance();
         $ci->load->model('process/process_payroll');
-        $userinfo = $ci->ion_auth->user()->row();
+        $userdata = $ci->session->userdata;
+        //$userinfo = $ci->ion_auth->user()->row();
         $table = $ci->process_payroll;
 
         $input_data_control_id = getVarClean('input_data_control_id','int', 0);
         
-        $status = $table->action_submit('DEKOMPOSISI', $input_data_control_id, $userinfo->username);
+        $status = $table->action_submit('DEKOMPOSISI', $input_data_control_id, $userdata['user_name']);
 
         if($status == 'SUCCESS'){
             $items['success'] = true;            
@@ -120,7 +121,8 @@ class Process_payroll_controller {
     function submit_rerating(){
         $ci = & get_instance();
         $ci->load->model('process/process_payroll');
-        $userinfo = $ci->ion_auth->user()->row();
+        $userdata = $ci->session->userdata;
+        //$userinfo = $ci->ion_auth->user()->row();
         $table = $ci->process_payroll;
 
         $input_data_control_id = getVarClean('input_data_control_id','int', 0);
@@ -133,7 +135,7 @@ class Process_payroll_controller {
         }
         // var_dump($name);
         // exit;
-        $status = $table->action_submit($name, $input_data_control_id, $userinfo->username);
+        $status = $table->action_submit($name, $input_data_control_id, $userdata['user_name']);
 
         if($status == 'SUCCESS'){
             $items['success'] = true;            
