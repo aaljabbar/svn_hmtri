@@ -148,12 +148,13 @@ class Process_payroll_controller {
     function submit_prabilling(){
         $ci = & get_instance();
         $ci->load->model('process/process_payroll');
-        $userinfo = $ci->ion_auth->user()->row();
+		$userdata = $ci->session->userdata;
+        // $userinfo = $ci->ion_auth->user()->row();
         $table = $ci->process_payroll;
 
         $input_data_control_id = getVarClean('input_data_control_id','int', 0);
         
-        $status = $table->action_submit('M4L_BILL_PREPARATION', $input_data_control_id, $userinfo->username);
+        $status = $table->action_submit('M4L_BILL_PREPARATION', $input_data_control_id, $userdata['user_name']);
 
         if($status == 'SUCCESS'){
             $items['success'] = true;            
@@ -168,12 +169,13 @@ class Process_payroll_controller {
     function cancel_all_prabilling(){
         $ci = & get_instance();
         $ci->load->model('process/process_payroll');
-        $userinfo = $ci->ion_auth->user()->row();
+        // $userinfo = $ci->ion_auth->user()->row();
+		$userdata = $ci->session->userdata;
         $table = $ci->process_payroll;
 
         $input_data_control_id = getVarClean('input_data_control_id','int', 0);
 
-        $status = $table->action_submit('CANCEL_ALL_BILL_PREPARATION', $input_data_control_id, $userinfo->username);
+        $status = $table->action_submit('CANCEL_ALL_BILL_PREPARATION', $input_data_control_id, $userdata['user_name']);
 
         if($status == 'SUCCESS'){
             $items['success'] = true;            
@@ -188,12 +190,13 @@ class Process_payroll_controller {
     function cancel_last_job_prabilling(){
         $ci = & get_instance();
         $ci->load->model('process/process_payroll');
-        $userinfo = $ci->ion_auth->user()->row();
+        // $userinfo = $ci->ion_auth->user()->row();
+		$userdata = $ci->session->userdata;
         $table = $ci->process_payroll;
 
         $input_data_control_id = getVarClean('input_data_control_id','int', 0);
 
-        $status = $table->action_submit('CANCEL_LAST_JOB_PREPARATION', $input_data_control_id, $userinfo->username);
+        $status = $table->action_submit('CANCEL_LAST_JOB_PREPARATION', $input_data_control_id, $userdata['user_name']);
 
         if($status == 'SUCCESS'){
             $items['success'] = true;            
@@ -208,7 +211,8 @@ class Process_payroll_controller {
     function force_scheduler(){
         $ci = & get_instance();
         $ci->load->model('process/process_payroll');
-        $userinfo = $ci->ion_auth->user()->row();
+        // $userinfo = $ci->ion_auth->user()->row();
+		
         $table = $ci->process_payroll;
 
         $status = $table->action_force();
