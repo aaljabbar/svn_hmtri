@@ -9,7 +9,7 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <span>adjustment</span>
+            <span>Adjustment</span>
         </li>
     </ul>
 </div>
@@ -27,34 +27,79 @@
     <div class="row">
         <div class="col-md-12">
             <div class="portlet light bordered">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class=" icon-list font-blue"></i>
-                        <span class="caption-subject font-blue bold uppercase"> Pencarian
-                        </span>
-                    </div>
-                </div>
-                <!-- CONTENT  value="2015-09-01" -->
                 <div class="form-body">
+
                     <div class="row">
-                        <label class="control-label col-md-2">Tanggal</label>
-                        <div class="col-md-3">
-                            <div class="input-group">
+                        <label class="control-label col-md-1">Date</label>
+                        <div class="col-md-4">
+                            <div class="input-group ">
                                 <input type="text" class="form-control datepicker1 " name="start_adj_date" id="start_adj_date"  >
-                            </div>
-                        </div>
-                        <label class="control-label col-md-1">s/d</label>
-                        <div class="col-md-3">
-                            <div class="input-group">
+                                <span class="input-group-addon"> s/d </span>
                                 <input type="text" class="form-control datepicker1 " name="end_adj_date" id="end_adj_date">
                             </div>
+                        </div>
+                        <button class="btn btn-primary" type="button" onclick="findAjustment()">Find</button>
+                    </div>
+
+                    <div class="space-2"></div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="hidden" name="emp_master_id" id="emp_master_id" value="<?php echo $_POST['emp_master_id'] ?>">
+                            <table id="grid-table"></table>
+                            <div id="grid-pager"></div>
                         </div>
                     </div>
 
                     <div class="space-2"></div>
-                    <div class="row col-md-offset-4">
-                        <button class="btn btn-primary" type="button" onclick="findAjustment()">Cari</button>
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"  id="captionDetail">ADD Adjustment</div>
+                        <div class="panel-body">
+                            <div class="form-body">
+                                <div class="row">
+                                    <label class="control-label col-md-3">Adjustment Type</label>
+                                    <div class="col-md-3">
+                                       <div id="comboDoc"></div>
+                                    </div>
+                                    <input type="hidden" name="adjusment_id" id="adjusment_id" >
+                                </div>
+
+                                <div class="space-2"></div>
+                                <div class="row">
+                                    <label class="control-label col-md-3">Adjustment Date</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control datepicker1 required" required name="adj_date" id="adj_date"  >
+                                    </div>
+                                </div>
+
+                                <div class="space-2"></div>
+                                <div class="row">
+                                    <label class="control-label col-md-3">Adjustment Money</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control required priceformat" required name="adj_mny" id="adj_mny"  >
+                                    </div>
+                                </div>
+
+                                <div class="space-2"></div>
+                                <div class="form-actions">
+                                    <div class="row">
+                                        <div class="col-md-offset-3 col-md-9">
+                                            <a href="javascript:;" class="btn btn-outline green button-next" id="btn-tambah">ADD
+                                            </a>
+                                            <a href="javascript:;" class="btn  btn-primary " id="btn-update"> SAVE
+                                            </a>
+                                            <a href="javascript:;" class="btn  btn-primary " id="btn-insert"> SAVE
+                                            </a>
+                                            <a href="javascript:;" class="btn  btn-danger " id="btn-delete"> DELETE
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -62,66 +107,6 @@
 </div>
 
 
-<div class="space-4"></div>
-<div class="row">
-    <div class="col-md-12">
-        <input type="hidden" name="emp_master_id" id="emp_master_id" value="<?php echo $_POST['emp_master_id'] ?>">
-        <table id="grid-table"></table>
-        <div id="grid-pager"></div>
-    </div>
-</div>
-
-
-
-<div class="space-4"></div>
-<div class="panel panel-primary">
-    <div class="panel-heading"  id="captionDetail">ADD ADJUSTMENT <?php echo $_POST['emp_name'] ?></div>
-    <div class="panel-body">
-        <div class="form-body">
-            <div class="row">
-                <label class="control-label col-md-3">Adjustment Type</label>
-                <div class="col-md-3">
-                   <div id="comboDoc"></div>
-                </div>
-                <input type="hidden" name="adjusment_id" id="adjusment_id" >
-            </div>
-
-            <div class="space-2"></div>
-            <div class="row">
-                <label class="control-label col-md-3">Adjustment Date</label>
-                <div class="col-md-3">
-                    <input type="text" class="form-control datepicker1 required" required name="adj_date" id="adj_date"  >
-                </div>
-            </div>
-
-            <div class="space-2"></div>
-            <div class="row">
-                <label class="control-label col-md-3">Adjustment Money</label>
-                <div class="col-md-3">
-                    <input type="text" class="form-control required priceformat" required name="adj_mny" id="adj_mny"  >
-                </div>
-            </div>
-
-
-
-            <div class="space-2"></div>
-            <div class="form-actions">
-                <div class="row">
-                    <div class="col-md-offset-3 col-md-9">
-                        <a href="javascript:;" class="btn btn-outline green button-next" id="btn-tambah">Tambah
-                        </a>
-                        <a href="javascript:;" class="btn  btn-primary " id="btn-update"> Simpan
-                        </a>
-                        <a href="javascript:;" class="btn  btn-primary " id="btn-insert"> Simpan
-                        </a>
-                        <a href="javascript:;" class="btn  btn-danger " id="btn-delete"> Hapus
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script type="text/javascript">
     $('.datepicker1').datetimepicker({
@@ -162,7 +147,7 @@
         $('#btn-delete').css('display','none');
         $('#btn-update').css('display','none');
         $('#btn-tambah').css('display','none');
-        $('#captionDetail').text('ADD ADJUSTMENT <?php echo $_POST['emp_name'] ?>');
+        $('#captionDetail').text('ADD Adjustment');
 
 
     });
@@ -225,7 +210,7 @@
             data: {items:itemJSON,oper:oper},
             success: function (data) {
                 if (data.success){
-                    swal({title: "Informasi!", text: data.message, html: true, type: "info"});
+                    swal({title: "INFORMATION!", text: data.message, html: true, type: "info"});
                     $("#grid-table").trigger("reloadGrid");
                 }else{
                     swal({title: "Error!", text: data.message, html: true, type: "error"});
@@ -248,12 +233,12 @@
     $('#btn-delete').on('click',function(){
         swal(
             {
-              title: "Apakah anda Ingin Menghapus Data Ini?",
+              title: "Do you want to delete this Data?",
               text: "",
               type: "warning",
               showCancelButton: true,
               confirmButtonClass: "btn-danger",
-              confirmButtonText: "Iya!",
+              confirmButtonText: "Yes!",
               closeOnConfirm: false
             },
             function(){
@@ -336,7 +321,7 @@
                 $('#btn-update').css('display','');
                 $('#btn-tambah').css('display','');
 
-                $('#captionDetail').text('INFORMASI DETAIL ADJUSTMENT <?php echo $_POST['emp_name'] ?>');
+                $('#captionDetail').text('Information Detail');
 
             },
             sortorder:'',
@@ -358,7 +343,7 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."adjustment.adjustment_controller/crud"; ?>',
-            caption: "Adjustment " +'<?php echo $_POST['emp_name'] ?>'
+            caption: "Adjustment :: " +'<?php echo $_POST['emp_name'] ?>'
 
         });
 

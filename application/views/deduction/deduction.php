@@ -9,7 +9,7 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <span>deduction</span>
+            <span>Deduction</span>
         </li>
     </ul>
 </div>
@@ -27,34 +27,83 @@
     <div class="row">
         <div class="col-md-12">
             <div class="portlet light bordered">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class=" icon-list font-blue"></i>
-                        <span class="caption-subject font-blue bold uppercase"> Pencarian
-                        </span>
-                    </div>
-                </div>
                 <!-- CONTENT  value="2015-09-01" -->
                 <div class="form-body">
                     <div class="row">
-                        <label class="control-label col-md-2">Tanggal</label>
-                        <div class="col-md-3">
-                            <div class="input-group">
+                        <label class="control-label col-md-1">Date</label>
+                        <div class="col-md-4">
+                            <div class="input-group ">
                                 <input type="text" class="form-control datepicker1 " name="start_date" id="start_date"  >
-                            </div>
-                        </div>
-                        <label class="control-label col-md-1">s/d</label>
-                        <div class="col-md-3">
-                            <div class="input-group">
+                                <span class="input-group-addon"> s/d </span>
                                 <input type="text" class="form-control datepicker1 " name="end_date" id="end_date">
                             </div>
                         </div>
+                        <button class="btn btn-primary" type="button" onclick="findDeduction()">Find</button>
                     </div>
 
                     <div class="space-2"></div>
-                    <div class="row col-md-offset-4">
-                        <button class="btn btn-primary" type="button" onclick="findAjustment()">Cari</button>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="hidden" name="emp_master_id" id="emp_master_id" value="<?php echo $_POST['emp_master_id'] ?>">
+                            <table id="grid-table"></table>
+                            <div id="grid-pager"></div>
+                        </div>
                     </div>
+
+                    <div class="space-4"></div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"  id="captionDetail">ADD Deduction</div>
+                        <div class="panel-body">
+                            <div class="form-body">
+                                <div class="row">
+                                    <label class="control-label col-md-3">Deduction Type</label>
+                                    <div class="col-md-3">
+                                       <div id="comboDoc"></div>
+                                    </div>
+                                    <input type="hidden" name="deduction_id" id="deduction_id" >
+                                </div>
+
+                                <div class="space-2"></div>
+                                <div class="row">
+                                    <label class="control-label col-md-3">Deduction Date</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control datepicker1 required" required name="valid_from" id="valid_from"  >
+                                    </div>
+                                    <label class="control-label col-md-1">s/d</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control datepicker1"  name="valid_until" id="valid_until"  >
+                                    </div>
+                                </div>
+
+                                <div class="space-2"></div>
+                                <div class="row">
+                                    <label class="control-label col-md-3">Deduction Amount</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control required priceformat" required name="deduct_amount" id="deduct_amount"  >
+                                    </div>
+                                </div>
+
+
+
+                                <div class="space-2"></div>
+                                <div class="form-actions">
+                                    <div class="row">
+                                        <div class="col-md-offset-3 col-md-9">
+                                            <a href="javascript:;" class="btn btn-outline green button-next" id="btn-tambah">ADD
+                                            </a>
+                                            <a href="javascript:;" class="btn  btn-primary " id="btn-update"> SAVE
+                                            </a>
+                                            <a href="javascript:;" class="btn  btn-primary " id="btn-insert"> SAVE
+                                            </a>
+                                            <a href="javascript:;" class="btn  btn-danger " id="btn-delete"> DELETE
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -62,70 +111,11 @@
 </div>
 
 
-<div class="space-4"></div>
-<div class="row">
-    <div class="col-md-12">
-        <input type="hidden" name="emp_master_id" id="emp_master_id" value="<?php echo $_POST['emp_master_id'] ?>">
-        <table id="grid-table"></table>
-        <div id="grid-pager"></div>
-    </div>
-</div>
 
 
 
-<div class="space-4"></div>
-<div class="panel panel-primary">
-    <div class="panel-heading"  id="captionDetail">ADD DEDUCTION <?php echo $_POST['emp_name'] ?></div>
-    <div class="panel-body">
-        <div class="form-body">
-            <div class="row">
-                <label class="control-label col-md-3">Deduction Type</label>
-                <div class="col-md-3">
-                   <div id="comboDoc"></div>
-                </div>
-                <input type="hidden" name="deduction_id" id="deduction_id" >
-            </div>
-
-            <div class="space-2"></div>
-            <div class="row">
-                <label class="control-label col-md-3">Deduction Date</label>
-                <div class="col-md-3">
-                    <input type="text" class="form-control datepicker1 required" required name="valid_from" id="valid_from"  >
-                </div>
-                <label class="control-label col-md-1">s/d</label>
-                <div class="col-md-3">
-                    <input type="text" class="form-control datepicker1"  name="valid_until" id="valid_until"  >
-                </div>
-            </div>
-
-            <div class="space-2"></div>
-            <div class="row">
-                <label class="control-label col-md-3">Deduction Amount</label>
-                <div class="col-md-3">
-                    <input type="text" class="form-control required priceformat" required name="deduct_amount" id="deduct_amount"  >
-                </div>
-            </div>
 
 
-
-            <div class="space-2"></div>
-            <div class="form-actions">
-                <div class="row">
-                    <div class="col-md-offset-3 col-md-9">
-                        <a href="javascript:;" class="btn btn-outline green button-next" id="btn-tambah">Tambah
-                        </a>
-                        <a href="javascript:;" class="btn  btn-primary " id="btn-update"> Simpan
-                        </a>
-                        <a href="javascript:;" class="btn  btn-primary " id="btn-insert"> Simpan
-                        </a>
-                        <a href="javascript:;" class="btn  btn-danger " id="btn-delete"> Hapus
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script type="text/javascript">
     $('.datepicker1').datetimepicker({
@@ -168,7 +158,7 @@
         $('#btn-delete').css('display','none');
         $('#btn-update').css('display','none');
         $('#btn-tambah').css('display','none');
-        $('#captionDetail').text('ADD DEDUCTION <?php echo $_POST['emp_name'] ?>');
+        $('#captionDetail').text('ADD Deduction');
 
 
     });
@@ -188,7 +178,7 @@
         $('#deductiontype_id').val(deductiontype_id);
     }
 
-    function findAjustment(){
+    function findDeduction(){
         var start_date = $('#start_date').val();
         var end_date = $('#end_date').val();
         var emp_master_id = $("#emp_master_id").val();
@@ -349,7 +339,7 @@
                 $('#btn-update').css('display','');
                 $('#btn-tambah').css('display','');
 
-                $('#captionDetail').text('INFORMASI DETAIL DEDUCTION <?php echo $_POST['emp_name'] ?>');
+                $('#captionDetail').text('Informasi Detail');
 
             },
             sortorder:'',
@@ -372,7 +362,7 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."deduction.deduction_controller/crud"; ?>',
-            caption: "Deduction " +'<?php echo $_POST['emp_name'] ?>'
+            caption: "Deduction :: " +'<?php echo $_POST['emp_name'] ?>'
 
         });
 

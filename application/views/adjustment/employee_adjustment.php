@@ -6,7 +6,7 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <span>adjustment</span>
+            <span>Adjustment</span>
         </li>
     </ul>
 </div>
@@ -66,13 +66,13 @@
   						     maxlength:22
   					 },editrules: {required: false}
    				 }, 
-        {label: 'Perusahaan',name: 'bu_name' ,width: 100, align: 'left',editable: true,
+        {label: 'Bussiness Unit',name: 'bu_name' ,width: 100, align: 'left',editable: true,
               editoptions:{
                    size: 30,
                    maxlength:50
              },editrules: {required: false}
            }, 
- 				{label: 'Emp Name',name: 'emp_name' ,width: 100, align: 'left',editable: true,
+ 				{label: 'Name',name: 'emp_name' ,width: 100, align: 'left',editable: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:50
@@ -109,7 +109,7 @@
   						     maxlength:30
   					 },editrules: {required: false}
    				 }, 
- 				{label: 'Tempat Tanggal Lahir',name: 'tanggal_lahir' ,width: 100, align: 'left',editable: true,
+ 				{label: 'Place and date of Birth',name: 'tanggal_lahir' ,width: 100, align: 'left',editable: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:7
