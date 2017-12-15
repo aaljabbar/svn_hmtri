@@ -6,7 +6,7 @@
                 <i class="fa fa-circle"></i>
             </li>
             <li>
-                <a href="#">Payroll</a>
+                <a href="#">Job</a>
                 <i class="fa fa-circle"></i>
             </li>
             <li>

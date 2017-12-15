@@ -6,11 +6,11 @@
                 <i class="fa fa-circle"></i>
             </li>
             <li>
-                <a href="#">Payroll</a>
+                <a href="#">Job</a>
                 <i class="fa fa-circle"></i>
             </li>
             <li>
-                <span>Batch Payroll</span>
+                <span>Payroll</span>
             </li>
         </ul>
     </div>
@@ -22,7 +22,7 @@
                     <a data-toggle="tab"> Periode </a>
                 </li>
                 <li id="tab-2" class="active">
-                    <a data-toggle="tab"> Batch Payroll </a>
+                    <a data-toggle="tab"> Payroll </a>
                 </li>
                 <li id="tab-3">
                     <a data-toggle="tab"> Proses </a>

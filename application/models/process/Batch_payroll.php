@@ -4,7 +4,7 @@
  * Groups Model
  *
  */
-class Batch_billing extends Abstract_model {
+class Batch_payroll extends Abstract_model {
 
     public $table           = "input_data_control";
     public $pkey            = "input_data_control_id";

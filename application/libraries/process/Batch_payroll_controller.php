@@ -4,7 +4,7 @@
 * @class Period_controller
 * @version 07/05/2015 12:18:00
 */
-class Batch_billing_controller {
+class Batch_payroll_controller {
 
     function read() {
 
@@ -19,8 +19,8 @@ class Batch_billing_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('process/batch_billing');
-            $table = $ci->batch_billing;
+            $ci->load->model('process/batch_payroll');
+            $table = $ci->batch_payroll;
 
             $req_param = array(
                 "sort_by" => $sidx,
@@ -101,9 +101,9 @@ class Batch_billing_controller {
     function create() {
 
         $ci = & get_instance();
-        $ci->load->model('process/batch_billing');
+        $ci->load->model('process/batch_payroll');
         $userinfo = $ci->ion_auth->user()->row();
-        $table = $ci->batch_billing;
+        $table = $ci->batch_payroll;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -180,8 +180,8 @@ class Batch_billing_controller {
 
     function combo(){
         $ci = & get_instance();
-        $ci->load->model('process/batch_billing');
-        $table = $ci->batch_billing;
+        $ci->load->model('process/batch_payroll');
+        $table = $ci->batch_payroll;
         $table->bill_cycle_combo();
     }
 

@@ -4,7 +4,7 @@
 * @class Period_controller
 * @version 07/05/2015 12:18:00
 */
-class Process_billing_controller {
+class Process_payroll_controller {
 
     function read() {
 
@@ -19,8 +19,8 @@ class Process_billing_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('process/process_billing');
-            $table = $ci->process_billing;
+            $ci->load->model('process/process_payroll');
+            $table = $ci->process_payroll;
             
             $req_param = array(
                 "sort_by" => $sidx,
@@ -99,9 +99,9 @@ class Process_billing_controller {
 
     function submit_dekomposisi(){
         $ci = & get_instance();
-        $ci->load->model('process/process_billing');
+        $ci->load->model('process/process_payroll');
         $userinfo = $ci->ion_auth->user()->row();
-        $table = $ci->process_billing;
+        $table = $ci->process_payroll;
 
         $input_data_control_id = getVarClean('input_data_control_id','int', 0);
         
@@ -119,9 +119,9 @@ class Process_billing_controller {
 
     function submit_rerating(){
         $ci = & get_instance();
-        $ci->load->model('process/process_billing');
+        $ci->load->model('process/process_payroll');
         $userinfo = $ci->ion_auth->user()->row();
-        $table = $ci->process_billing;
+        $table = $ci->process_payroll;
 
         $input_data_control_id = getVarClean('input_data_control_id','int', 0);
         $input_data_class_id = $table->cekInputDataClass($input_data_control_id);
@@ -147,9 +147,9 @@ class Process_billing_controller {
 
     function submit_prabilling(){
         $ci = & get_instance();
-        $ci->load->model('process/process_billing');
+        $ci->load->model('process/process_payroll');
         $userinfo = $ci->ion_auth->user()->row();
-        $table = $ci->process_billing;
+        $table = $ci->process_payroll;
 
         $input_data_control_id = getVarClean('input_data_control_id','int', 0);
         
@@ -167,9 +167,9 @@ class Process_billing_controller {
 
     function cancel_all_prabilling(){
         $ci = & get_instance();
-        $ci->load->model('process/process_billing');
+        $ci->load->model('process/process_payroll');
         $userinfo = $ci->ion_auth->user()->row();
-        $table = $ci->process_billing;
+        $table = $ci->process_payroll;
 
         $input_data_control_id = getVarClean('input_data_control_id','int', 0);
 
@@ -187,9 +187,9 @@ class Process_billing_controller {
 
     function cancel_last_job_prabilling(){
         $ci = & get_instance();
-        $ci->load->model('process/process_billing');
+        $ci->load->model('process/process_payroll');
         $userinfo = $ci->ion_auth->user()->row();
-        $table = $ci->process_billing;
+        $table = $ci->process_payroll;
 
         $input_data_control_id = getVarClean('input_data_control_id','int', 0);
 
@@ -207,9 +207,9 @@ class Process_billing_controller {
 
     function force_scheduler(){
         $ci = & get_instance();
-        $ci->load->model('process/process_billing');
+        $ci->load->model('process/process_payroll');
         $userinfo = $ci->ion_auth->user()->row();
-        $table = $ci->process_billing;
+        $table = $ci->process_payroll;
 
         $status = $table->action_force();
 

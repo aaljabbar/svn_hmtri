@@ -6,7 +6,7 @@
                 <i class="fa fa-circle"></i>
             </li>
             <li>
-                <a href="#">Pra Billing</a>
+                <a href="#">Job</a>
                 <i class="fa fa-circle"></i>
             </li>
             <li>
@@ -21,7 +21,7 @@
                     <a data-toggle="tab"> Periode </a>
                 </li>
                 <li id="tab-2">
-                    <a data-toggle="tab"> Batch Billing </a>
+                    <a data-toggle="tab"> Payroll </a>
                 </li>
                 <li id="tab-3" class="active">
                     <a data-toggle="tab"> Proses </a>
@@ -41,8 +41,8 @@
             <div class="space-4"></div> 
             <div class="tab-content">
                 <div class="tab-pane active">
-                    <table id="grid-table-prebill"></table>
-                    <div id="grid-pager-prebill"></div>
+                    <table id="grid-table-payroll"></table>
+                    <div id="grid-pager-payroll"></div>
                 </div>
             </div>
             <div class="space-4"></div>             
@@ -59,19 +59,19 @@
 
     $(function($) {
         $("#tab-1").on( "click", function() {    
-            loadContentWithParams("process.process_prebill", {                
+            loadContentWithParams("process.process_payroll", {                
             });
         });
 
         $("#tab-2").on( "click", function() {    
-            loadContentWithParams("process.process_prebill_batch", {   
+            loadContentWithParams("process.process_payroll_batch", {   
                 p_finance_period_id: "<?php echo $this->input->post('p_finance_period_id'); ?>",
                 finance_period_code : "<?php echo $this->input->post('finance_period_code'); ?>"             
             });
         });
 
         $("#tab-4").on( "click", function() { 
-             var grid = $('#grid-table-prebill');
+             var grid = $('#grid-table-payroll');
             selRowId = grid.jqGrid ('getGridParam', 'selrow');
             
             var idd = grid.jqGrid ('getCell', selRowId, 'req_id');  
@@ -87,7 +87,7 @@
         
         $("#submit_job").on( "click", function() {          
             $.ajax({
-                url: '<?php echo WS_JQGRID."process.process_billing_controller/submit_prabilling"; ?>',
+                url: '<?php echo WS_JQGRID."process.process_payroll_controller/submit_prabilling"; ?>',
                 type: "POST",
                 dataType: "json",
                 data: {input_data_control_id : "<?php echo $this->input->post('input_data_control_id'); ?>"},
@@ -106,7 +106,7 @@
         
         $("#force_process").on( "click", function() {           
             $.ajax({
-                url: '<?php echo WS_JQGRID."process.process_billing_controller/force_scheduler"; ?>',
+                url: '<?php echo WS_JQGRID."process.process_payroll_controller/force_scheduler"; ?>',
                 type: "POST",
                 dataType: "json",
                 data: {},
@@ -127,7 +127,7 @@
             result = confirm('Apakah Anda yakin ?');
             if(result){             
                 $.ajax({
-                    url: '<?php echo WS_JQGRID."process.process_billing_controller/cancel_all_prabilling"; ?>',
+                    url: '<?php echo WS_JQGRID."process.process_payroll_controller/cancel_all_prabilling"; ?>',
                     type: "POST",
                     dataType: "json",
                     data: {input_data_control_id : "<?php echo $this->input->post('input_data_control_id'); ?>"},
@@ -151,7 +151,7 @@
             result = confirm('Apakah Anda yakin ?');
             if(result){         
                 $.ajax({
-                    url: '<?php echo WS_JQGRID."process.process_billing_controller/cancel_last_job_prabilling"; ?>',
+                    url: '<?php echo WS_JQGRID."process.process_payroll_controller/cancel_last_job_prabilling"; ?>',
                     type: "POST",
                     dataType: "json",
                     data: {input_data_control_id : "<?php echo $this->input->post('input_data_control_id'); ?>"},
@@ -173,11 +173,11 @@
 
     });
     jQuery(function($) {
-        var grid_selector = "#grid-table-prebill";
-        var pager_selector = "#grid-pager-prebill";
+        var grid_selector = "#grid-table-payroll";
+        var pager_selector = "#grid-pager-payroll";
 
-        jQuery("#grid-table-prebill").jqGrid({
-            url: '<?php echo WS_JQGRID."process.process_billing_controller/crud"; ?>',
+        jQuery("#grid-table-payroll").jqGrid({
+            url: '<?php echo WS_JQGRID."process.process_payroll_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
             postData: {
@@ -207,8 +207,8 @@
             multiboxonly: true,
             onSelectRow: function (rowid) {
                 /*do something when selected*/
-                var celValue = $('#grid-table-prebill').jqGrid('getCell', rowid, 'job_control_id');
-                var req_id = $('#grid-table-prebill').jqGrid('getCell', rowid, 'req_id');
+                var celValue = $('#grid-table-payroll').jqGrid('getCell', rowid, 'job_control_id');
+                var req_id = $('#grid-table-payroll').jqGrid('getCell', rowid, 'req_id');
 
                 if (rowid != null) {
                     jQuery("#grid-table-proses").jqGrid('setGridParam', {
@@ -228,7 +228,7 @@
 
             },
             sortorder:'',
-            pager: '#grid-pager-prebill',
+            pager: '#grid-pager-payroll',
             jsonReader: {
                 root: 'rows',
                 id: 'id',
@@ -241,12 +241,12 @@
                 responsive_jqgrid(grid_selector,pager_selector);
             },
             //memanggil controller jqgrid yang ada di controller crud
-            editurl: '<?php echo WS_JQGRID."process.process_billing_controller/crud"; ?>',
+            editurl: '<?php echo WS_JQGRID."process.process_payroll_controller/crud"; ?>',
             caption: "Daftar Proses :: <?php echo $this->input->post('input_file_name'); ?>"
 
         });
 
-        jQuery('#grid-table-prebill').jqGrid('navGrid', '#grid-pager-prebill',
+        jQuery('#grid-table-payroll').jqGrid('navGrid', '#grid-pager-payroll',
             {   //navbar options
                 edit: false,
                 excel: true,
