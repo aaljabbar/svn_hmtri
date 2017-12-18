@@ -23,7 +23,7 @@
 
     <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
         <div class="logo-cam">
-            <img src="" height="25px">
+            <!-- <img src="" height="25px"> -->
         </div>
         <!-- BEGIN HEADER -->
         <div class="page-header navbar navbar-fixed-top">
