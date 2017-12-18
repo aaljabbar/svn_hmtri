@@ -79,17 +79,17 @@ $active_record = TRUE;
  (DESCRIPTION=
     (ADDRESS=
       (PROTOCOL=TCP)
-      (HOST=localhost)
+      (HOST=10.62.185.22)
       (PORT=1521)
     )
     (CONNECT_DATA=
       (SERVER=dedicated)
-      (SERVICE_NAME=orcl)
+      (SERVICE_NAME=tibsdev)
     )
   )';
 
-$db['default']['username'] = 'HMTRI';
-$db['default']['password'] = 'HMTRI123';
+$db['default']['username'] = 'SMSHUBBERDEV';
+$db['default']['password'] = 'HUBBER';
 $db['default']['database'] = 'orcl';
 $db['default']['dbdriver'] = 'oci8';
 $db['default']['dbprefix'] = '';
