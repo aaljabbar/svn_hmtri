@@ -285,7 +285,7 @@
             mtype: "POST",
             colModel: [
                 {label: 'ID', name: 'p_reference_list_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
-                {label: 'Reference List ID', name: 'p_reference_list_id', width: 120, sorttype: 'number', editable: true, hidden: false},
+                {label: 'Reference List ID', name: 'p_reference_list_id', width: 120, sorttype: 'number', editable: true, hidden: true},
                 {label: 'Reference Type', name: 'p_reference_type_id', width: 120, align: "left", editable: true, hidden:false,
                     editrules: {edithidden: true, required:true},
                     //edittype: 'select',
