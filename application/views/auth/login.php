@@ -40,7 +40,7 @@
 <div class="user-login-5">
     <div class="row bs-reset">
         <div class="col-md-6 login-container bs-reset">
-            <img class="login-logo login-6" src="<?php echo base_url(); ?>assets/image/telkom.png" width="300px" height=""/>
+            <img class="login-logo login-6" src="<?php echo base_url(); ?>assets/image/hmtri.png" width="300px" height=""/>
 
             <div class="login-content">
                 <h4> TOS - Telkom Indonesia </h4>

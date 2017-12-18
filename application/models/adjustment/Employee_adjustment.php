@@ -70,22 +70,7 @@ class Employee_adjustment extends Abstract_model {
         return true;
     }
 
-    function readRole(){
-        $ci =& get_instance();
-        $userdata = $ci->session->userdata;
-
-        $sql = "SELECT   role_id
-                  FROM      USERS a
-                         INNER JOIN
-                            ROLE_USER b
-                         ON A.USER_ID = B.USER_ID
-                  WHERE USER_NAME  = '".$userdata['user_name']."'";
-        $query = $this->db->query($sql);
-        $items = $query->row_array();
-
-        return $items['role_id'];
-    }
-
+    
 }
 
 /* End of file Icons.php */

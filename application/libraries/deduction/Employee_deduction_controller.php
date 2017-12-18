@@ -39,10 +39,8 @@ class Employee_deduction_controller {
             // Filter Table
             $req_param['where'] = array();
 
-            $role_id   = $table->readRole();
-
-            if ($role_id != 1) 
-                $table->setCriteria("username = '".$userdata['user_name']."'");
+            $table->setCriteria("(1 = f_get_info_roleuser('".$userdata['user_name']."'))
+                OR (USERNAME = '".$userdata['user_name']."'  )");
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();

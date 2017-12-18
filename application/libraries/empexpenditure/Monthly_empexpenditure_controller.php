@@ -1,26 +1,26 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
 * Json library
-* @class Employee_adjustment_controller
-* @version 12-12-2017 02:48:16
+* @class Monthly_empexpenditure_controller
+* @version 18-12-2017 11:49:16
 */
-class Employee_adjustment_controller {
+class Monthly_empexpenditure_controller {
 
     function read() {
 
         $page = getVarClean('page','int',1);
         $limit = getVarClean('rows','int',5);
-        $sidx = getVarClean('sidx','str','emp_master_id');
+        $sidx = getVarClean('sidx','str','empexpenditure_id');
         $sord = getVarClean('sord','str','desc');
+        $p_finance_period_id = getVarClean('p_finance_period_id','int',0);
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
         try {
 
             $ci = & get_instance();
-            $userdata = $ci->session->userdata;
-            $ci->load->model('adjustment/employee_adjustment');
-            $table = $ci->employee_adjustment;
+            $ci->load->model('empexpenditure/monthly_empexpenditure');
+            $table = $ci->monthly_empexpenditure;
 
             $req_param = array(
                 "sort_by" => $sidx,
@@ -36,11 +36,14 @@ class Employee_adjustment_controller {
                 "search_str" => isset($_REQUEST['searchString']) ? $_REQUEST['searchString'] : null
             );
 
-            // Filter Table
+            // Filter Table $items = $table->comboPeriod();
             $req_param['where'] = array();
 
-            $table->setCriteria("(1 = f_get_info_roleuser('".$userdata['user_name']."'))
-                OR (USERNAME = '".$userdata['user_name']."'  )");
+            if ($p_finance_period_id == 0 || empty($p_finance_period_id))
+                $p_finance_period_id = $table->comboPeriod()[0]['p_finance_period_id'];
+
+            $table->setCriteria("periode = '".$p_finance_period_id."'");
+            
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
@@ -66,7 +69,7 @@ class Employee_adjustment_controller {
 
             $data['rows'] = $table->getAll();
             $data['success'] = true;
-            logging('view data  employee_adjustment');
+            logging('view data  empexpenditure');
         }catch (Exception $e) {
             $data['message'] = $e->getMessage();
         }
@@ -79,7 +82,7 @@ class Employee_adjustment_controller {
         $start = getVarClean('current','int',0);
         $limit = getVarClean('rowCount','int',5);
 
-        $sort = getVarClean('sort','str','emp_master_id');
+        $sort = getVarClean('sort','str','empexpenditure_id');
         $dir  = getVarClean('dir','str','asc');
 
         $searchPhrase = getVarClean('searchPhrase', 'str', '');
@@ -89,8 +92,8 @@ class Employee_adjustment_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('adjustment/employee_adjustment');
-            $table = $ci->employee_adjustment;
+            $ci->load->model('empexpenditure/monthly_empexpenditure');
+            $table = $ci->monthly_empexpenditure;
 
             if(!empty($searchPhrase)) {
                 //$table->setCriteria("upper(icon_code) like upper('%".$searchPhrase."%')");
@@ -118,22 +121,22 @@ class Employee_adjustment_controller {
         $oper = getVarClean('oper', 'str', '');
         switch ($oper) {
             case 'add' :
-                permission_check('can-add-employee_adjustment');
+                permission_check('can-add-monEmpexpenditure');
                 $data = $this->create();
             break;
 
             case 'edit' :
-                permission_check('can-edit-employee_adjustment');
+                permission_check('can-edit-monEmpexpenditure');
                 $data = $this->update();
             break;
 
             case 'del' :
-                permission_check('can-del-employee_adjustment');
+                permission_check('can-del-monEmpexpenditure');
                 $data = $this->destroy();
             break;
 
             default :
-                permission_check('can-view-employee_adjustment');
+                permission_check('can-view-monEmpexpenditure');
                 $data = $this->read();
             break;
         }
@@ -145,8 +148,8 @@ class Employee_adjustment_controller {
     function create() {
 
         $ci = & get_instance();
-        $ci->load->model('adjustment/employee_adjustment');
-        $table = $ci->employee_adjustment;
+        $ci->load->model('empexpenditure/monthly_empexpenditure');
+        $table = $ci->monthly_empexpenditure;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -200,7 +203,7 @@ class Employee_adjustment_controller {
 
                 $data['success'] = true;
                 $data['message'] = 'Data added successfully';
-                logging('create data employee_adjustment');
+                logging('create data empexpenditure');
 
             }catch (Exception $e) {
                 $table->db->trans_rollback(); //Rollback Trans
@@ -217,8 +220,8 @@ class Employee_adjustment_controller {
     function update() {
 
         $ci = & get_instance();
-        $ci->load->model('adjustment/employee_adjustment');
-        $table = $ci->employee_adjustment;
+        $ci->load->model('empexpenditure/monthly_empexpenditure');
+        $table = $ci->monthly_empexpenditure;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -272,7 +275,7 @@ class Employee_adjustment_controller {
 
                 $data['success'] = true;
                 $data['message'] = 'Data update successfully';
-                logging('update data  employee_adjustment');
+                logging('update data  empexpenditure');
                 $data['rows'] = $table->get($items[$table->pkey]);
             }catch (Exception $e) {
                 $table->db->trans_rollback(); //Rollback Trans
@@ -288,8 +291,8 @@ class Employee_adjustment_controller {
 
     function destroy() {
         $ci = & get_instance();
-        $ci->load->model('adjustment/employee_adjustment');
-        $table = $ci->employee_adjustment;
+        $ci->load->model('empexpenditure/monthly_empexpenditure');
+        $table = $ci->monthly_empexpenditure;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -319,7 +322,7 @@ class Employee_adjustment_controller {
 
             $data['success'] = true;
             $data['message'] = $total.' Data deleted successfully';
-            logging('delete data  employee_adjustment');
+            logging('delete data  empexpenditure');
             $table->db->trans_commit(); //Commit Trans
 
         }catch (Exception $e) {
@@ -330,6 +333,36 @@ class Employee_adjustment_controller {
         }
         return $data;
     }
+
+    function readDataCombo(){
+
+        $data = array('rows' => array(), 'success' => false, 'message' => '', 'records' => 0, 'total' => 0);
+
+        try {
+
+            $ci = & get_instance();
+            $ci->load->model('empexpenditure/monthly_empexpenditure');
+            $table = $ci->monthly_empexpenditure;
+
+            $items = $table->comboPeriod();
+
+            $html = "";
+            $html.="<select name='p_finance_period_id' id='p_finance_period_id' class='form-control required' required>";
+            //$html.="<option value='' >Select Value</option>";
+            foreach ($items as $item) {
+              $html .=" <option value='" . $item['p_finance_period_id'] . "'>" . $item['finance_period_code'] . "</option>";
+            }
+            $html .= "</select>";
+
+            $data['items'] = $html;
+            $data['success'] = true;
+        }catch (Exception $e) {
+            $data['message'] = $e->getMessage();
+        }
+
+        echo json_encode($data);
+        exit;
+    }
 }
 
-/* End of file Icons_controller.php */
+/* End of file Monthly_empexpenditure_controller.php */

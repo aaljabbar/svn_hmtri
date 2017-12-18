@@ -1,26 +1,26 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
 * Json library
-* @class Employee_adjustment_controller
-* @version 12-12-2017 02:48:16
+* @class Payrollsummary_empexpenditure_controller
+* @version 18-12-2017 03:53:17
 */
-class Employee_adjustment_controller {
+class Payrollsummary_empexpenditure_controller {
 
     function read() {
 
         $page = getVarClean('page','int',1);
         $limit = getVarClean('rows','int',5);
-        $sidx = getVarClean('sidx','str','emp_master_id');
+        $sidx = getVarClean('sidx','str','payrollsummary_id');
         $sord = getVarClean('sord','str','desc');
+        $bussinessunit_id = getVarClean('bussinessunit_id','int',0);
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
         try {
 
             $ci = & get_instance();
-            $userdata = $ci->session->userdata;
-            $ci->load->model('adjustment/employee_adjustment');
-            $table = $ci->employee_adjustment;
+            $ci->load->model('empexpenditure/payrollsummary_empexpenditure');
+            $table = $ci->payrollsummary_empexpenditure;
 
             $req_param = array(
                 "sort_by" => $sidx,
@@ -38,9 +38,7 @@ class Employee_adjustment_controller {
 
             // Filter Table
             $req_param['where'] = array();
-
-            $table->setCriteria("(1 = f_get_info_roleuser('".$userdata['user_name']."'))
-                OR (USERNAME = '".$userdata['user_name']."'  )");
+            $table->setCriteria("c.bussinessunit_id = ".$bussinessunit_id."");
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
@@ -66,7 +64,7 @@ class Employee_adjustment_controller {
 
             $data['rows'] = $table->getAll();
             $data['success'] = true;
-            logging('view data  employee_adjustment');
+            logging('view data  payrollsummary');
         }catch (Exception $e) {
             $data['message'] = $e->getMessage();
         }
@@ -79,7 +77,7 @@ class Employee_adjustment_controller {
         $start = getVarClean('current','int',0);
         $limit = getVarClean('rowCount','int',5);
 
-        $sort = getVarClean('sort','str','emp_master_id');
+        $sort = getVarClean('sort','str','payrollsummary_id');
         $dir  = getVarClean('dir','str','asc');
 
         $searchPhrase = getVarClean('searchPhrase', 'str', '');
@@ -89,8 +87,8 @@ class Employee_adjustment_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('adjustment/employee_adjustment');
-            $table = $ci->employee_adjustment;
+            $ci->load->model('empexpenditure/payrollsummary_empexpenditure');
+            $table = $ci->payrollsummary_empexpenditure;
 
             if(!empty($searchPhrase)) {
                 //$table->setCriteria("upper(icon_code) like upper('%".$searchPhrase."%')");
@@ -118,22 +116,22 @@ class Employee_adjustment_controller {
         $oper = getVarClean('oper', 'str', '');
         switch ($oper) {
             case 'add' :
-                permission_check('can-add-employee_adjustment');
+                permission_check('can-add-payrollsummary-empexpenditure');
                 $data = $this->create();
             break;
 
             case 'edit' :
-                permission_check('can-edit-employee_adjustment');
+                permission_check('can-edit-payrollsummary-empexpenditure');
                 $data = $this->update();
             break;
 
             case 'del' :
-                permission_check('can-del-employee_adjustment');
+                permission_check('can-del-payrollsummary-empexpenditure');
                 $data = $this->destroy();
             break;
 
             default :
-                permission_check('can-view-employee_adjustment');
+                permission_check('can-view-payrollsummary-empexpenditure');
                 $data = $this->read();
             break;
         }
@@ -145,8 +143,8 @@ class Employee_adjustment_controller {
     function create() {
 
         $ci = & get_instance();
-        $ci->load->model('adjustment/employee_adjustment');
-        $table = $ci->employee_adjustment;
+        $ci->load->model('empexpenditure/payrollsummary_empexpenditure');
+        $table = $ci->payrollsummary_empexpenditure;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -200,7 +198,7 @@ class Employee_adjustment_controller {
 
                 $data['success'] = true;
                 $data['message'] = 'Data added successfully';
-                logging('create data employee_adjustment');
+                logging('create data payrollsummary empexpenditure');
 
             }catch (Exception $e) {
                 $table->db->trans_rollback(); //Rollback Trans
@@ -217,8 +215,8 @@ class Employee_adjustment_controller {
     function update() {
 
         $ci = & get_instance();
-        $ci->load->model('adjustment/employee_adjustment');
-        $table = $ci->employee_adjustment;
+        $ci->load->model('empexpenditure/payrollsummary_empexpenditure');
+        $table = $ci->payrollsummary_empexpenditure;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -272,7 +270,7 @@ class Employee_adjustment_controller {
 
                 $data['success'] = true;
                 $data['message'] = 'Data update successfully';
-                logging('update data  employee_adjustment');
+                logging('update data  payrollsummary empexpenditure');
                 $data['rows'] = $table->get($items[$table->pkey]);
             }catch (Exception $e) {
                 $table->db->trans_rollback(); //Rollback Trans
@@ -288,8 +286,8 @@ class Employee_adjustment_controller {
 
     function destroy() {
         $ci = & get_instance();
-        $ci->load->model('adjustment/employee_adjustment');
-        $table = $ci->employee_adjustment;
+        $ci->load->model('empexpenditure/payrollsummary_empexpenditure');
+        $table = $ci->payrollsummary_empexpenditure;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -319,7 +317,7 @@ class Employee_adjustment_controller {
 
             $data['success'] = true;
             $data['message'] = $total.' Data deleted successfully';
-            logging('delete data  employee_adjustment');
+            logging('delete data  payrollsummary empexpenditure');
             $table->db->trans_commit(); //Commit Trans
 
         }catch (Exception $e) {
@@ -332,4 +330,4 @@ class Employee_adjustment_controller {
     }
 }
 
-/* End of file Icons_controller.php */
+/* End of file Payrollsummary_empexpenditure_controller.php */
