@@ -287,7 +287,7 @@
                 {label: 'ID', name: 'p_reference_list_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
                 {label: 'Reference List ID', name: 'p_reference_list_id', width: 120, sorttype: 'number', editable: true, hidden: true},
                 {label: 'Reference Type', name: 'p_reference_type_id', width: 120, align: "left", editable: true, hidden:false,
-                    editrules: {edithidden: true, required:true},
+                    editrules: {edithidden: true, required:false},
                     //edittype: 'select',
                    /* editoptions: {
                         dataUrl: "<?php echo WS_JQGRID.'preferencetype.preferencelist_controller/html_select_options_roles'; ?>",
