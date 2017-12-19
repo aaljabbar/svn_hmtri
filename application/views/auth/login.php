@@ -78,7 +78,7 @@
                     </div>
                     <div class="col-xs-7 bs-reset">
                         <div class="login-copyright text-right">
-                            <p>Copyright &copy; Telkom Indonesia. 2017</p>
+                            <p>Copyright &copy; 2017</p>
                         </div>
                     </div>
                 </div>

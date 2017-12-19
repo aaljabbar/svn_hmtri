@@ -339,6 +339,14 @@
             multiboxonly: true,
             onSelectRow: function (rowid) {
                 /*do something when selected*/
+				var celCode = $('#grid-table-detail').jqGrid('getCell', rowid, 'p_reference_type_id');
+                if (rowid = null) {
+                    grid_detail.jqGrid('setGridParam', {
+                        url: "<?php echo WS_JQGRID."preferencetype.preferencelist/validate"; ?>",
+                        postData: {p_reference_type_id: celValue}
+                    });
+                    
+                }
             },
             sortorder:'',
             pager: '#grid-pager-detail',
