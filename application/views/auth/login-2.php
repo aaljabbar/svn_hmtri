@@ -8,7 +8,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>CAPTRACK</title>
+        <title>HRTRITAMA</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta content="" name="description" />
@@ -47,7 +47,7 @@
         <div class="content">
             <!-- BEGIN LOGIN FORM -->
             <form class="login-form" name="login_form" action="<?php echo $login_url;?>" method="post">
-                <h4 class="form-title">CAPTRACK - Telkom Indonesia</h4>
+                <h4 class="form-title">HRTRITAMA - PT Triklin Rekatama</h4>
                 <?php if($this->session->flashdata('error_message') != ""): ?>
                     <div class="alert alert-danger alert-dismissible" role="alert">
                         <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>
@@ -77,7 +77,7 @@
         </div>
         <!-- END LOGIN -->
         <!-- BEGIN COPYRIGHT -->
-        <div class="copyright"> Copyright &copy; 2017 Telkom Indonesia. </div>
+        <div class="copyright"> Copyright &copy; 2017 Triklin Rekatama. </div>
         <!-- END COPYRIGHT -->
         <!--[if lt IE 9]>
 <script src="<?php echo base_url(); ?>assets/global/plugins/respond.min.js"></script>

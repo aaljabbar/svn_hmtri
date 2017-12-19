@@ -111,4 +111,64 @@ function compareDate($from_date, $to_date) {
     }
     return 1;
 }
+
+/** Telegram **/
+  function getTokenBot($bot = ''){
+    return '503466403:AAG1dKyLJSY9-9_rvKd4IZMajrduTTbObqc'; // hmtri bot 
+  }
+
+  function request_url($method,$tokenbotid){
+    return "https://api.telegram.org/bot" . $tokenbotid . "/". $method;
+  }
+
+  function get_updates($tokenbotid){
+          $resp = file_get_contents(request_url("getUpdates",$tokenbotid));
+  		return $resp;
+  }
+
+  function send_telegram($chatid, $text, $tokenid){
+  	$data = array(
+  		'chat_id' => $chatid,
+  		'text'  => $text,
+  		//'reply_to_message_id' => $msgid
+  	);
+  	// use key 'http' even if you send the request to https://...
+  	$options = array(
+  		'http' => array(
+  			'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+  			'method'  => 'POST',
+  			'content' => http_build_query($data),
+  		),
+  	);
+  	$context  = stream_context_create($options);
+  	$result = file_get_contents(request_url('sendMessage',$tokenid), false, $context);
+  	return $result;
+  }
+
+/** Telegram **/
+
+/* get parameter list */
+function getParameterListByCode($code){
+    $ci =& get_instance();
+    $ci->load->model('helper/helper');
+    $result = $ci->helper->getDataParamByCode($code);
+    echo "<select>";
+    foreach ($result as $value) {
+        echo "<option value=" . $value['id'] . ">" . strtoupper($value['name']) . "</option>";
+    }
+    echo "</select>";
+}
+function getParameterListByCode2($code){
+    $ci =& get_instance();
+    $ci->load->model('helper/helper_util');
+    $table = $ci->helper_util;
+    $result = $table->getDataParamByCode($code);
+    $data = "<option value=''> </option>";
+    foreach ($result as $value) {
+        $data .= "<option value=" . $value['id'] . ">" . strtoupper($value['name']) . "</option>";
+    }
+    //$data .= "<option value=" . 1 . ">" . 'test' . "</option>";
+    return $data;
+}
+
 ?>

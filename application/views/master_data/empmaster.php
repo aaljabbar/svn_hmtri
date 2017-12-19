@@ -1,10 +1,14 @@
 <link href="<?php echo base_url(); ?>assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
 <!-- breadcrumb -->
+
 <div class="page-bar">
     <ul class="page-breadcrumb">
         <li>
             <a href="<?php base_url(); ?>">Home</a>
             <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>Master Data </span>
         </li>
         <li>
             <span>Employee Master</span>
@@ -63,9 +67,11 @@
                                                 <label class="control-label col-md-3">Emp Id / NIK</label>
                                                 <div class="col-md-9">
                                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-                                                    <input type="hidden" id="bussinessunit_id" name="bussinessunit_id" value="<?php echo getSessionData('bu_id'); ?>"> 
-                                                    <input type="text" id="nik" name="nik" required class="form-control required"> </div>
-                                            </div> 
+                                                    <input type="hidden" id="bussinessunit_id" name="bussinessunit_id" value="<?php echo getSessionData('bu_id'); ?>">
+                                                    <input type="text" id="nik" name="nik" required class="form-control required"> 
+                                                    <input type="hidden" id="emp_master_id" name="emp_master_id">
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
@@ -85,7 +91,7 @@
                                         <div class="form-group">
                                                 <label class="control-label col-md-3">Gender</label>
                                                 <div class="col-md-9">
-                                                    <select id="gender" name="gender" required class="form-control required">
+                                                    <select id="jenis_kelamin" name="jenis_kelamin" required class="form-control required">
                                                         <option value="L">Male</option>
                                                         <option value="P">Female</option>
                                                     </select>
@@ -106,7 +112,7 @@
                                                     <input type="text" id="tgl_lhr" name="tgl_lhr" class="form-control datepickerform required"> </div>
                                             </div>
                                         </div>
-                                    
+
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Id Card Number</label>
@@ -128,13 +134,13 @@
                                                 <label class="control-label col-md-3">Photo</label>
                                                 <div class="fileinput fileinput-new col-md-9" data-provides="fileinput">
                                                     <div class="fileinput-new thumbnail col-md-9" style="width: 220px; height: 280px;">
-                                                        <img src="http://www.placehold.it/220x280/EFEFEF/AAAAAA&amp;text=no+image" alt="" /> </div>
+                                                        <img src=""  id="image_prev" alt="" /><!-- <img src="http://www.placehold.it/220x280/EFEFEF/AAAAAA&amp;text=no+image"  id="image_prev" alt="" /> --> </div>
                                                     <div class="fileinput-preview fileinput-exists thumbnail col-md-9" style="width: 220px; height: 280px;"> </div>
                                                     <div>
                                                         <span class="btn default btn-file col-md-6">
                                                             <span class="fileinput-new " > Select image </span>
                                                             <span class="fileinput-exists"> Change </span>
-                                                            <input type="file" id="path_name" name="path_name"> 
+                                                            <input type="file" id="path_name" name="path_name">
                                                             </span>
                                                         <a href="javascript:;" class="btn danger fileinput-exists col-md-3" data-dismiss="fileinput"> Remove </a>
                                                     </div>
@@ -151,7 +157,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                             <div class="form-actions">
@@ -160,7 +166,7 @@
                                         <div class="row">
                                             <div class="col-md-offset-3 col-md-9">
                                                 <button type="submit" id="submit" name="submit" class="btn green">Submit</button>
-                                                <button type="button" id="cancel" name="cancel" class="btn default">Cancel</button>
+                                                <button type="button" id="cancel" name="cancel" onclick="resetForm('form_data')" class="btn default">Reset</button>
                                             </div>
                                         </div>
                                     </div>
@@ -183,17 +189,20 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Status</label>
                                                 <div class="col-md-9">
-                                                    <input type="text" class="form-control"> </div>
+                                                    <select id="status" name="status" required class="form-control required">
+                                                        <?php echo  getParameterListByCode2('6'); ?>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                     <div class="col-md-6">
                                         <div class="col-md-12">
 
                                         </div>
                                     </div>
-                                    
+
                                 </div>
 
                                 <h5><b>Finance </b></h5>
@@ -218,17 +227,17 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">BPJS Tk</label>
                                                 <div class="col-md-9">
-                                                    <input type="text" class="form-control"> </div>
+                                                    <input type="text" name="bpjs_tk_code" id="bpjs_tk_code" class="form-control"> </div>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">BPJS Kesehatan</label>
                                                 <div class="col-md-9">
-                                                    <input type="text" class="form-control"> </div>
+                                                    <input type="text" name="bpjs_kes_code" id="bpjs_kes_code" class="form-control"> </div>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                     <div class="col-md-6">
                                         <div class="col-md-12">
@@ -252,15 +261,15 @@
                                                     <input type="text" class="form-control"> </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-12">
+                                        <!-- <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Account Name</label>
                                                 <div class="col-md-9">
                                                     <input type="text" class="form-control"> </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
-                                    
+
                                 </div>
                             </div>
                             <div class="form-actions">
@@ -269,12 +278,12 @@
                                         <div class="row">
                                             <div class="col-md-offset-3 col-md-9">
                                                 <button type="submit" class="btn green">Submit</button>
-                                                <button type="button" class="btn default">Cancel</button>
+                                                <button type="button" class="btn default">Reset</button>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6"> </div>
-                                    
+
                                 </div>
                             </div>
                         </form>
@@ -290,10 +299,59 @@
                             </div>
                     </div>
                 </div>
-          
+
         </div>
     </div>
+    <input type="hidden" id="temp_rowid">
+    <input type="hidden" id="form_mode">
 <script>
+  function loadDataEmp(rowid){
+     
+     path = 'application/third_party/uploads/emp_images/';
+     $('#submit').text('Update');
+     $('#form_mode').val('update');
+
+     $('#emp_master_id').val( $('#grid-table').jqGrid('getCell', rowid, 'emp_master_id') );
+     $('#bussinessunit_id').val( $('#grid-table').jqGrid('getCell', rowid, 'bussinessunit_id') );
+     $('#emp_name').val( $('#grid-table').jqGrid('getCell', rowid, 'emp_name') );
+     $('#nick_name').val( $('#grid-table').jqGrid('getCell', rowid, 'nick_name') );
+     $('#address').val( $('#grid-table').jqGrid('getCell', rowid, 'address') );
+     $('#nik').val( $('#grid-table').jqGrid('getCell', rowid, 'nik') );
+     $('#image_prev').attr("src", '');
+     $('#image_prev').attr("src", path+$('#grid-table').jqGrid('getCell', rowid, 'path_name') );
+     $('#npwp_code').val( $('#grid-table').jqGrid('getCell', rowid, 'npwp_code') );
+     $('#no_ktp').val( $('#grid-table').jqGrid('getCell', rowid, 'no_ktp') );
+     $('#tgl_lhr').val( $('#grid-table').jqGrid('getCell', rowid, 'tgl_lhr') );
+     $('#tmpt_lhr').val( $('#grid-table').jqGrid('getCell', rowid, 'tmpt_lhr') );
+     $('#start_dat').val( $('#grid-table').jqGrid('getCell', rowid, 'start_dat') );
+     $('#end_dat').val( $('#grid-table').jqGrid('getCell', rowid, 'end_dat') );
+     $('#status').val( $('#grid-table').jqGrid('getCell', rowid, 'status') );
+     $('#emp_code').val( $('#grid-table').jqGrid('getCell', rowid, 'emp_code') );
+     $('#bpjs_tk_code').val( $('#grid-table').jqGrid('getCell', rowid, 'bpjs_tk_code') );
+     $('#bpjs_kes_code').val( $('#grid-table').jqGrid('getCell', rowid, 'bpjs_kes_code') );
+     $('#jenis_kelamin selected').val( $('#grid-table').jqGrid('getCell', rowid, 'jenis_kelamin') );
+     /*
+     $('#created_by').val( $('#grid-table').jqGrid('getCell', rowid, 'created_by') );
+     $('#created_date').val( $('#grid-table').jqGrid('getCell', rowid, 'created_date') );
+     $('#update_date').val( $('#grid-table').jqGrid('getCell', rowid, 'update_date') );
+     $('#update_by').val( $('#grid-table').jqGrid('getCell', rowid, 'update_by') );*/
+
+  }
+  function resetForm(form){
+    $('#'+form)[0].reset();
+    $('#image_prev').attr("src", '');
+  }
+/*  function test(){
+    $.ajax({
+        type: "POST",
+        url: "<?php echo WS_JQGRID.'master_data.empmaster_controller/getPramData'; ?>",
+        data: { a:1 },
+        success: function (data) {
+           //swal({title: 'Info', text: 'Selesai, Step selanjutnya adalah mengisi data kontrak !', html: true, type: "info"});
+            }
+     });
+
+    }*/
   $(document).ready(function(){
     
     $("#form_data").on('submit', (function (e) {
@@ -301,9 +359,15 @@
           e.preventDefault();
           var data = new FormData(this);
 
+          if($('#form_mode').val() == 'update'){
+            url = '<?php echo WS_JQGRID."master_data.empmaster_controller/updateData"; ?>';
+          }else{
+            url = '<?php echo WS_JQGRID."master_data.empmaster_controller/submitData"; ?>';  
+          }
+          
           $.ajax({
             type: 'POST',
-            url: '<?php echo WS_JQGRID."master_data.empmaster_controller/submitData"; ?>',
+            url: url,
             data: data,
             contentType: false, // The content type used when sending data to the server.
             cache: false, // To unable request pages to be cached
@@ -311,9 +375,7 @@
             success: function(response) {
                 response = JSON.parse(response);
               if(response.success) {
-
                   swal({title: 'Info', text: response.message, html: true, type: "info"});
-
               }else{
                   swal({title: 'Attention', text: response.message, html: true, type: "warning"});
               }
@@ -323,12 +385,13 @@
 
           return false;
       }));
-    
+
       $('.datepickerform').datepicker({
         format: 'dd-mm-yyyy',
         autoclose:true
       });
   });
+
 </script>
 <script>
 
@@ -341,7 +404,7 @@
             datatype: "json",
             mtype: "POST",
             colModel: [
-				{label: 'ID', name: 'emp_master_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true}, 
+				{label: 'ID', name: 'emp_master_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
  				{label: 'Bussinessunit Id',name: 'bussinessunit_id' ,width: 100, align: 'right',editable: false,hidden: true,
   					  editoptions:{
    						     size: 30,
@@ -353,94 +416,100 @@
    						     size: 30,
   						     maxlength:30
   					 },editrules: {required: false}
-   				 },     
+   				 },
  				{label: 'Name',name: 'emp_name' ,width: 200, align: 'left',editable: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:50
   					 },editrules: {required: false}
-   				 }, 
+   				 },
  				{label: 'Nick Name',name: 'nick_name' ,width: 100, align: 'left',editable: true,hidden: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:10
   					 },editrules: {required: false}
-   				 }, 
+   				 },
  				{label: 'Address',name: 'address' ,width: 250, align: 'left',editable: true,
   					  edittype:'textarea',
   					  editoptions:{
    						     size: 30,
   						     maxlength:250
   					 },editrules: {required: false}
-   				 }, 
+   				 },
  				{label: 'Path Name',name: 'path_name' ,width: 250, align: 'left',editable: true,hidden: true,
   					  edittype:'textarea',
   					  editoptions:{
    						     size: 30,
   						     maxlength:250
   					 },editrules: {required: false}
-   				 }, 
+   				 },
  				{label: 'Npwp Code',name: 'npwp_code' ,width: 100, align: 'left',editable: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:30
   					 },editrules: {required: false}
-   				 }, 
+   				 },
  				{label: 'No Ktp',name: 'no_ktp' ,width: 100, align: 'left',editable: true,hidden: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:30
   					 },editrules: {required: false}
-   				 }, 
+   				 },
  				{label: 'Tgl Lhr',name: 'tgl_lhr' ,width: 100, align: 'left',editable: true,hidden: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:7
   					 },editrules: {required: false}
-   				 }, 
+   				 },
  				{label: 'Tmpt Lhr',name: 'tmpt_lhr' ,width: 100, align: 'left',editable: true,hidden: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:30
   					 },editrules: {required: false}
-   				 }, 
+   				 },
  				{label: 'Start Dat',name: 'start_dat' ,width: 100, align: 'left',editable: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:7
   					 },editrules: {required: false}
-   				 }, 
+   				 },
  				{label: 'End Dat',name: 'end_dat' ,width: 100, align: 'left',editable: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:7
   					 },editrules: {required: false}
-   				 }, 
+   				 },
  				{label: 'Status',name: 'status' ,width: 100, align: 'right',editable: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:22
   					 },editrules: {required: false}
-   				 }, 
+   				 },
  				{label: 'Emp Code',name: 'emp_code' ,width: 100, align: 'left',editable: true,hidden: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:100
   					 },editrules: {required: false}
-   				 }, 
+   				 },
  				{label: 'Bpjs Tk Code',name: 'bpjs_tk_code' ,width: 100, align: 'left',editable: true,hidden: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:60
   					 },editrules: {required: false}
-   				 }, 
+   				 },
  				{label: 'Bpjs Kes Code',name: 'bpjs_kes_code' ,width: 100, align: 'left',editable: true,hidden: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:60
   					 },editrules: {required: false}
-   				 }
-              
+   				 },
+                 {label: 'Action',name: 'bpjs_kes_code' ,width: 100, align: 'left',editable: true,hidden: true,
+                      editoptions:{
+                             size: 30,
+                             maxlength:60
+                     },editrules: {required: false}
+                 }
+
             ],
             height: '200px',
             width: '100%',
@@ -455,7 +524,8 @@
             multiboxonly: true,
             onSelectRow: function (rowid) {
                 /*do something when selected*/
-
+                $('#temp_rowid').val(rowid);
+                loadDataEmp(rowid);
             },
             sortorder:'',
             pager: '#grid-pager',
@@ -472,7 +542,7 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."master_data.empmaster_controller/crud"; ?>',
-            caption: "Empmaster"
+            caption: "Employee Master"
 
         });
 
@@ -623,44 +693,44 @@
             datatype: "json",
             mtype: "POST",
             colModel: [
-				{label: 'ID', name: 'empsalary_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true}, 
+				{label: 'ID', name: 'empsalary_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
  				{label: 'Emp Master Id',name: 'emp_master_id' ,width: 100, align: 'right',editable: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:22
   					 },editrules: {required: false}
-   				 }, 
+   				 },
  				{label: 'Salary',name: 'salary' ,width: 100, align: 'right',editable: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:22
   					 },editrules: {required: false}
-   				 }, 
+   				 },
  				{label: 'Pay Date',name: 'pay_date' ,width: 100, align: 'left',editable: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:7
   					 },editrules: {required: false}
-   				 }, 
+   				 },
  				{label: 'Valid From',name: 'valid_from' ,width: 100, align: 'left',editable: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:7
   					 },editrules: {required: false}
-   				 }, 
+   				 },
  				{label: 'Valid Until',name: 'valid_until' ,width: 100, align: 'left',editable: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:7
   					 },editrules: {required: false}
-   				 }, 
+   				 },
  				{label: 'P Reference List Id',name: 'p_reference_list_id' ,width: 100, align: 'right',editable: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:22
   					 },editrules: {required: false}
    				 }
-              
+
             ],
             height: '100%',
             autowidth: true,

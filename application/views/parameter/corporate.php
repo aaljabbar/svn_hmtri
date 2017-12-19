@@ -6,7 +6,10 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <span>corporate</span>
+            <span>Master Data</span>
+        </li>
+        <li>
+            <span>Corporate</span>
         </li>
     </ul>
 </div>
