@@ -3,7 +3,7 @@
 <head>
 
     <meta charset="utf-8"/>
-    <title>TOS</title>
+    <title>HRTRI</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <meta content="" name="description"/>
@@ -43,7 +43,7 @@
             <img class="login-logo login-6" src="<?php echo base_url(); ?>assets/image/hmtri.png" width="300px" height=""/>
 
             <div class="login-content">
-                <h4> TOS - Telkom Indonesia </h4>
+                <h4> HRTRI - Triklin Rekatama </h4>
 
                 <form class="login-form" name="login_form" method="post" action="<?php echo $login_url;?>">
                     <?php if($this->session->flashdata('error_message') != ""): ?>
