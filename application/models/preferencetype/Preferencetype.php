@@ -12,8 +12,8 @@ class Preferencetype extends Abstract_model {
     public $alias           = 'preferencetype';
 
     public $fields          = array(
-								'p_reference_type_id'=> array (  'pkey' => true,  'type' => 'int' , 'nullable' => false , 'unique' => false , 'display' =>  'P Reference Type Id' ),
- 								'code'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Code' ),
+								'p_reference_type_id'=> array (  'pkey' => true,  'type' => 'int' , 'nullable' => false , 'unique' => false , 'display' =>  'P Reference Type Id'),
+ 								'code'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => true , 'display' =>  'Code' ),
  								'reference_name'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Reference Name' ),
  								'description'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Description' ),
  								'creation_date'=> array (  'type' => 'date' , 'nullable' => true , 'unique' => false , 'display' =>  'Creation Date' ),

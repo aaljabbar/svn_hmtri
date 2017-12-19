@@ -51,6 +51,8 @@ class Preferencelist extends Abstract_model {
         $ci =& get_instance();
         $userdata = $ci->session->userdata;
 		
+		$p_reference_type_id = getVarClean('p_reference_type_id','int', 90);
+		
 		//$maxprl = $this->db->select('select max(prl.p_reference_list_id)+1');
 		//$query = $this->db->get('preferencelist');
 					
@@ -61,6 +63,7 @@ class Preferencelist extends Abstract_model {
             //$this->record['updated_date'] = date('Y-m-d');
 			
             //$this->db->set('p_reference_list_id',$maxprl,false);
+			$this->db->set('p_reference_type_id',$p_reference_type_id ,true);
             $this->db->set('creation_date',"to_date('".date('Y-m-d')."','yyyy-mm-dd')",false);
             $this->record['created_by'] = $userdata['user_name'];
             $this->db->set('updated_date',"to_date('".date('Y-m-d')."','yyyy-mm-dd')",false);
@@ -75,6 +78,7 @@ class Preferencelist extends Abstract_model {
 			
             unset($this->record['creation_date']);
             unset($this->record['updated_date']);
+            unset($this->record['p_reference_type_id']);
 			//unset($this->record['p_reference_list_id']);
 
             $this->record[$this->pkey] = $this->generate_id($this->table, $this->pkey);
