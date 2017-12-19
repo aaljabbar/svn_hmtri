@@ -116,7 +116,7 @@
                         url: "<?php echo WS_JQGRID."preferencetype.preferencelist_controller/crud"; ?>",
                         postData: {p_reference_type_id: celValue}
                     });
-                    var strCaption = 'Mapping Reference Type List :: ' + celCode;
+                    var strCaption = 'Mapping Reference Type List : ' + celCode;
                     grid_detail.jqGrid('setCaption', strCaption);
                     $("#temp_user_id").val(celValue);
                     $("#grid-table-detail").trigger("reloadGrid");
