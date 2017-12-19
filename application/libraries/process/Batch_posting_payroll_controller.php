@@ -4,7 +4,7 @@
 * @class Period_controller
 * @version 07/05/2015 12:18:00
 */
-class Batch_payroll_controller {
+class Batch_posting_payroll_controller {
 
     function read() {
 
@@ -19,8 +19,8 @@ class Batch_payroll_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('process/batch_payroll');
-            $table = $ci->batch_payroll;
+            $ci->load->model('process/batch_posting_payroll');
+            $table = $ci->batch_posting_payroll;
 
             $req_param = array(
                 "sort_by" => $sidx,
@@ -38,7 +38,7 @@ class Batch_payroll_controller {
 
             // Filter Table
             $req_param['where'] = array('p_finance_period_id = '.$p_finance_period_id);
-            $req_param['where'] = array('input_data_class_id = 1');
+            $req_param['where'] = array('input_data_class_id = 2');
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
@@ -102,19 +102,19 @@ class Batch_payroll_controller {
     function create() {
 
         $ci = & get_instance();
-        $ci->load->model('process/batch_payroll');
+        $ci->load->model('process/batch_posting_payroll');
         //$userinfo = $ci->ion_auth->user()->row();
         $userinfo = $ci->session->userdata;
-        $table = $ci->batch_payroll;
+        $table = $ci->batch_posting_payroll;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
         $jsonItems = getVarClean('items', 'str', '');
         $items = jsonDecode($jsonItems);
-        $items['input_file_name'] = 'PAYROLL-PROCESS_'.$items['p_finance_period_id'].'_'.gmdate('Y-m-d h:i:s \G\M\T');
+        $items['input_file_name'] = 'POSTING_'.$items['p_finance_period_id'].'_'.gmdate('Y-m-d h:i:s \G\M\T');
         // $invoice_date = $table->invoice_date($items['p_finance_period_id']);
         // $items['invoice_date'] = $invoice_date;
-        $items['input_data_class_id'] = 1;
+        $items['input_data_class_id'] = 2;
         $items['file_directory'] = '-';        
         $items['operator_id'] = $userinfo['user_name'];
         $items['is_finish_processed'] = 'N';
@@ -182,8 +182,8 @@ class Batch_payroll_controller {
 
     function combo(){
         $ci = & get_instance();
-        $ci->load->model('process/batch_payroll');
-        $table = $ci->batch_payroll;
+        $ci->load->model('process/batch_posting_payroll');
+        $table = $ci->batch_posting_payroll;
         $table->bill_cycle_combo();
     }
 

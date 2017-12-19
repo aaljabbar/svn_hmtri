@@ -22,7 +22,7 @@
                     <a data-toggle="tab"> Periode </a>
                 </li>
                 <li id="tab-2">
-                    <a data-toggle="tab"> Payroll </a>
+                    <a data-toggle="tab"> Payroll Custome Date </a>
                 </li>
                 <li id="tab-3">
                     <a data-toggle="tab"> Proses </a>
@@ -52,7 +52,7 @@
                 return false;
             }
 
-            loadContentWithParams("process.process_payroll_batch", {
+            loadContentWithParams("process.payroll_customedate_batch", {
                 p_finance_period_id: idd,
                 finance_period_code : code,
                 period_status_code : status

@@ -30,6 +30,20 @@
     padding: 6px 12px !important;
 }
 
+.fixed-info {
+    position: fixed;
+    right: 10px;
+    top: 100px;
+    z-index: 5000;
+    width: 200px;
+    opacity: 0.5;
+}
+
+.fixed-info:hover {
+    opacity: 1;
+    cursor:pointer;
+}
+
 .home {
     background:#ff4d1a;
     color:#ffffff;

@@ -21,7 +21,7 @@
                     <a data-toggle="tab"> Periode </a>
                 </li>
                 <li id="tab-2">
-                    <a data-toggle="tab"> Payroll </a>
+                    <a data-toggle="tab"> Payroll Custome Date </a>
                 </li>
                 <li id="tab-3" class="active">
                     <a data-toggle="tab"> Proses </a>
@@ -71,27 +71,21 @@
         $("#force_process").css("display", "none");
         $("#cancel_last_job").css("display", "none");
         $("#cancel_all_job").css("display", "none");
-    } /*else {
-        $("#submit_job").css("display", "block");
-        $("#force_process").css("display", "block");
-        $("#cancel_last_job").css("display", "block");
-        $("#cancel_all_job").css("display", "block");
-    }*/
+    }
 </script>
 <script>
 
     $(function($) {
-
         $("#tab-1").on( "click", function() {    
-            loadContentWithParams("process.process_payroll", {                
+            loadContentWithParams("process.payroll_customedate", {                
             });
         });
 
         $("#tab-2").on( "click", function() {    
-            loadContentWithParams("process.process_payroll_batch", {   
+            loadContentWithParams("process.payroll_customedate_batch", {   
                 p_finance_period_id: "<?php echo $this->input->post('p_finance_period_id'); ?>",
-                finance_period_code : "<?php echo $this->input->post('finance_period_code'); ?>" ,
-                period_status_code : "<?php echo $this->input->post('period_status_code'); ?>"             
+                finance_period_code : "<?php echo $this->input->post('finance_period_code'); ?>",
+                period_status_code : "<?php echo $this->input->post('period_status_code'); ?>"               
             });
         });
 
@@ -114,7 +108,7 @@
             result = confirm('Apakah Anda yakin ?');
             if(result){    
                 $.ajax({
-                    url: '<?php echo WS_JQGRID."process.process_payroll_controller/submit_prabilling"; ?>',
+                    url: '<?php echo WS_JQGRID."process.process_payroll_controller/submit_payroll_custome"; ?>',
                     type: "POST",
                     dataType: "json",
                     data: {input_data_control_id : "<?php echo $this->input->post('input_data_control_id'); ?>"},
@@ -143,7 +137,7 @@
                 data: {},
                 success: function (data) {
                     if(data.success){
-                        swal("", "Start Daemon success", "success");   
+                        swal("", "Start Daemon success", "success");
                     }else{
                         swal("Informasi", "Start Daemon failed", "info"); 
                     }
@@ -152,7 +146,7 @@
                     swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
                 }
             });
-            reload();
+                reload();
         });
         
         $("#cancel_all_job").on( "click", function() { 

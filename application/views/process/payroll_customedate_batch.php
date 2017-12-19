@@ -10,7 +10,7 @@
                 <i class="fa fa-circle"></i>
             </li>
             <li>
-                <span>Periode</span>
+                <span>Payroll Custome Date</span>
             </li>
         </ul>
     </div>
@@ -18,11 +18,11 @@
     <div class="col-md-12">
         <div class="tabbable tabbable-tabdrop">
             <ul class="nav nav-tabs">
-                <li class="active">
+                <li id="tab-1">
                     <a data-toggle="tab"> Periode </a>
                 </li>
-                <li id="tab-2">
-                    <a data-toggle="tab"> Payroll </a>
+                <li id="tab-2" class="active">
+                    <a data-toggle="tab"> Payroll Custome Date </a>
                 </li>
                 <li id="tab-3">
                     <a data-toggle="tab"> Proses </a>
@@ -35,32 +35,34 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>  
 </div>
 <script>
     $(function($) {
-        $("#tab-2").on( "click", function() { 
+        $("#tab-1").on( "click", function() {    
+            loadContentWithParams("process.payroll_customedate", {                
+            });
+        });
+
+        $("#tab-3").on( "click", function() {    
             var grid = $('#grid-table-payroll');
             selRowId = grid.jqGrid ('getGridParam', 'selrow');
-
-            var idd = grid.jqGrid ('getCell', selRowId, 'p_finance_period_id');
-            var code = grid.jqGrid ('getCell', selRowId, 'finance_period_code');
-            var status = grid.jqGrid ('getCell', selRowId, 'period_status_code');
-
+            
+            var idd = grid.jqGrid ('getCell', selRowId, 'input_data_control_id');
+            var file_name = grid.jqGrid ('getCell', selRowId, 'input_file_name');
+            
             if(selRowId == null) {
                 swal("Informasi", "Silahkan Pilih Salah Satu Baris Data", "info");
                 return false;
             }
-
-            loadContentWithParams("process.process_payroll_batch", {
-                p_finance_period_id: idd,
-                finance_period_code : code,
-                period_status_code : status
+            loadContentWithParams("process.payroll_customedate_proc", {
+                input_data_control_id: idd,
+                input_file_name : file_name,
+                p_finance_period_id : "<?php echo $this->input->post('p_finance_period_id'); ?>",
+                finance_period_code : "<?php echo $this->input->post('finance_period_code'); ?>" ,
+                period_status_code :  "<?php echo $this->input->post('period_status_code'); ?>"                 
+                
             });
-        });
-
-        $("#tab-3").on( "click", function() { 
-            return false;
         });
     });
     jQuery(function($) {
@@ -68,16 +70,35 @@
         var pager_selector = "#grid-pager-payroll";
 
         jQuery("#grid-table-payroll").jqGrid({
-            url: '<?php echo WS_JQGRID."process.period_controller/crud"; ?>',
+            url: '<?php echo WS_JQGRID."process.batch_payroll_customedate_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
+            postData: {
+                p_finance_period_id : <?php echo $this->input->post('p_finance_period_id'); ?>
+            },
             colModel: [
-                {label: 'ID', name: 'p_finance_period_id', hidden: false},                
+                {label: 'ID', name: 'input_data_control_id', hidden: false},                
                 {label: 'Periode', name: 'finance_period_code', hidden: false},                
-                {label: 'Dari', name: 'start_date', hidden: false},                
-                {label: 'Sampai', name: 'end_date', hidden: false},                
-                {label: 'Tahun', name: 'year_period_code', hidden: false},                
-                {label: 'Status', name: 'period_status_code', hidden: false}
+                {label: 'Payroll Cycle ID', name: 'p_bill_cycle_id', hidden: true, editable: true,
+                    editrules: {edithidden: true, required: true},
+                    edittype: 'select',
+                    editoptions: {
+                        style: "width: 250px", 
+                        dataUrl: '<?php echo WS_JQGRID."process.batch_payroll_customedate_controller/combo"; ?>'
+                    }
+                },                
+                {label: 'Payroll Cycle', name: 'bill_cycle_code', hidden: false},                
+                {label: 'Invoice Date', name: 'invoice_date', hidden: false},                
+                {label: 'Batch', name: 'input_file_name', hidden: false, editable: true,
+                    editoptions: {
+                        size: 40,
+                        maxlength:250,
+                        readonly: true
+                    },
+                    editrules: {required: false}
+                },                
+                {label: 'Finish?', name: 'is_finish_processed', hidden: false},                
+                {label: 'Status', name: 'data_status_code', hidden: false}
             ],
             height: '100%',
             autowidth: true,
@@ -105,10 +126,22 @@
                     swal({title: 'Attention', text: response.message, html: true, type: "warning"});
                 }
                 responsive_jqgrid(grid_selector,pager_selector);
+
+                var grid = $("#grid-table-payroll"),
+                gid = $.jgrid.jqID(grid[0].id);
+                var $td = $('#add_' + gid);
+
+                var status = "<?php echo $this->input->post('period_status_code'); ?>";
+                   // alert(status);
+                if (status == "CLOSED"){
+                    $td.hide();
+                }else{
+                    $td.show();
+                }
             },
             //memanggil controller jqgrid yang ada di controller crud
-            editurl: '<?php echo WS_JQGRID."process.period_controller/crud"; ?>',
-            caption: "Periode"
+            editurl: '<?php echo WS_JQGRID."process.batch_payroll_customedate_controller/crud"; ?>',
+            caption: "Batch Payroll :: <?php echo $this->input->post('finance_period_code'); ?>"
 
         });
 
@@ -117,7 +150,7 @@
                 edit: false,
                 excel: true,
                 editicon: 'fa fa-pencil blue bigger-120',
-                add: false,             
+                add: true,              
                 addicon: 'fa fa-plus-circle purple bigger-120',
                 del: false,
                 delicon: 'fa fa-trash-o red bigger-120',
@@ -161,7 +194,12 @@
             },
             {
                 //new record form
-                closeAfterAdd: false,
+                editData: {
+                    p_finance_period_id: function() {
+                        return <?php echo $this->input->post('p_finance_period_id'); ?>;
+                    }
+                },
+                closeAfterAdd: true,
                 clearAfterAdd : true,
                 closeOnEscape:true,
                 recreateForm: true,

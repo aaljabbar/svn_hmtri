@@ -59,7 +59,8 @@
                 input_data_control_id: idd,
                 input_file_name : file_name,
                 p_finance_period_id : "<?php echo $this->input->post('p_finance_period_id'); ?>",
-                finance_period_code : "<?php echo $this->input->post('finance_period_code'); ?>"                 
+                finance_period_code : "<?php echo $this->input->post('finance_period_code'); ?>",
+                period_status_code :  "<?php echo $this->input->post('period_status_code'); ?>"                
                 
             });
         });
@@ -78,7 +79,7 @@
             colModel: [
                 {label: 'ID', name: 'input_data_control_id', hidden: false},                
                 {label: 'Periode', name: 'finance_period_code', hidden: false},                
-                {label: 'Bill Cycle ID', name: 'p_bill_cycle_id', hidden: true, editable: true,
+                {label: 'Payroll Cycle ID', name: 'p_bill_cycle_id', hidden: true, editable: true,
                     editrules: {edithidden: true, required: true},
                     edittype: 'select',
                     editoptions: {
@@ -86,7 +87,7 @@
                         dataUrl: '<?php echo WS_JQGRID."process.batch_payroll_controller/combo"; ?>'
                     }
                 },                
-                {label: 'Bill Cycle', name: 'bill_cycle_code', hidden: false},                
+                {label: 'Payroll Cycle', name: 'bill_cycle_code', hidden: false},                
                 {label: 'Invoice Date', name: 'invoice_date', hidden: false},                
                 {label: 'Batch', name: 'input_file_name', hidden: false, editable: true,
                     editoptions: {
@@ -125,6 +126,18 @@
                     swal({title: 'Attention', text: response.message, html: true, type: "warning"});
                 }
                 responsive_jqgrid(grid_selector,pager_selector);
+
+                var grid = $("#grid-table-payroll"),
+                gid = $.jgrid.jqID(grid[0].id);
+                var $td = $('#add_' + gid);
+
+                var status = "<?php echo $this->input->post('period_status_code'); ?>";
+                if (status == "CLOSED"){
+                    $td.hide();
+                }else{
+                    $td.show();
+                }
+
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."process.batch_payroll_controller/crud"; ?>',
@@ -137,7 +150,7 @@
                 edit: false,
                 excel: true,
                 editicon: 'fa fa-pencil blue bigger-120',
-                add: true,              
+                add: true,           
                 addicon: 'fa fa-plus-circle purple bigger-120',
                 del: false,
                 delicon: 'fa fa-trash-o red bigger-120',
@@ -186,7 +199,7 @@
                         return <?php echo $this->input->post('p_finance_period_id'); ?>;
                     }
                 },
-                closeAfterAdd: false,
+                closeAfterAdd: true,
                 clearAfterAdd : true,
                 closeOnEscape:true,
                 recreateForm: true,
