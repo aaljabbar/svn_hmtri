@@ -53,6 +53,15 @@ class Deductiontype extends Abstract_model {
             $this->record['updated_date'] = date('Y-m-d');
             $this->record['updated_by'] = $userdata['user_name'];
             */
+			
+			$this->db->set('created_date',"to_date('".date('Y-m-d')."','yyyy-mm-dd')",false);
+            $this->record['created_by'] = $userdata['user_name'];
+            $this->db->set('update_date',"to_date('".date('Y-m-d')."','yyyy-mm-dd')",false);
+            $this->record['update_by'] = $userdata['user_name'];
+
+            unset($this->record['created_date']);
+            unset($this->record['updated_date']);
+			
             $this->record[$this->pkey] = $this->generate_id($this->table, $this->pkey);
 
         }else {
@@ -61,6 +70,9 @@ class Deductiontype extends Abstract_model {
             /* $this->record['updated_date'] = date('Y-m-d');
             $this->record['updated_by'] = $userdata['user_name']; */
             //if false please throw new Exception
+			
+			$this->db->set('update_date',"to_date('".date('Y-m-d')."','yyyy-mm-dd')",false);
+            $this->record['update_by'] = $userdata['user_name'];
         }
         return true;
     }
