@@ -111,10 +111,11 @@ class Batch_payroll_customedate_controller {
 
         $jsonItems = getVarClean('items', 'str', '');
         $items = jsonDecode($jsonItems);
-        $items['input_file_name'] = 'CUSTOM-DATE_'.$items['p_finance_period_id'].'_'.gmdate('Y-m-d h:i:s \G\M\T');
+        $items['input_file_name'] = 'CUSTOM-DATE_'.$items['p_finance_period_id'].'_'.str_replace(" ", "_", gmdate('Ymd his'));
         // $invoice_date = $table->invoice_date($items['p_finance_period_id']);
         // $items['invoice_date'] = $invoice_date;
         $items['input_data_class_id'] = 3;
+        $items['p_bill_cycle_id'] = 1;
         $items['file_directory'] = '-';        
         $items['operator_id'] = $userinfo['user_name'];
         $items['is_finish_processed'] = 'N';

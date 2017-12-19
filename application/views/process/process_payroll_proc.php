@@ -227,7 +227,7 @@
                 {label: 'Mulai', name: 'start_process_date', hidden: false},                
                 {label: 'Selesai', name: 'end_process_date', hidden: false},                
                 {label: 'Prosedur', name: 'real_procedure_name', hidden: true},
-                {label: 'Req Id', name: 'req_id', hidden: false}
+                {label: 'Req Id', name: 'req_id', hidden: true}
             ],
             height: '100%',
             autowidth: true,
