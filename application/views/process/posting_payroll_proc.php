@@ -55,14 +55,6 @@
     </div>
     
 </div>
-<div class="fixed-info">
-    <div class="alert alert-warning">
-        <h4><strong>Informasi</strong></h4>
-        <ul>
-            <li>Sumber Data CAPEX berasal dari SMILE</li>
-        </ul>
-    </div>
-</div>
 <script type="text/javascript">
     var status = "<?php echo $this->input->post('period_status_code'); ?>";
 
