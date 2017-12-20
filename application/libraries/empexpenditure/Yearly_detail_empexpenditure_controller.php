@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
 * Json library
-* @class Monthly_empexpenditure_controller
+* @class Yearly_detail_empexpenditure_controller
 * @version 18-12-2017 11:49:16
 */
-class Monthly_empexpenditure_controller {
+class Yearly_detail_empexpenditure_controller {
 
     function read() {
 
@@ -12,15 +12,16 @@ class Monthly_empexpenditure_controller {
         $limit = getVarClean('rows','int',5);
         $sidx = getVarClean('sidx','str','empexpenditure_id');
         $sord = getVarClean('sord','str','desc');
-        $p_finance_period_id = getVarClean('p_finance_period_id','int',0);
+        $bussinessunit_id = getVarClean('bussinessunit_id','int',0);
+        $tahun = getVarClean('tahun','int',0);
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
         try {
 
             $ci = & get_instance();
-            $ci->load->model('empexpenditure/monthly_empexpenditure');
-            $table = $ci->monthly_empexpenditure;
+            $ci->load->model('empexpenditure/yearly_detail_empexpenditure');
+            $table = $ci->yearly_detail_empexpenditure;
 
             $req_param = array(
                 "sort_by" => $sidx,
@@ -38,13 +39,11 @@ class Monthly_empexpenditure_controller {
 
             // Filter Table $items = $table->comboPeriod();
             $req_param['where'] = array();
-
-            if ($p_finance_period_id == 0 || empty($p_finance_period_id)){
-                $year = $table->comboYear()[0]['p_year_period_id'];
-                $p_finance_period_id = $table->comboPeriod($year)[0]['p_finance_period_id'];
-            }
+            if ($bussinessunit_id != 0 || !empty($bussinessunit_id))
+                $table->setCriteria("a.bussinessunit_id = ".$bussinessunit_id);
+            if ($tahun != 0 || !empty($tahun))
+                $table->setCriteria("periode like '%".$tahun."%'");
             
-            $table->setCriteria("periode = '".$p_finance_period_id."'");
             
 
             $table->setJQGridParam($req_param);
@@ -94,8 +93,8 @@ class Monthly_empexpenditure_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('empexpenditure/monthly_empexpenditure');
-            $table = $ci->monthly_empexpenditure;
+            $ci->load->model('empexpenditure/yearly_detail_empexpenditure');
+            $table = $ci->yearly_detail_empexpenditure;
 
             if(!empty($searchPhrase)) {
                 //$table->setCriteria("upper(icon_code) like upper('%".$searchPhrase."%')");
@@ -123,22 +122,22 @@ class Monthly_empexpenditure_controller {
         $oper = getVarClean('oper', 'str', '');
         switch ($oper) {
             case 'add' :
-                permission_check('can-add-monEmpexpenditure');
+                permission_check('can-add-yearly-empexpenditure');
                 $data = $this->create();
             break;
 
             case 'edit' :
-                permission_check('can-edit-monEmpexpenditure');
+                permission_check('can-edit-yearly-empexpenditure');
                 $data = $this->update();
             break;
 
             case 'del' :
-                permission_check('can-del-monEmpexpenditure');
+                permission_check('can-del-yearly-empexpenditure');
                 $data = $this->destroy();
             break;
 
             default :
-                permission_check('can-view-monEmpexpenditure');
+                permission_check('can-view-yearly-empexpenditure');
                 $data = $this->read();
             break;
         }
@@ -150,8 +149,8 @@ class Monthly_empexpenditure_controller {
     function create() {
 
         $ci = & get_instance();
-        $ci->load->model('empexpenditure/monthly_empexpenditure');
-        $table = $ci->monthly_empexpenditure;
+        $ci->load->model('empexpenditure/yearly_detail_empexpenditure');
+        $table = $ci->yearly_detail_empexpenditure;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -222,8 +221,8 @@ class Monthly_empexpenditure_controller {
     function update() {
 
         $ci = & get_instance();
-        $ci->load->model('empexpenditure/monthly_empexpenditure');
-        $table = $ci->monthly_empexpenditure;
+        $ci->load->model('empexpenditure/yearly_detail_empexpenditure');
+        $table = $ci->yearly_detail_empexpenditure;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -293,8 +292,8 @@ class Monthly_empexpenditure_controller {
 
     function destroy() {
         $ci = & get_instance();
-        $ci->load->model('empexpenditure/monthly_empexpenditure');
-        $table = $ci->monthly_empexpenditure;
+        $ci->load->model('empexpenditure/yearly_detail_empexpenditure');
+        $table = $ci->yearly_detail_empexpenditure;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -334,71 +333,6 @@ class Monthly_empexpenditure_controller {
             $data['total'] = 0;
         }
         return $data;
-    }
-
-    
-
-    function readDataComboYear(){
-
-        $data = array('rows' => array(), 'success' => false, 'message' => '', 'records' => 0, 'total' => 0);
-
-        try {
-
-            $ci = & get_instance();
-            $ci->load->model('empexpenditure/monthly_empexpenditure');
-            $table = $ci->monthly_empexpenditure;
-
-            $items = $table->comboYear();
-
-            $html = "";
-            $html.="<select name='p_year_period_id' id='p_year_period_id' class='form-control required' onchange='changePeriod()' required>";
-            //$html.="<option value='' >Select Value</option>";
-            foreach ($items as $item) {
-              $html .=" <option value='" . $item['p_year_period_id'] . "'>" . $item['code'] . "</option>";
-            }
-            $html .= "</select>";
-
-            $data['items'] = $html;
-            $data['success'] = true;
-        }catch (Exception $e) {
-            $data['message'] = $e->getMessage();
-        }
-
-        echo json_encode($data);
-        exit;
-    }
-
-    function readDataComboPeriod(){
-
-        $data = array('rows' => array(), 'success' => false, 'message' => '', 'records' => 0, 'total' => 0);
-        $year = getVarClean('year', 'int', 0);
-        try {
-
-            $ci = & get_instance();
-            $ci->load->model('empexpenditure/monthly_empexpenditure');
-            $table = $ci->monthly_empexpenditure;
-
-            if ($year==0||empty($year))
-                $year = $table->comboYear()[0]['p_year_period_id'];
-
-            $items = $table->comboPeriod($year);
-
-            $html = "";
-            $html.="<select name='p_finance_period_id' id='p_finance_period_id' class='form-control required' required>";
-            //$html.="<option value='' >Select Value</option>";
-            foreach ($items as $item) {
-              $html .=" <option value='" . $item['p_finance_period_id'] . "'>" . $item['finance_period_code'] . "</option>";
-            }
-            $html .= "</select>";
-
-            $data['items'] = $html;
-            $data['success'] = true;
-        }catch (Exception $e) {
-            $data['message'] = $e->getMessage();
-        }
-
-        echo json_encode($data);
-        exit;
     }
 }
 

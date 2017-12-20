@@ -1,15 +1,15 @@
 <?php
 
 /*
-  classname :  Monthly_empexpenditure
-  Date      : 18-12-2017 11:49:16
+  classname :  Yearly_empexpenditure
+  Date      : 19-12-2017 10:10:55
  
  */
-class Monthly_empexpenditure extends Abstract_model {
+class Yearly_empexpenditure extends Abstract_model {
 
     public $table           = 'empexpenditure';
     public $pkey            = 'empexpenditure_id';
-    public $alias           = 'a';
+    public $alias           = '';
 
     public $fields          = array(
 								'empexpenditure_id'=> array (  'pkey' => true,  'type' => 'int' , 'nullable' => false , 'unique' => false , 'display' =>  'Empexpenditure Id' ),
@@ -22,12 +22,10 @@ class Monthly_empexpenditure extends Abstract_model {
  								'update_by'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Update By' )
                             );
 
-    public $selectClause    =   "   a.*,
-                                    b.BU_NAME
+    public $selectClause    =   " 
+									*
                                 ";
-    public $fromClause      = " empexpenditure a
-                                    INNER JOIN bussinesunit b
-                                ON a.bussinessunit_id = b.bussinessunit_id ";
+    public $fromClause      = " v_yearly_empexpenditure ";
 
     public $refs            = array();
 
@@ -69,16 +67,6 @@ class Monthly_empexpenditure extends Abstract_model {
         return $items;
     }
 
-    function comboPeriod($year){
-        $sql = "SELECT p_finance_period_id,finance_period_code 
-                    FROM p_finance_period 
-                  WHERE p_year_period_id = $year
-                ORDER BY p_finance_period_id DESC";
-        $query = $this->db->query($sql);
-        $items = $query->result_array();
-        return $items;
-    }
-
 }
 
-/* End of file Monthly_empexpenditure.php */
+/* End of file Yearly_empexpenditure.php */

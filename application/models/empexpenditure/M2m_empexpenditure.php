@@ -1,15 +1,15 @@
 <?php
 
 /*
-  classname :  Monthly_empexpenditure
+  classname :  M2m_empexpenditure
   Date      : 18-12-2017 11:49:16
  
  */
-class Monthly_empexpenditure extends Abstract_model {
+class M2m_empexpenditure extends Abstract_model {
 
     public $table           = 'empexpenditure';
     public $pkey            = 'empexpenditure_id';
-    public $alias           = 'a';
+    public $alias           = '';
 
     public $fields          = array(
 								'empexpenditure_id'=> array (  'pkey' => true,  'type' => 'int' , 'nullable' => false , 'unique' => false , 'display' =>  'Empexpenditure Id' ),
@@ -22,12 +22,23 @@ class Monthly_empexpenditure extends Abstract_model {
  								'update_by'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Update By' )
                             );
 
-    public $selectClause    =   "   a.*,
-                                    b.BU_NAME
+    public $selectClause    =   "    EMPEXPENDITURE_ID,
+                                     BUSSINESSUNIT_ID,
+                                     BU_NAME,
+                                     periode,
+                                     EXP_AMOUNT,
+                                     periode_Before,
+                                     NVL (EXP_AMOUNT_Before, 0) AS EXP_AMOUNT_BEFORE,
+                                     NVL (
+                                        ROUND (
+                                           ( (EXP_AMOUNT - EXP_AMOUNT_BEFORE) / EXP_AMOUNT_BEFORE) * 100,
+                                           0
+                                        ),
+                                        0
+                                     )
+                                        AS growth
                                 ";
-    public $fromClause      = " empexpenditure a
-                                    INNER JOIN bussinesunit b
-                                ON a.bussinessunit_id = b.bussinessunit_id ";
+    public $fromClause      = " v_m2m_empexpenditure  ";
 
     public $refs            = array();
 

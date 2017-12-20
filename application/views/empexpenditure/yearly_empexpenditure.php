@@ -14,136 +14,83 @@
 <div class="space-4"></div>
 <div class="row">
     <div class="col-md-12">
-        <!-- <div class="portlet light bordered"> -->
-            <!-- <div class="form-body"> -->
+        <div class="row">
+            <label class="control-label col-md-1">Year</label>
+            <div class="col-md-2">
+                <div id="combo"></div>
+            </div>
+            <button class="btn btn-primary" type="button" onclick="find()">Find</button>
+        </div>
 
-                <div class="row">
-                    <label class="control-label col-md-1">Periode</label>
-                    <div class="col-md-2">
-                        <div id="comboYear"></div>
-                    </div>
-                    <div class="col-md-2">
-                        <div id="comboPeriod"></div>
-                    </div>
-                    <button class="btn btn-primary" type="button" onclick="find()">Find</button>
-                </div>
+        <div class="space-2"></div>
 
-                <div class="space-2"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <table id="grid-table"></table>
+                <div id="grid-pager"></div>
+            </div>
+        </div>
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <table id="grid-table"></table>
-                        <div id="grid-pager"></div>
-                    </div>
-                </div>
+        <div class="space-2"></div>
 
-                <div class="space-2"></div>
-
-                <div class="row" id="detail_placeholder" style="display:none;">
-                    <div class="col-md-12">
-                        <table id="grid-table-detail"></table>
-                        <div id="grid-pager-detail"></div>
-                    </div>
-                </div>
-
-            <!-- </div> -->
-        <!-- </div> -->
+        <div class="row" id="detail_placeholder" style="display:none;">
+            <div class="col-md-12">
+                <table id="grid-table-detail"></table>
+                <div id="grid-pager-detail"></div>
+            </div>
+        </div>
     </div>
 </div>
 
 <script type="text/javascript">
     function find(){
-        var p_finance_period_id = $('#p_finance_period_id').val();
-
-        if (p_finance_period_id == ''||p_finance_period_id==null){
-            swal({title: "Error!", text: 'Period Harus Diisi', html: true, type: "error"});
-            return false;
-        }
+        var p_year_period_id = $('#p_year_period_id').val();
 
         jQuery(function($) {
             var grid_selector = "#grid-table";
 
             jQuery("#grid-table").jqGrid('setGridParam',{
-                url: '<?php echo WS_JQGRID."empexpenditure.monthly_empexpenditure_controller/crud"; ?>',
-                postData: {p_finance_period_id:p_finance_period_id,oper:'read'}
+                url: '<?php echo WS_JQGRID."empexpenditure.yearly_empexpenditure_controller/crud"; ?>',
+                postData: {p_year_period_id:p_year_period_id,oper:'read'}
             });
             $("#grid-table").trigger("reloadGrid");
             jQuery("#detail_placeholder").hide();
-        });
-    }
-
-    $.ajax({
-        url: "<?php echo WS_JQGRID."empexpenditure.monthly_empexpenditure_controller/readDataComboYear"; ?>" ,
-        type: "POST",
-        dataType: "json",
-        data: {},
-        success: function (data) {
-            console.log(data.items);
-            $("#comboYear").html(data.items);
-        },
-        error: function (xhr, status, error) {
-            swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
-        }
-    });
-
-    $.ajax({
-        url: "<?php echo WS_JQGRID."empexpenditure.monthly_empexpenditure_controller/readDataComboPeriod"; ?>" ,
-        type: "POST",
-        dataType: "json",
-        data: {},
-        success: function (data) {
-            console.log(data.items);
-            $("#comboPeriod").html(data.items);
-        },
-        error: function (xhr, status, error) {
-            swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
-        }
-    });
-
-    function changePeriod(){
-        var p_year_period_id = $('#p_year_period_id').val();
-
-        $.ajax({
-            url: "<?php echo WS_JQGRID."empexpenditure.monthly_empexpenditure_controller/readDataComboPeriod"; ?>" ,
-            type: "POST",
-            dataType: "json",
-            data: {year:p_year_period_id},
-            success: function (data) {
-                console.log(data.items);
-                $("#comboPeriod").html(data.items);
-            },
-            error: function (xhr, status, error) {
-                swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
-            }
         });
     }
 </script>
 
 <script>
 
-    
+    $.ajax({
+        url: "<?php echo WS_JQGRID."empexpenditure.yearly_empexpenditure_controller/readDataCombo"; ?>" ,
+        type: "POST",
+        dataType: "json",
+        data: {},
+        success: function (data) {
+            console.log(data.items);
+            $("#combo").html(data.items);
+        },
+        error: function (xhr, status, error) {
+            swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+        }
+    });
+
+
 
     jQuery(function($) {
         var grid_selector = "#grid-table";
         var pager_selector = "#grid-pager";
-        var p_finance_period_id = $("#p_finance_period_id").val();
-
+        var p_year_period_id = $("#p_year_period_id").val();
 
         jQuery("#grid-table").jqGrid({
-            url: '<?php echo WS_JQGRID."empexpenditure.monthly_empexpenditure_controller/crud"; ?>',
+            url: '<?php echo WS_JQGRID."empexpenditure.yearly_empexpenditure_controller/crud"; ?>',
             datatype: "json",
-            postData:{p_finance_period_id:p_finance_period_id},
+            postData:{p_year_period_id:p_year_period_id},
             mtype: "POST",
             colModel: [
-				{label: 'ID', name: 'empexpenditure_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true}, 
-                {label: 'Bussiness unit',name: 'bu_name' ,width: 100, align: 'left', editable: true,
-                      editoptions:{
-                             size: 30,
-                             maxlength:22
-                     },editrules: {required: false}
-                 }, 
- 				
- 				{label: 'Bussinessunit Id',name: 'bussinessunit_id' ,width: 100, align: 'right', hidden: true,editable: true,
+				{label: 'ID', name: 'bussinessunit_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
+                {label: 'Bussiness Unit', name: 'bu_name',  width: 100, editable: true},
+ 				{label: 'Year',name: 'tahun' ,width: 100, align: 'right',editable: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:22
@@ -154,13 +101,7 @@
    						     size: 30,
   						     maxlength:22
   					 },editrules: {required: false}
-   				 },
-                 {label: 'Periode',name: 'periode' ,width: 100, align: 'left',editable: true,
-                      editoptions:{
-                             size: 30,
-                             maxlength:22
-                     },editrules: {required: false}
-                 }
+   				 }
               
             ],
             height: '100%',
@@ -177,16 +118,16 @@
                 /*do something when selected*/
 
                 var bussinessunit_id = $('#grid-table').jqGrid('getCell', rowid, 'bussinessunit_id');
-                var periode = $('#grid-table').jqGrid('getCell', rowid, 'periode');
+                var tahun = $('#grid-table').jqGrid('getCell', rowid, 'tahun');
                 var bu_name = $('#grid-table').jqGrid('getCell', rowid, 'bu_name');
 
                 var grid_detail = jQuery("#grid-table-detail");
                 if (rowid != null) {
                     grid_detail.jqGrid('setGridParam', {
-                        url: "<?php echo WS_JQGRID."empexpenditure.payrollsummary_empexpenditure_controller/crud"; ?>",
-                        postData: {bussinessunit_id: bussinessunit_id,periode:periode}
+                        url: "<?php echo WS_JQGRID."empexpenditure.yearly_detail_empexpenditure_controller/crud"; ?>",
+                        postData: {bussinessunit_id: bussinessunit_id,tahun:tahun}
                      });
-                    var strCaption = 'Payroll Summary :: ' + bu_name;
+                    var strCaption = 'Monthtly :: ' + bu_name;
                     grid_detail.jqGrid('setCaption', strCaption);
                     //$("#temp_user_id").val(celValue);
                     $("#grid-table-detail").trigger("reloadGrid");
@@ -209,7 +150,7 @@
 
             },
             //memanggil controller jqgrid yang ada di controller crud
-            editurl: '<?php echo WS_JQGRID."empexpenditure.monthly_empexpenditure_controller/crud"; ?>',
+            editurl: '<?php echo WS_JQGRID."empexpenditure.yearly_empexpenditure_controller/crud"; ?>',
             caption: "Empexpenditure"
 
         });
@@ -227,7 +168,7 @@
                 refresh: true,
                 afterRefresh: function () {
                     // some code here
-                    jQuery("#detail_placeholder").hide();
+                    jQuery("#detailsPlaceholder").hide();
                 },
 
                 refreshicon: 'fa fa-refresh green bigger-120',
@@ -343,42 +284,31 @@
        
 
         jQuery("#grid-table-detail").jqGrid({
-            url: '<?php echo WS_JQGRID."empexpenditure.payrollsummary_empexpenditure_controller/crud"; ?>',
+            url: '<?php echo WS_JQGRID."empexpenditure.yearly_detail_empexpenditure_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
             colModel: [
-                {label: 'ID', name: 'payrollsummary_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true}, 
-                {label: 'Name',name: 'emp_name' ,width: 100, align: 'left',editable: true,
-                      editoptions:{
-                             size: 30,
-                             maxlength:10
-                     },editrules: {required: false}
-                 }, 
-                {label: 'Emp Master Id',name: 'emp_master_id' ,width: 100, align: 'right',editable: true,hidden: true,
+                {label: 'ID', name: 'empexpenditure_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true}, 
+                {label: 'Bussiness unit',name: 'bu_name' ,width: 100, align: 'left', editable: true,
                       editoptions:{
                              size: 30,
                              maxlength:22
                      },editrules: {required: false}
                  }, 
-                {label: 'Payment Status',name: 'payment_status' ,width: 100, align: 'left',editable: true,
-                      editoptions:{
-                             size: 30,
-                             maxlength:3
-                     },editrules: {required: false}
-                 }, 
-                {label: 'Total Transfer',name: 'total_transfer' ,width: 100, align: 'right',editable: true,formatter:'currency', formatoptions: {prefix:"", thousandsSeparator:','},
+                
+                {label: 'Bussinessunit Id',name: 'bussinessunit_id' ,width: 100, align: 'right', hidden: true,editable: true,
                       editoptions:{
                              size: 30,
                              maxlength:22
                      },editrules: {required: false}
                  }, 
-                {label: 'Tot Remain',name: 'tot_remain' ,width: 100, align: 'right',editable: true,formatter:'currency', formatoptions: {prefix:"", thousandsSeparator:','},
+                {label: 'Exp Amount',name: 'exp_amount' ,width: 100, align: 'right',editable: true,formatter:'currency', formatoptions: {prefix:"", thousandsSeparator:','},
                       editoptions:{
                              size: 30,
                              maxlength:22
                      },editrules: {required: false}
-                 }, 
-                {label: 'Tot Money',name: 'tot_mny' ,width: 100, align: 'right',editable: true,formatter:'currency', formatoptions: {prefix:"", thousandsSeparator:','},
+                 },
+                 {label: 'Periode',name: 'periode' ,width: 100, align: 'left',editable: true,
                       editoptions:{
                              size: 30,
                              maxlength:22
@@ -414,7 +344,7 @@
 
             },
             //memanggil controller jqgrid yang ada di controller crud
-            editurl: '<?php echo WS_JQGRID."empexpenditure.payrollsummary_empexpenditure_controller/crud"; ?>',
+            editurl: '<?php echo WS_JQGRID."empexpenditure.yearly_detail_empexpenditure_controller/crud"; ?>',
             caption: "Payroll Summary"
 
         });
@@ -588,12 +518,7 @@
             }
         );
 
-
     });
-
-
-    
-
 
     function responsive_jqgrid(grid_selector, pager_selector) {
 

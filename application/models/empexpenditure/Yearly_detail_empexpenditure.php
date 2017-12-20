@@ -1,11 +1,11 @@
 <?php
 
 /*
-  classname :  Monthly_empexpenditure
+  classname :  Yearly_detail_empexpenditure
   Date      : 18-12-2017 11:49:16
  
  */
-class Monthly_empexpenditure extends Abstract_model {
+class Yearly_detail_empexpenditure extends Abstract_model {
 
     public $table           = 'empexpenditure';
     public $pkey            = 'empexpenditure_id';
@@ -60,25 +60,6 @@ class Monthly_empexpenditure extends Abstract_model {
         return true;
     }
 
-    function comboYear(){
-        $sql = "SELECT   p_year_period_id, code
-                    FROM   P_YEAR_PERIOD
-                ORDER BY   p_year_period_id DESC";
-        $query = $this->db->query($sql);
-        $items = $query->result_array();
-        return $items;
-    }
-
-    function comboPeriod($year){
-        $sql = "SELECT p_finance_period_id,finance_period_code 
-                    FROM p_finance_period 
-                  WHERE p_year_period_id = $year
-                ORDER BY p_finance_period_id DESC";
-        $query = $this->db->query($sql);
-        $items = $query->result_array();
-        return $items;
-    }
-
 }
 
-/* End of file Monthly_empexpenditure.php */
+/* End of file Yearly_detail_empexpenditure.php */

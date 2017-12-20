@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
 * Json library
-* @class Monthly_empexpenditure_controller
+* @class M2m_empexpenditure_controller
 * @version 18-12-2017 11:49:16
 */
-class Monthly_empexpenditure_controller {
+class M2m_empexpenditure_controller {
 
     function read() {
 
@@ -19,8 +19,8 @@ class Monthly_empexpenditure_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('empexpenditure/monthly_empexpenditure');
-            $table = $ci->monthly_empexpenditure;
+            $ci->load->model('empexpenditure/m2m_empexpenditure');
+            $table = $ci->m2m_empexpenditure;
 
             $req_param = array(
                 "sort_by" => $sidx,
@@ -43,7 +43,7 @@ class Monthly_empexpenditure_controller {
                 $year = $table->comboYear()[0]['p_year_period_id'];
                 $p_finance_period_id = $table->comboPeriod($year)[0]['p_finance_period_id'];
             }
-            
+
             $table->setCriteria("periode = '".$p_finance_period_id."'");
             
 
@@ -94,8 +94,8 @@ class Monthly_empexpenditure_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('empexpenditure/monthly_empexpenditure');
-            $table = $ci->monthly_empexpenditure;
+            $ci->load->model('empexpenditure/m2m_empexpenditure');
+            $table = $ci->m2m_empexpenditure;
 
             if(!empty($searchPhrase)) {
                 //$table->setCriteria("upper(icon_code) like upper('%".$searchPhrase."%')");
@@ -123,22 +123,22 @@ class Monthly_empexpenditure_controller {
         $oper = getVarClean('oper', 'str', '');
         switch ($oper) {
             case 'add' :
-                permission_check('can-add-monEmpexpenditure');
+                permission_check('can-add-m2mEmpexpenditure');
                 $data = $this->create();
             break;
 
             case 'edit' :
-                permission_check('can-edit-monEmpexpenditure');
+                permission_check('can-edit-m2mEmpexpenditure');
                 $data = $this->update();
             break;
 
             case 'del' :
-                permission_check('can-del-monEmpexpenditure');
+                permission_check('can-del-m2mEmpexpenditure');
                 $data = $this->destroy();
             break;
 
             default :
-                permission_check('can-view-monEmpexpenditure');
+                permission_check('can-view-m2mEmpexpenditure');
                 $data = $this->read();
             break;
         }
@@ -150,8 +150,8 @@ class Monthly_empexpenditure_controller {
     function create() {
 
         $ci = & get_instance();
-        $ci->load->model('empexpenditure/monthly_empexpenditure');
-        $table = $ci->monthly_empexpenditure;
+        $ci->load->model('empexpenditure/m2m_empexpenditure');
+        $table = $ci->m2m_empexpenditure;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -222,8 +222,8 @@ class Monthly_empexpenditure_controller {
     function update() {
 
         $ci = & get_instance();
-        $ci->load->model('empexpenditure/monthly_empexpenditure');
-        $table = $ci->monthly_empexpenditure;
+        $ci->load->model('empexpenditure/m2m_empexpenditure');
+        $table = $ci->m2m_empexpenditure;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -293,8 +293,8 @@ class Monthly_empexpenditure_controller {
 
     function destroy() {
         $ci = & get_instance();
-        $ci->load->model('empexpenditure/monthly_empexpenditure');
-        $table = $ci->monthly_empexpenditure;
+        $ci->load->model('empexpenditure/m2m_empexpenditure');
+        $table = $ci->m2m_empexpenditure;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -336,7 +336,6 @@ class Monthly_empexpenditure_controller {
         return $data;
     }
 
-    
 
     function readDataComboYear(){
 
@@ -345,8 +344,8 @@ class Monthly_empexpenditure_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('empexpenditure/monthly_empexpenditure');
-            $table = $ci->monthly_empexpenditure;
+            $ci->load->model('empexpenditure/m2m_empexpenditure');
+            $table = $ci->m2m_empexpenditure;
 
             $items = $table->comboYear();
 
@@ -375,8 +374,8 @@ class Monthly_empexpenditure_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('empexpenditure/monthly_empexpenditure');
-            $table = $ci->monthly_empexpenditure;
+            $ci->load->model('empexpenditure/m2m_empexpenditure');
+            $table = $ci->m2m_empexpenditure;
 
             if ($year==0||empty($year))
                 $year = $table->comboYear()[0]['p_year_period_id'];

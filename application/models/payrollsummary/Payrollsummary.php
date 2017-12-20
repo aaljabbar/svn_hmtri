@@ -1,33 +1,38 @@
 <?php
 
 /*
-  classname :  Monthly_empexpenditure
-  Date      : 18-12-2017 11:49:16
+  classname :  Payrollsummary
+  Date      : 19-12-2017 12:48:49
  
  */
-class Monthly_empexpenditure extends Abstract_model {
+class Payrollsummary extends Abstract_model {
 
-    public $table           = 'empexpenditure';
-    public $pkey            = 'empexpenditure_id';
-    public $alias           = 'a';
+    public $table           = 'payrollsummary';
+    public $pkey            = 'payrollsummary_id';
+    public $alias           = '';
 
     public $fields          = array(
-								'empexpenditure_id'=> array (  'pkey' => true,  'type' => 'int' , 'nullable' => false , 'unique' => false , 'display' =>  'Empexpenditure Id' ),
- 								'periode'=> array (  'type' => 'int' , 'nullable' => true , 'unique' => false , 'display' =>  'Periode' ),
- 								'bussinessunit_id'=> array (  'type' => 'int' , 'nullable' => true , 'unique' => false , 'display' =>  'Bussinessunit Id' ),
- 								'exp_amount'=> array (  'type' => 'int' , 'nullable' => true , 'unique' => false , 'display' =>  'Exp Amount' ),
- 								'created_by'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Created By' ),
+								'payrollsummary_id'=> array (  'pkey' => true,  'type' => 'int' , 'nullable' => false , 'unique' => false , 'display' =>  'Payrollsummary Id' ),
+ 								'periode'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Periode' ),
+ 								'emp_master_id'=> array (  'type' => 'int' , 'nullable' => true , 'unique' => false , 'display' =>  'Emp Master Id' ),
+ 								'update_by'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Update By' ),
  								'created_date'=> array (  'type' => 'date' , 'nullable' => true , 'unique' => false , 'display' =>  'Created Date' ),
+ 								'created_by'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Created By' ),
  								'update_date'=> array (  'type' => 'date' , 'nullable' => true , 'unique' => false , 'display' =>  'Update Date' ),
- 								'update_by'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Update By' )
+ 								'payment_status'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Payment Status' ),
+ 								'total_transfer'=> array (  'type' => 'int' , 'nullable' => true , 'unique' => false , 'display' =>  'Total Transfer' ),
+ 								'tot_remain'=> array (  'type' => 'int' , 'nullable' => true , 'unique' => false , 'display' =>  'Tot Remain' ),
+ 								'tot_mny'=> array (  'type' => 'int' , 'nullable' => true , 'unique' => false , 'display' =>  'Tot Mny' )
                             );
 
-    public $selectClause    =   "   a.*,
-                                    b.BU_NAME
+    public $selectClause    =   " 
+									a.*,b.EMP_NAME,c.bu_name
                                 ";
-    public $fromClause      = " empexpenditure a
-                                    INNER JOIN bussinesunit b
-                                ON a.bussinessunit_id = b.bussinessunit_id ";
+    public $fromClause      = " PAYROLLSUMMARY a
+                                    inner join EMPMASTER b
+                                    on A.EMP_MASTER_ID = B.EMP_MASTER_ID
+                                    inner join BUSSINESUNIT c
+                                    on B.BUSSINESSUNIT_ID = C.BUSSINESSUNIT_ID  ";
 
     public $refs            = array();
 
@@ -81,4 +86,4 @@ class Monthly_empexpenditure extends Abstract_model {
 
 }
 
-/* End of file Monthly_empexpenditure.php */
+/* End of file Icons.php */

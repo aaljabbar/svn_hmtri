@@ -13,6 +13,7 @@ class Payrollsummary_empexpenditure_controller {
         $sidx = getVarClean('sidx','str','payrollsummary_id');
         $sord = getVarClean('sord','str','desc');
         $bussinessunit_id = getVarClean('bussinessunit_id','int',0);
+        $periode = getVarClean('periode','int',0);
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -39,6 +40,7 @@ class Payrollsummary_empexpenditure_controller {
             // Filter Table
             $req_param['where'] = array();
             $table->setCriteria("c.bussinessunit_id = ".$bussinessunit_id."");
+            $table->setCriteria("periode = '".$periode."'");
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();

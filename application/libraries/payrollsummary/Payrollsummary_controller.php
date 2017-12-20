@@ -1,16 +1,16 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
 * Json library
-* @class Monthly_empexpenditure_controller
-* @version 18-12-2017 11:49:16
+* @class Payrollsummary_controller
+* @version 19-12-2017 12:48:48
 */
-class Monthly_empexpenditure_controller {
+class Payrollsummary_controller {
 
     function read() {
 
         $page = getVarClean('page','int',1);
         $limit = getVarClean('rows','int',5);
-        $sidx = getVarClean('sidx','str','empexpenditure_id');
+        $sidx = getVarClean('sidx','str','payrollsummary_id');
         $sord = getVarClean('sord','str','desc');
         $p_finance_period_id = getVarClean('p_finance_period_id','int',0);
 
@@ -19,8 +19,8 @@ class Monthly_empexpenditure_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('empexpenditure/monthly_empexpenditure');
-            $table = $ci->monthly_empexpenditure;
+            $ci->load->model('payrollsummary/payrollsummary');
+            $table = $ci->payrollsummary;
 
             $req_param = array(
                 "sort_by" => $sidx,
@@ -36,16 +36,15 @@ class Monthly_empexpenditure_controller {
                 "search_str" => isset($_REQUEST['searchString']) ? $_REQUEST['searchString'] : null
             );
 
-            // Filter Table $items = $table->comboPeriod();
+            // Filter Table
             $req_param['where'] = array();
 
             if ($p_finance_period_id == 0 || empty($p_finance_period_id)){
                 $year = $table->comboYear()[0]['p_year_period_id'];
                 $p_finance_period_id = $table->comboPeriod($year)[0]['p_finance_period_id'];
             }
-            
+
             $table->setCriteria("periode = '".$p_finance_period_id."'");
-            
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
@@ -71,7 +70,7 @@ class Monthly_empexpenditure_controller {
 
             $data['rows'] = $table->getAll();
             $data['success'] = true;
-            logging('view data  empexpenditure');
+            logging('view data  payrollsummary');
         }catch (Exception $e) {
             $data['message'] = $e->getMessage();
         }
@@ -84,7 +83,7 @@ class Monthly_empexpenditure_controller {
         $start = getVarClean('current','int',0);
         $limit = getVarClean('rowCount','int',5);
 
-        $sort = getVarClean('sort','str','empexpenditure_id');
+        $sort = getVarClean('sort','str','payrollsummary_id');
         $dir  = getVarClean('dir','str','asc');
 
         $searchPhrase = getVarClean('searchPhrase', 'str', '');
@@ -94,8 +93,8 @@ class Monthly_empexpenditure_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('empexpenditure/monthly_empexpenditure');
-            $table = $ci->monthly_empexpenditure;
+            $ci->load->model('payrollsummary/payrollsummary');
+            $table = $ci->payrollsummary;
 
             if(!empty($searchPhrase)) {
                 //$table->setCriteria("upper(icon_code) like upper('%".$searchPhrase."%')");
@@ -123,22 +122,22 @@ class Monthly_empexpenditure_controller {
         $oper = getVarClean('oper', 'str', '');
         switch ($oper) {
             case 'add' :
-                permission_check('can-add-monEmpexpenditure');
+                permission_check('can-add-payrollsummary');
                 $data = $this->create();
             break;
 
             case 'edit' :
-                permission_check('can-edit-monEmpexpenditure');
+                permission_check('can-edit-payrollsummary');
                 $data = $this->update();
             break;
 
             case 'del' :
-                permission_check('can-del-monEmpexpenditure');
+                permission_check('can-del-payrollsummary');
                 $data = $this->destroy();
             break;
 
             default :
-                permission_check('can-view-monEmpexpenditure');
+                permission_check('can-view-payrollsummary');
                 $data = $this->read();
             break;
         }
@@ -150,8 +149,8 @@ class Monthly_empexpenditure_controller {
     function create() {
 
         $ci = & get_instance();
-        $ci->load->model('empexpenditure/monthly_empexpenditure');
-        $table = $ci->monthly_empexpenditure;
+        $ci->load->model('payrollsummary/payrollsummary');
+        $table = $ci->payrollsummary;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -205,7 +204,7 @@ class Monthly_empexpenditure_controller {
 
                 $data['success'] = true;
                 $data['message'] = 'Data added successfully';
-                logging('create data empexpenditure');
+                logging('create data payrollsummary');
 
             }catch (Exception $e) {
                 $table->db->trans_rollback(); //Rollback Trans
@@ -222,8 +221,8 @@ class Monthly_empexpenditure_controller {
     function update() {
 
         $ci = & get_instance();
-        $ci->load->model('empexpenditure/monthly_empexpenditure');
-        $table = $ci->monthly_empexpenditure;
+        $ci->load->model('payrollsummary/payrollsummary');
+        $table = $ci->payrollsummary;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -277,7 +276,7 @@ class Monthly_empexpenditure_controller {
 
                 $data['success'] = true;
                 $data['message'] = 'Data update successfully';
-                logging('update data  empexpenditure');
+                logging('update data  payrollsummary');
                 $data['rows'] = $table->get($items[$table->pkey]);
             }catch (Exception $e) {
                 $table->db->trans_rollback(); //Rollback Trans
@@ -293,8 +292,8 @@ class Monthly_empexpenditure_controller {
 
     function destroy() {
         $ci = & get_instance();
-        $ci->load->model('empexpenditure/monthly_empexpenditure');
-        $table = $ci->monthly_empexpenditure;
+        $ci->load->model('payrollsummary/payrollsummary');
+        $table = $ci->payrollsummary;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -324,7 +323,7 @@ class Monthly_empexpenditure_controller {
 
             $data['success'] = true;
             $data['message'] = $total.' Data deleted successfully';
-            logging('delete data  empexpenditure');
+            logging('delete data  payrollsummary');
             $table->db->trans_commit(); //Commit Trans
 
         }catch (Exception $e) {
@@ -336,8 +335,6 @@ class Monthly_empexpenditure_controller {
         return $data;
     }
 
-    
-
     function readDataComboYear(){
 
         $data = array('rows' => array(), 'success' => false, 'message' => '', 'records' => 0, 'total' => 0);
@@ -345,8 +342,8 @@ class Monthly_empexpenditure_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('empexpenditure/monthly_empexpenditure');
-            $table = $ci->monthly_empexpenditure;
+            $ci->load->model('payrollsummary/payrollsummary');
+            $table = $ci->payrollsummary;
 
             $items = $table->comboYear();
 
@@ -375,8 +372,8 @@ class Monthly_empexpenditure_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('empexpenditure/monthly_empexpenditure');
-            $table = $ci->monthly_empexpenditure;
+            $ci->load->model('payrollsummary/payrollsummary');
+            $table = $ci->payrollsummary;
 
             if ($year==0||empty($year))
                 $year = $table->comboYear()[0]['p_year_period_id'];
@@ -400,6 +397,9 @@ class Monthly_empexpenditure_controller {
         echo json_encode($data);
         exit;
     }
+
+
+    
 }
 
-/* End of file Monthly_empexpenditure_controller.php */
+/* End of file Icons_controller.php */
