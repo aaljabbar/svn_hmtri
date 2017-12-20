@@ -79,7 +79,15 @@
             colModel: [
                 {label: 'ID', name: 'input_data_control_id', hidden: false},                
                 {label: 'Periode', name: 'finance_period_code', hidden: false},                     
-                {label: 'Invoice Date', name: 'invoice_date', hidden: false},                
+                {label: 'Invoice Date', name: 'invoice_date', hidden: false}, 
+                {label: 'Employee ID', name: 'emp_master_id', hidden: true, editable: true,
+                    editrules: {edithidden: true, required: true},
+                    edittype: 'select',
+                    editoptions: {
+                        style: "width: 250px", 
+                        dataUrl: '<?php echo WS_JQGRID."process.batch_payroll_customedate_controller/combo"; ?>'
+                    }
+                },               
                 {label: 'Batch', name: 'input_file_name', width :350, hidden: false, editable: true,
                     editoptions: {
                         size: 40,

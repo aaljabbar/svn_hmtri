@@ -85,6 +85,39 @@ class Batch_payroll_customedate extends Abstract_model {
         return $items;
     }
 
+    function emp_combo(){
+        try {
+            $sql = "SELECT 
+                        * 
+                    FROM empmaster
+                        WHERE bussinessunit_id = 1";
+            $query = $this->db->query($sql);
+
+            $items = $query->result_array();
+            echo '<select>';
+            foreach($items  as $item ){
+                echo '<option value="'.$item['emp_master_id'].'">'.$item['emp_master_id'].' - '.$item['emp_name'].' - '.$item['bussinessunit_id'].'</option>';
+            }
+            echo '</select>';
+            exit;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            exit;
+        }
+        
+    }
+
+    function getEmp($emp_master_id){
+        $sql = "SELECT 
+                    * 
+                FROM empmaster
+                    WHERE emp_master_id = ".$emp_master_id;
+        $query = $this->db->query($sql);
+
+        $items = $query->row_array();
+        return $items;
+    }
+
 }
 
 /* End of file Groups.php */

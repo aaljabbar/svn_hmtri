@@ -111,7 +111,10 @@ class Batch_posting_payroll_controller {
 
         $jsonItems = getVarClean('items', 'str', '');
         $items = jsonDecode($jsonItems);
-        $items['input_file_name'] = 'POSTING_'.$items['p_finance_period_id'].'_'.str_replace(" ", "_", gmdate('Ymd his'));
+        date_default_timezone_set('Asia/Jakarta');
+        $items['input_file_name'] = 'POSTING_'.$items['p_finance_period_id'].'_'.str_replace(" ", "_", date('Ymd his'));
+        /*echo($items['input_file_name']);
+        exit;*/
         // $invoice_date = $table->invoice_date($items['p_finance_period_id']);
         // $items['invoice_date'] = $invoice_date;
         $items['input_data_class_id'] = 2;

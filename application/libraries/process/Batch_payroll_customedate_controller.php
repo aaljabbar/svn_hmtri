@@ -111,11 +111,16 @@ class Batch_payroll_customedate_controller {
 
         $jsonItems = getVarClean('items', 'str', '');
         $items = jsonDecode($jsonItems);
-        $items['input_file_name'] = 'CUSTOM-DATE_'.$items['p_finance_period_id'].'_'.str_replace(" ", "_", gmdate('Ymd his'));
+        $result = $table->getEmp($items['emp_master_id']);
+
+        $items['input_file_name'] = $result['emp_master_id'].'_'.$result['emp_name'].'_'.$result['bussinessunit_id'].'_'.$items['p_finance_period_id'].'_CUSTOM-DATE';
+        /*echo($items['input_file_name']);
+        exit;*/
         // $invoice_date = $table->invoice_date($items['p_finance_period_id']);
         // $items['invoice_date'] = $invoice_date;
         $items['input_data_class_id'] = 3;
         $items['p_bill_cycle_id'] = 1;
+        //$items['emp_master_id'] = 1;
         $items['file_directory'] = '-';        
         $items['operator_id'] = $userinfo['user_name'];
         $items['is_finish_processed'] = 'N';
@@ -185,7 +190,7 @@ class Batch_payroll_customedate_controller {
         $ci = & get_instance();
         $ci->load->model('process/batch_payroll_customedate');
         $table = $ci->batch_payroll_customedate;
-        $table->bill_cycle_combo();
+        $table->emp_combo();
     }
 
 }
