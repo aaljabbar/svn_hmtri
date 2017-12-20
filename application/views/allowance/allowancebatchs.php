@@ -1,3 +1,7 @@
+
+<link href='<?php echo base_url(); ?>assets/fullcalendar/fullcalendar.min.css' rel='stylesheet' />
+<!-- <link href='<?php echo base_url(); ?>assets/fullcalendar/fullcalendar.print.min.css' rel='stylesheet' media='print' /> -->
+
 <!-- breadcrumb -->
 <div class="page-bar">
     <ul class="page-breadcrumb">
@@ -18,7 +22,13 @@
         <div id="grid-pager"></div>
     </div>
 </div>
-
+<hr>
+<div class="space-4"></div>
+<div class="row">
+    <div class="col-md-4">
+       <div id='calendar'></div>
+    </div>
+</div>
 <script>
 
     jQuery(function($) {
@@ -220,3 +230,117 @@
     }
 
 </script>
+<script src='<?php echo base_url(); ?>assets/fullcalendar/lib/moment.min.js'></script>
+<!-- <script src='<?php echo base_url(); ?>assets/fullcalendar/lib/jquery.min.js'></script> -->
+<script src='<?php echo base_url(); ?>assets/fullcalendar/fullcalendar.min.js'></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+    $('#calendar').fullCalendar({
+      //themeSystem:'united',
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay,listWeek'
+      },
+      dayClick: function(date, jsEvent, view) {
+
+        alert('Clicked on: ' + date.format());
+
+        alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+
+        alert('Current view: ' + view.name);
+
+        // change the day's background color just for fun
+        $(this).css('background-color', 'red');
+
+    },
+       eventClick: function(calEvent, jsEvent, view) {
+
+        alert('Event: ' + calEvent.title);
+        alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+        alert('View: ' + view.name);
+
+        // change the border color just for fun
+        $(this).css('border-color', 'red');
+
+    },
+        eventRender: function (event, element) {
+            element.attr('href', 'javascript:void(0);');
+            element.click(function() {
+                /*$("#startTime").html(moment(event.start).format('MMM Do h:mm A'));
+                $("#endTime").html(moment(event.end).format('MMM Do h:mm A'));
+                $("#eventInfo").html(event.description);
+                $("#eventLink").attr('href', event.url);
+                $("#eventContent").dialog({ modal: true, title: event.title, width:350});*/
+                alert(moment(event.start).format('MMM Do h:mm A'));
+            });
+        },
+      defaultDate: '2017-12-12',
+      navLinks: true, // can click day/week names to navigate views
+      editable: true,
+      eventLimit: true, // allow "more" link when too many events
+      events: [
+        {
+          title: 'All Day Event',
+          start: '2017-12-01',
+        },
+        {
+          title: 'Long Event',
+          start: '2017-12-07',
+          end: '2017-12-10'
+        },
+        {
+          id: 999,
+          title: 'Repeating Event',
+          start: '2017-12-09T16:00:00'
+        },
+        {
+          id: 999,
+          title: 'Repeating Event',
+          start: '2017-12-16T16:00:00'
+        },
+        {
+          title: 'Conference',
+          start: '2017-12-11',
+          end: '2017-12-13'
+        },
+        {
+          title: 'Meeting',
+          start: '2017-12-12T10:30:00',
+          end: '2017-12-12T12:30:00'
+        },
+        {
+          title: 'Lunch',
+          start: '2017-12-12T12:00:00'
+        },
+        {
+          title: 'Meeting',
+          start: '2017-12-12T14:30:00'
+        },
+        {
+          title: 'Happy Hour',
+          start: '2017-12-12T17:30:00'
+        },
+        {
+          title: 'Dinner',
+          start: '2017-12-12T20:00:00'
+        },
+        {
+          title: 'Birthday Party',
+          start: '2017-12-13T07:00:00'
+        },
+        {
+          title: 'Click for Google',
+          url: 'http://google.com/',
+          start: '2017-12-28'
+        }
+      ],
+    });
+  });
+</script>
+<style type="text/css">
+    .fc-sun { background-color:#d5b8b3; }
+    .fc-sat { background-color:#d5b8b3; }
+    .fc-day { font:bold }
+</style>

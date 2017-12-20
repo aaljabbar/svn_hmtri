@@ -165,9 +165,23 @@ function getParameterListByCode2($code){
     $result = $table->getDataParamByCode($code);
     $data = "<option value=''> </option>";
     foreach ($result as $value) {
-        $data .= "<option value=" . $value['id'] . ">" . strtoupper($value['name']) . "</option>";
+        $data .= "<option value='" . $value['id'] . "'>" . strtoupper($value['name']) . "</option>";
     }
     //$data .= "<option value=" . 1 . ">" . 'test' . "</option>";
+    return $data;
+}
+
+function getParameterListByCode3($code){
+    $ci =& get_instance();
+    $ci->load->model('helper/helper_util');
+    $table = $ci->helper_util;
+    $result = $table->getDataParamByCode($code);
+    //$data = "<option value=''> </option>";
+    $data = "<select>";
+    foreach ($result as $value) {
+        $data .= "<option value='" . $value['id'] . "'>" . strtoupper($value['name']) . "</option>";
+    }
+    $data .= "</select>";
     return $data;
 }
 

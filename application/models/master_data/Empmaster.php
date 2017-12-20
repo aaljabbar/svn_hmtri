@@ -32,7 +32,8 @@ class Empmaster extends Abstract_model {
  								'created_by'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Created By' ),
  								'created_date'=> array (  'type' => 'date' , 'nullable' => true , 'unique' => false , 'display' =>  'Created Date' ),
  								'update_date'=> array (  'type' => 'date' , 'nullable' => true , 'unique' => false , 'display' =>  'Update Date' ),
- 								'update_by'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Update By' )
+                                'update_by'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Update By' ),
+ 								'jenis_kelamin'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Update By' )
                             );
 
     public $selectClause    =   " 
@@ -56,7 +57,8 @@ class Empmaster extends Abstract_model {
  									emp.created_by,
  									emp.created_date,
  									emp.update_date,
- 									emp.update_by
+ 									emp.update_by,
+                                    emp.jenis_kelamin
                                 ";
     public $fromClause      = " empmaster emp ";
 
@@ -72,34 +74,46 @@ class Empmaster extends Abstract_model {
         $userdata = $ci->session->userdata;
 
         if($this->actionType == 'CREATE') {
-
-            //do something
-			// example :
 			
-            /* $this->record['created_date'] = date('Y-m-d');
             $this->record['created_by'] = $userdata['user_name'];
-            $this->record['updated_date'] = date('Y-m-d');
-            $this->record['updated_by'] = $userdata['user_name'];
-			*/
+            $this->db->set('created_date',"sysdate",false);
 
 			$this->db->set('start_dat',"to_date('".$this->record['start_dat']."','yyyy-mm-dd')",false);
 			$this->db->set('tgl_lhr',"to_date('".$this->record['tgl_lhr']."','yyyy-mm-dd')",false);
+
+            unset($this->record['created_date']);
 			unset($this->record['start_dat']);
 			unset($this->record['tgl_lhr']);
 
             $this->record[$this->pkey] = $this->generate_id($this->table, $this->pkey);
 
         }else {
-            //do something
-			//example:
-			
-            /* $this->record['updated_date'] = date('Y-m-d');
-            $this->record['updated_by'] = $userdata['user_name']; */
-            //if false please throw new Exception
+           
+            $this->db->set('update_date',"sysdate",false);
+			$this->db->set('start_dat',"to_date('".$this->record['start_dat']."','yyyy-mm-dd')",false);
+            $this->db->set('tgl_lhr',"to_date('".$this->record['tgl_lhr']."','yyyy-mm-dd')",false);
+
+            $this->record['update_by'] = $userdata['user_name'];
+
+            unset($this->record['update_date']);
+            unset($this->record['start_dat']);
+            unset($this->record['tgl_lhr']);
+            
         }
         return true;
     }
-
+    function getparam($codea){
+        $sql = "SELECT P_REFERENCE_LIST_ID ID, b.REFERENCE_NAME NAME, b.DESCRIPTION
+                  FROM    smshubberdev.PREFERENCETYPE a
+                       JOIN
+                          smshubberdev.PREFERENCELIST b
+                       ON a.P_REFERENCE_TYPE_ID = b.P_REFERENCE_TYPE_ID
+                 WHERE upper(a.code) = upper(trim('EMPSTATUS')) ";
+                 //die($sql);
+        $query = $this->db->query($sql);
+        $items = $query->result_array();
+        return $items;
+    }
 }
 
 /* End of file Icons.php */

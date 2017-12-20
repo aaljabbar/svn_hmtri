@@ -7,7 +7,7 @@
 class Empmaster_controller {
 
     function read() {
-
+        //error_reporting(E_ALL);
         $page = getVarClean('page','int',1);
         $limit = getVarClean('rows','int',5);
         $sidx = getVarClean('sidx','str','emp_master_id');
@@ -37,7 +37,7 @@ class Empmaster_controller {
 
             // Filter Table
             $req_param['where'] = array();
-
+            //send_telegram('@hrtritama','test',getTokenBot());
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
 
@@ -136,14 +136,27 @@ class Empmaster_controller {
 
         return $data;
     }
+    
+    function getPramData(){
+        $ci = & get_instance();
+        $ci->load->model('master_data/empmaster');
+        $table = $ci->empmaster;
+        try{
+            $data = $table->getparam('EMPSTATUS');
+        }catch (Exception $e) {
+                $data['message'] = $e->getMessage();
+            }
+        echo json_encode($data);
+        exit();
+    }
 
     function submitData(){
 
         $ci = & get_instance();
         $ci->load->model('master_data/empmaster');
         $table = $ci->empmaster;
-        
-        
+
+
         $bussinessunit_id = @getVarClean('bussinessunit_id','str','');
         $emp_name         = @getVarClean('emp_name','str','');
         $nick_name        = @getVarClean('nick_name','str','');
@@ -160,17 +173,23 @@ class Empmaster_controller {
         $emp_code         = @getVarClean('emp_code','str','');
         $bpjs_tk_code     = @getVarClean('bpjs_tk_code','str','');
         $bpjs_kes_code    = @getVarClean('bpjs_kes_code','str','');
+        $jenis_kelamin    = @getVarClean('jenis_kelamin','str','');
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
         try{
             $path ="./application/third_party/uploads/emp_images";
-            
+
+            $filename = $_FILES['path_name']['name'];
+            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
             $config['upload_path'] = $path;
             $config['allowed_types'] = 'jpg|JPG|jpeg|JPEG|png|PNG';
             $config['max_size'] = '10000000';
             $config['overwrite'] = TRUE;
-            $config['file_name'] = "emp_images_" . date('d-m-Y-h-i-s').'_'.$nik;
+            $config['file_name'] = "emp_images_" . date('d-m-Y-h-i-s').'_'.$nik.'.'.$ext;
+
+            
 
             $ci->load->library('upload');
             $ci->upload->initialize($config);
@@ -182,7 +201,7 @@ class Empmaster_controller {
             }
 
             $dataform = array (
-                
+
                 'emp_master_id' => '',
                 'bussinessunit_id' => $bussinessunit_id,
                 'emp_name' => $emp_name,
@@ -198,7 +217,8 @@ class Empmaster_controller {
                 'end_dat' => $end_dat,
                 'status' => $status,
                 'bpjs_tk_code' => $bpjs_tk_code,
-                'bpjs_kes_code' => $bpjs_kes_code
+                'bpjs_kes_code' => $bpjs_kes_code,
+                'jenis_kelamin' => $jenis_kelamin
             );
 
             $ret = $this->createDataForm(json_encode($dataform));
@@ -214,6 +234,98 @@ class Empmaster_controller {
         exit();
     }
 
+    function updateData(){
+
+        $ci = & get_instance();
+        $ci->load->model('master_data/empmaster');
+        $table = $ci->empmaster;
+
+
+        $bussinessunit_id = @getVarClean('bussinessunit_id','str','');
+        $emp_master_id    = @getVarClean('emp_master_id','str','');
+        $emp_name         = @getVarClean('emp_name','str','');
+        $nick_name        = @getVarClean('nick_name','str','');
+        $address          = @getVarClean('address','str','');
+        $nik              = @getVarClean('nik','str','');
+        $path_name        = @getVarClean('path_name','str','');
+        $npwp_code        = @getVarClean('npwp_code','str','');
+        $no_ktp           = @getVarClean('no_ktp','str','');
+        $tgl_lhr          = @getVarClean('tgl_lhr','str','');
+        $tmpt_lhr         = @getVarClean('tmpt_lhr','str','');
+        $start_dat        = @getVarClean('start_dat','str','');
+        $end_dat          = @getVarClean('end_dat','str','');
+        $status           = @getVarClean('status','str','');
+        $emp_code         = @getVarClean('emp_code','str','');
+        $bpjs_tk_code     = @getVarClean('bpjs_tk_code','str','');
+        $bpjs_kes_code    = @getVarClean('bpjs_kes_code','str','');
+        $jenis_kelamin    = @getVarClean('jenis_kelamin','str','');
+
+        $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
+
+        try{
+            
+            $dataform = array (
+
+                'id' => $emp_master_id,
+                'oper' => 'edit',
+                'emp_master_id' => $emp_master_id,
+                'bussinessunit_id' => $bussinessunit_id,
+                'emp_name' => $emp_name,
+                'nick_name' => $nick_name,
+                'address' => $address,
+                'nik' => $nik,
+                'npwp_code' => $npwp_code,
+                'no_ktp' => $no_ktp,
+                'tgl_lhr' => $tgl_lhr,
+                'tmpt_lhr' => $tmpt_lhr,
+                'start_dat' => $start_dat,
+                'status' => $status,
+                'bpjs_tk_code' => $bpjs_tk_code,
+                'bpjs_kes_code' => $bpjs_kes_code,
+                'jenis_kelamin' => $jenis_kelamin
+            );
+
+            if(!file_exists($_FILES['path_name']['tmp_name']) || !is_uploaded_file($_FILES['path_name']['tmp_name'])) {
+                
+                unset($dataform['path_name']);
+
+            }else{
+                
+                $filename = $_FILES['path_name']['name'];
+                $ext = pathinfo($filename, PATHINFO_EXTENSION);
+                
+                $path ="./application/third_party/uploads/emp_images";
+
+                $config['upload_path'] = $path;
+                $config['allowed_types'] = 'jpg|JPG|jpeg|JPEG|png|PNG';
+                $config['max_size'] = '10000000';
+                $config['overwrite'] = TRUE;
+                $config['file_name'] = "emp_images_" . date('d-m-Y-h-i-s').'_'.$nik.'.'.$ext;
+
+                $ci->load->library('upload');
+                $ci->upload->initialize($config);
+
+                if (!$ci->upload->do_upload("path_name")) {
+                    throw new Exception( $ci->upload->display_errors() );
+                }else{
+                    $path_name = $ci->upload->data();
+                }
+
+                $dataform['path_name'] = $config['file_name'];
+            }
+
+            $ret = $this->updateDataForm(json_encode($dataform));
+
+            logging('Update data empmaster Id : '.$emp_master_id);
+            $data['success'] = $ret['success'];
+            $data['message'] = $ret['message'];
+            }catch (Exception $e) {
+                $data['message'] = $e->getMessage();
+            }
+
+        echo  json_encode($data);
+        exit();
+    }
     function createDataForm($dataform) {
 
         $ci = & get_instance();
@@ -346,6 +458,78 @@ class Empmaster_controller {
                 $data['message'] = 'Data added successfully';
                 logging('create data empmaster');
 
+            }catch (Exception $e) {
+                $table->db->trans_rollback(); //Rollback Trans
+
+                $data['message'] = $e->getMessage();
+                $data['rows'] = $items;
+            }
+
+        }
+        return $data;
+
+    }
+
+    function updateDataForm($dataform) {
+
+        $ci = & get_instance();
+        $ci->load->model('master_data/empmaster');
+        $table = $ci->empmaster;
+
+        $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
+
+        $jsonItems = $dataform;
+        $items = jsonDecode($jsonItems);
+
+        if (!is_array($items)){
+            $data['message'] = 'Invalid items parameter';
+            return $data;
+        }
+
+        $table->actionType = 'UPDATE';
+
+        if (isset($items[0])){
+            $errors = array();
+            $numItems = count($items);
+            for($i=0; $i < $numItems; $i++){
+                try{
+                    $table->db->trans_begin(); //Begin Trans
+
+                        $table->setRecord($items[$i]);
+                        $table->update();
+
+                    $table->db->trans_commit(); //Commit Trans
+
+                    $items[$i] = $table->get($items[$i][$table->pkey]);
+                }catch(Exception $e){
+                    $table->db->trans_rollback(); //Rollback Trans
+
+                    $errors[] = $e->getMessage();
+                }
+            }
+
+            $numErrors = count($errors);
+            if ($numErrors > 0){
+                $data['message'] = $numErrors." from ".$numItems." record(s) failed to be saved.<br/><br/><b>System Response:</b><br/>- ".implode("<br/>- ", $errors)."";
+            }else{
+                $data['success'] = true;
+                $data['message'] = 'Data update successfully';
+            }
+            $data['rows'] =$items;
+        }else {
+
+            try{
+                $table->db->trans_begin(); //Begin Trans
+
+                    $table->setRecord($items);
+                    $table->update();
+
+                $table->db->trans_commit(); //Commit Trans
+
+                $data['success'] = true;
+                $data['message'] = 'Data update successfully';
+                logging('update data  empmaster');
+                $data['rows'] = $table->get($items[$table->pkey]);
             }catch (Exception $e) {
                 $table->db->trans_rollback(); //Rollback Trans
 

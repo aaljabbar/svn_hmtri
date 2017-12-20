@@ -6,6 +6,12 @@
 */
 class Allowancetariff_controller {
 
+    public function getListParam(){
+        $paramid = getVarClean('paramid','int',0);
+        echo getParameterListByCode3($paramid);
+        exit();
+    }
+
     function read() {
 
         $page = getVarClean('page','int',1);

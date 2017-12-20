@@ -234,36 +234,84 @@
             mtype: "POST",
             colModel: [
                 {label: 'ID', name: 'allowancetrf_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true}, 
-                {label: 'Trf Amount',name: 'trf_amount' ,width: 100, align: 'right',editable: true,
+                {label: 'Tariff Amount',name: 'trf_amount' ,width: 100, align: 'right',editable: false,
                       editoptions:{
                              size: 30,
                              maxlength:22
-                     },editrules: {required: false}
+                     },editrules: {required: false},
+                     formatter:'currency', formatoptions:{decimalSeparator:",", thousandsSeparator: ".", decimalPlaces: 0, prefix: " "},
+                 }, 
+                {label: 'Trf Amount',name: 'trf_amount' ,width: 50, align: 'right',hidden:true,editable: true,
+                      editoptions:{
+                             size: 30,
+                             maxlength:22
+                     },editrules: {edithidden: true,required: true}
                  }, 
                 {label: 'Valid From',name: 'valid_from' ,width: 100, align: 'left',editable: true,
-                      editoptions:{
-                             size: 30,
-                             maxlength:7
-                     },editrules: {required: false}
+                      editoptions: {
+                        dataInit: function (element) {
+                            $(element).prop('readonly',true);
+                            $(element).datepicker({
+                                autoclose: true,
+                                format: 'yyyy-mm-dd',
+                                orientation: 'up',
+                                todayHighlight: true
+                            });
+                        },
+                        size: 25
+                    },editrules: {required: true}
                  }, 
                 {label: 'Valid Until',name: 'valid_until' ,width: 100, align: 'left',editable: true,
-                      editoptions:{
-                             size: 30,
-                             maxlength:7
-                     },editrules: {required: false}
+                    editoptions: {
+                            dataInit: function (element) {
+                                $(element).prop('readonly',true);
+                                $(element).datepicker({
+                                    autoclose: true,
+                                    format: 'yyyy-mm-dd',
+                                    orientation: 'up',
+                                    todayHighlight: true
+                                });
+                            },
+                            size: 25
+                        },editrules: {required: false}
                  }, 
-               /* {label: 'Allowance Type Id',name: 'allowance_type_id' ,width: 100, align: 'right',editable: true,
+                {label: 'Allowance Type Id',name: 'allowance_type_id' ,width: 100, align: 'right',hidden:true,editable: true,
                       editoptions:{
                              size: 30,
                              maxlength:22
                      },editrules: {required: false}
                  }, 
-                {label: 'Reference List Id',name: 'reference_list_id' ,width: 100, align: 'right',editable: true,
+                {label: 'Reference List Id',name: 'reference_list_id' ,width: 100, align: 'right',hidden:true,editable: true,
                       editoptions:{
                              size: 30,
                              maxlength:22
                      },editrules: {required: false}
-                 }*/
+                 }, 
+                 {
+                    label: 'Allowance Type',
+                    name: 'reference_list_id',
+                    width: 150,
+                    align: "left",
+                    editable: true,
+                    edittype: 'select',
+                    hidden: true,
+                    editrules: {edithidden: true, required: true},
+                    editoptions: {dataUrl: '<?php echo WS_JQGRID.'allowance.allowancetariff_controller/getListParam'; ?>',
+                        postData: function (rowid) {
+                            paramid = 4;
+                            return { paramid: paramid };
+                        },
+                        dataInit: function (elem) {
+                            $(elem).width(240);  // set the width which you need
+                        }
+                    }
+                },
+                 {label: 'Description',name: 'description' ,width: 100, align: 'left',hidden:false,editable: false,
+                      editoptions:{
+                             size: 30,
+                             maxlength:22
+                     },editrules: {required: false}
+                 }
             ],
             height: '100%',
             //autowidth: false,

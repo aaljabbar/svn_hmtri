@@ -27,16 +27,20 @@ class Allowancetariff extends Abstract_model {
     public $selectClause    =   " 
 									allowancetariff.allowancetrf_id,
  									allowancetariff.trf_amount,
- 									allowancetariff.valid_from,
- 									allowancetariff.valid_until,
+ 									to_char(allowancetariff.valid_from, 'dd-mm-yyyy') valid_from,
+ 									to_char(allowancetariff.valid_until, 'dd-mm-yyyy') valid_until,
  									allowancetariff.created_by,
  									allowancetariff.created_date,
  									allowancetariff.update_by,
  									allowancetariff.update_date,
  									allowancetariff.allowance_type_id,
- 									allowancetariff.reference_list_id
+ 									allowancetariff.reference_list_id,
+                                    b.description
                                 ";
-    public $fromClause      = " allowancetariff allowancetariff ";
+    public $fromClause      = " allowancetariff allowancetariff
+                                    join preferencelist b 
+                                        ON allowancetariff.REFERENCE_LIST_ID = b.P_REFERENCE_LIST_ID
+                                 ";
 
     public $refs            = array();
 
@@ -57,14 +61,26 @@ class Allowancetariff extends Abstract_model {
             $this->record['updated_date'] = date('Y-m-d');
             $this->record['updated_by'] = $userdata['user_name'];
             */
+            $this->record['created_by'] = $userdata['user_name'];
+            $this->db->set('created_date',"sysdate",false);
+
+            $this->db->set('valid_from',"to_date('".$this->record['valid_from']."','yyyy-mm-dd')",false);
+            $this->db->set('valid_until',"to_date('".$this->record['valid_until']."','yyyy-mm-dd')",false);
+
+            unset($this->record['valid_from']);
+            unset($this->record['valid_until']);
+
             $this->record[$this->pkey] = $this->generate_id($this->table, $this->pkey);
 
         }else {
             //do something
             //example:
-            /* $this->record['updated_date'] = date('Y-m-d');
-            $this->record['updated_by'] = $userdata['user_name']; */
-            //if false please throw new Exception
+            $this->db->set('valid_from',"to_date('".$this->record['valid_from']."','yyyy-mm-dd')",false);
+            $this->db->set('valid_until',"to_date('".$this->record['valid_until']."','yyyy-mm-dd')",false);
+            $this->db->set('created_date',"sysdate",false);
+            
+            unset($this->record['valid_from']);
+            unset($this->record['valid_until']);
         }
         return true;
     }
