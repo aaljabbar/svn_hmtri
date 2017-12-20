@@ -286,8 +286,8 @@
             colModel: [
                 {label: 'ID', name: 'p_reference_list_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
                 {label: 'Reference List ID', name: 'p_reference_list_id', width: 120, sorttype: 'number', editable: true, hidden: true},
-                {label: 'Reference Type', name: 'p_reference_type_id', width: 120, align: "left", editable: true, hidden:false,
-                    editrules: {edithidden: true, required:false},
+                {label: 'Reference Type', name: 'p_reference_type_id', width: 120, align: "left", editable: true, hidden:true,
+                    editrules: {edithidden: false, required:false},
                     //edittype: 'select',
                    /* editoptions: {
                         dataUrl: "<?php echo WS_JQGRID.'preferencetype.preferencelist_controller/html_select_options_roles'; ?>",
@@ -339,14 +339,16 @@
             multiboxonly: true,
             onSelectRow: function (rowid) {
                 /*do something when selected*/
-				var celCode = $('#grid-table-detail').jqGrid('getCell', rowid, 'p_reference_type_id');
+				/*var celCode = $('#grid-table-detail').jqGrid('getCell', rowid, 'p_reference_type_id');
                 if (rowid = null) {
                     grid_detail.jqGrid('setGridParam', {
                         url: "<?php echo WS_JQGRID."preferencetype.preferencelist/validate"; ?>",
                         postData: {p_reference_type_id: celValue}
                     });
                     
-                }
+                }*/
+				var celValue = $('#grid-table-detail').jqGrid('getCell', rowid, 'p_reference_type_id');
+				//alert(celValue);
             },
             sortorder:'',
             pager: '#grid-pager-detail',
@@ -416,11 +418,11 @@
             {
                 //new record form
                 editData: {
-                    user_id: function() {
+                    p_reference_type_id: function() {
                         var selRowId =  $("#grid-table").jqGrid ('getGridParam', 'selrow');
-                        var user_id = $("#grid-table").jqGrid('getCell', selRowId, 'user_id');
-
-                        return user_id;
+                        var p_reference_type_id = $("#grid-table").jqGrid('getCell', selRowId, 'p_reference_type_id');
+						//alert(p_reference_type_id);
+                        return p_reference_type_id;
                     }
                 },
                 serializeEditData: serializeJSON,
