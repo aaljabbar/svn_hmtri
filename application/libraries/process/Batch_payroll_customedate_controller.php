@@ -120,7 +120,6 @@ class Batch_payroll_customedate_controller {
         // $items['invoice_date'] = $invoice_date;
         $items['input_data_class_id'] = 3;
         $items['p_bill_cycle_id'] = 1;
-        //$items['emp_master_id'] = 1;
         $items['file_directory'] = '-';        
         $items['operator_id'] = $userinfo['user_name'];
         $items['is_finish_processed'] = 'N';
