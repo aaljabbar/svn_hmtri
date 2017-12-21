@@ -111,7 +111,12 @@
             dataType: "json",
             data: {payrollsummary_id:payrollsummary_id},
             success: function (data) {
-                console.log(data);
+                //console.log(data);
+                if (data.success){
+                    swal({title: "Success!", text: data.message, html: true, type: "success"});
+                }else{
+                    swal({title: "Error!", text: data.message, html: true, type: "error"});
+                }
                 $("#grid-table").trigger("reloadGrid");
             },
             error: function (xhr, status, error) {
