@@ -12,7 +12,7 @@ class Preferencelist extends Abstract_model {
 
     public $fields          = array(
                                 'p_reference_list_id'     => array('pkey' => true,'nullable' => false, 'type' => 'int', 'unique' => false, 'display' => 'Reference List ID'),
-                                'code'    => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'code'),
+                                'code'    => array('nullable' => false, 'type' => 'str', 'unique' => true, 'display' => 'Code'),
                                 'p_reference_type_id'    => array('nullable' => false, 'type' => 'int', 'unique' => false, 'display' => 'Reference Type ID'),
                                 'reference_name'    => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'Reference Name'),
                                 'listing_no'    => array('nullable' => false, 'type' => 'int', 'unique' => false, 'display' => 'Listing No'),
