@@ -230,7 +230,8 @@ class Flaging_payment_controller {
         //$items = jsonDecode($jsonItems);
 
         //$items = jsonDecode($items);
-
+       // $data['message'] = $items;
+         //   return $data;
         if (!is_array($items)){
             $data['message'] = 'Invalid items parameter';
             return $data;
@@ -412,9 +413,17 @@ class Flaging_payment_controller {
 
         try {
 
+            ////////////////////
+            global $_FILES;
+
             $ci = & get_instance();
             $ci->load->model('process/flaging_payment');
             $table = $ci->flaging_payment;
+
+            
+
+            
+
 
             
             $req_param = array(
@@ -439,6 +448,36 @@ class Flaging_payment_controller {
             $result = $table->getAll();
             $count = count($result);
 
+            //read file excel
+            if(empty($_FILES['filename']['name'])){
+                throw new Exception('File tidak boleh kosong');
+            }
+
+            $typeFile = explode('/',$_FILES['filename']['type']);
+
+            $file_name = $result[0]['emp_name'].'_'.$result[0]['periode'].'.'.$typeFile[1];//$_FILES['filename']['name']; // <-- File Name
+            $file_location = './upload/evidence/'.$file_name; // <-- LOKASI Upload File
+            $file_date = substr($file_name, -8);
+            $file_dir = 'upload/evidence/';
+
+            $allowed =  array('gif','png' ,'jpg','jpeg');
+            $ext = pathinfo($file_name, PATHINFO_EXTENSION);
+
+            if($typeFile[0] != 'image' ) {
+
+                $data['success'] = false;
+                $data['message'] = 'Format File Image, your format '.$typeFile[0];
+
+                return $data;
+            }
+
+            if (!move_uploaded_file($_FILES['filename']['tmp_name'], $file_location)){
+                $data['success'] = false;
+                $data['message'] = 'Upload Gagal';
+
+                return $data;
+            }
+
 
 
             $table->setJQGridParam($req_param);
@@ -459,6 +498,7 @@ class Flaging_payment_controller {
             $result[0]['total_transfer'] = $result[0]['total_transfer'] + $result[0]['tot_remain'];
             $result[0]['payment_status'] = 'TRF';
             $result[0]['tot_remain'] = 0;
+            $result[0]['path_name'] = $file_dir.''.$file_name;
 
             $update = $this->update($result[0]);
 
@@ -467,6 +507,7 @@ class Flaging_payment_controller {
             $data['success'] = $update['success'];
             $data['message'] = $update['message'];
             logging('view data  flaging_payment');
+        
         }catch (Exception $e) {
             $data['message'] = $e->getMessage();
         }

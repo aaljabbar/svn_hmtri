@@ -36,6 +36,8 @@
     </div>
 </div>
 
+<?php $this->load->view('lov/lov_upload_file_parollSumary'); ?>
+
 <script type="text/javascript">
     function find(){
         var p_finance_period_id = $('#p_finance_period_id').val();
@@ -125,6 +127,10 @@
         });
     } 
 
+    function paymentLov(payrollsummary_id){
+        modal_lov_uploadSumay_show(payrollsummary_id);
+    } 
+
 </script>
 
 
@@ -195,7 +201,9 @@
 
 
                         if (payment_status == null ){
-                            return '<a class="btn btn-danger btn-xs" href="#" onclick="payment('+payrollsummary_id+');">Pay</a>';
+                            //return '<a class="btn btn-danger btn-xs" href="#" onclick="payment('+payrollsummary_id+');">Transfer</a>';
+
+                            return '<a class="btn btn-danger btn-xs" href="#" onclick="paymentLov('+payrollsummary_id+');">Transfer</a>';
                         } 
                         
                         return '';

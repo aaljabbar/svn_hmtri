@@ -20,6 +20,7 @@ class Flaging_payment extends Abstract_model {
  								'created_by'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Created By' ),
  								'update_date'=> array (  'type' => 'date' , 'nullable' => true , 'unique' => false , 'display' =>  'Update Date' ),
  								'payment_status'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Payment Status' ),
+                                'path_name'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Path Name' ),
  								'total_transfer'=> array (  'type' => 'int' , 'nullable' => true , 'unique' => false , 'display' =>  'Total Transfer' ),
  								'tot_remain'=> array (  'type' => 'int' , 'nullable' => true , 'unique' => false , 'display' =>  'Tot Remain' ),
  								'tot_mny'=> array (  'type' => 'int' , 'nullable' => true , 'unique' => false , 'display' =>  'Tot Mny' )
