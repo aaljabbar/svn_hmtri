@@ -128,7 +128,7 @@
         dataType: "json",
         data: {},
         success: function (data) {
-            console.log(data.items);
+            //console.log(data.items);
             $("#comboDoc").html(data.items);
         },
         error: function (xhr, status, error) {

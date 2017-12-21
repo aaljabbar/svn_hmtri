@@ -78,7 +78,7 @@
         dataType: "json",
         data: {},
         success: function (data) {
-            console.log(data.items);
+            //console.log(data.items);
             $("#comboYear").html(data.items);
         },
         error: function (xhr, status, error) {
@@ -92,7 +92,7 @@
         dataType: "json",
         data: {},
         success: function (data) {
-            console.log(data.items);
+            //console.log(data.items);
             $("#comboPeriod").html(data.items);
         },
         error: function (xhr, status, error) {
@@ -109,7 +109,7 @@
             dataType: "json",
             data: {year:p_year_period_id},
             success: function (data) {
-                console.log(data.items);
+                //console.log(data.items);
                 $("#comboPeriod").html(data.items);
             },
             error: function (xhr, status, error) {

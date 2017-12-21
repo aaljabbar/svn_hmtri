@@ -58,7 +58,7 @@
         dataType: "json",
         data: {},
         success: function (data) {
-            console.log(data.items);
+            //console.log(data.items);
             $("#combo").html(data.items);
         },
         error: function (xhr, status, error) {
@@ -81,19 +81,19 @@
             colModel: [
 				{label: 'ID', name: 'bussinessunit_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
                 {label: 'Bussiness Unit', name: 'bu_name',  width: 100, editable: true},
-                {label: 'Year',name: 'tahun_before' ,width: 100, align: 'right',editable: true,
+                {label: 'Year Before',name: 'tahun_before' ,width: 100, align: 'right',editable: true,
                       editoptions:{
                              size: 30,
                              maxlength:22
                      },editrules: {required: false}
                  }, 
-                {label: 'Exp Amount',name: 'exp_amount_before' ,width: 100, align: 'right',editable: true,formatter:'currency', formatoptions: {prefix:"", thousandsSeparator:','},
+                {label: 'Exp Amount Before',name: 'exp_amount_before' ,width: 100, align: 'right',editable: true,formatter:'currency', formatoptions: {prefix:"", thousandsSeparator:','},
                       editoptions:{
                              size: 30,
                              maxlength:22
                      },editrules: {required: false}
                  },                
- 				{label: 'Year',name: 'tahun' ,width: 100, align: 'right',editable: true,
+ 				{label: 'Year ',name: 'tahun' ,width: 100, align: 'right',editable: true,
   					  editoptions:{
    						     size: 30,
   						     maxlength:22

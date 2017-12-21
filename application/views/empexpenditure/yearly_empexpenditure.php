@@ -67,7 +67,7 @@
         dataType: "json",
         data: {},
         success: function (data) {
-            console.log(data.items);
+            //console.log(data.items);
             $("#combo").html(data.items);
         },
         error: function (xhr, status, error) {
