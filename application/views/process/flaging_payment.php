@@ -37,6 +37,7 @@
 </div>
 
 <?php $this->load->view('lov/lov_upload_file_parollSumary'); ?>
+<?php $this->load->view('lov/lov_show_picture'); ?>
 
 <script type="text/javascript">
     function find(){
@@ -131,6 +132,10 @@
         modal_lov_uploadSumay_show(payrollsummary_id);
     } 
 
+    function showPicture(path_name){
+        modal_lov_show_picture_show(path_name);
+    }
+
 </script>
 
 
@@ -198,15 +203,18 @@
                     formatter:function(cellvalue, options, rowObject) {
                         var payrollsummary_id = rowObject['payrollsummary_id'];
                         var payment_status = rowObject['payment_status'];
+                        var path_name = rowObject['path_name'];
 
 
                         if (payment_status == null ){
                             //return '<a class="btn btn-danger btn-xs" href="#" onclick="payment('+payrollsummary_id+');">Transfer</a>';
 
-                            return '<a class="btn btn-danger btn-xs" href="#" onclick="paymentLov('+payrollsummary_id+');">Transfer</a>';
-                        } 
+                            return '<a class="btn btn-danger btn-xs radius-4" href="#" onclick="paymentLov('+payrollsummary_id+');">Transfer</a>';
+                        }else{
+                            return '<a class="btn btn-sm green-jungle radius-4 btn-xs" href="#" onclick="showPicture(\''+path_name+'\');">View</a>';
+                        }
                         
-                        return '';
+                        
                         
                         
                     }

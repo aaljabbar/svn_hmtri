@@ -4,7 +4,7 @@
             <!-- modal title -->
             <div class="modal-header no-padding">
                 <div class="table-header">
-                    <span class="form-add-edit-title"> DOKUMEN PENDUKUNG </span>
+                    <span class="form-add-edit-title"> Evidence </span>
                 </div>
             </div>
 
@@ -45,11 +45,11 @@
 		                    <div class="bootstrap-dialog-footer-buttons">
 		                        <button class="btn btn-sm green-jungle radius-4">
 		                            <i class="ace-icon fa fa-check"></i>
-		                            Submit
+		                            Save
 		                        </button>
 		                        <button class="btn btn-danger btn-sm radius-4" data-dismiss="modal">
 		                            <i class="fa fa-times"></i>
-		                            Tutup
+		                            Close
 		                        </button>
 		                    </div>
 		                </div>

@@ -453,9 +453,9 @@ class Flaging_payment_controller {
                 throw new Exception('File tidak boleh kosong');
             }
 
-            $typeFile = explode('/',$_FILES['filename']['type']);
+            //$tes = explode('/',$_FILES['filename']['type'])
 
-            $file_name = $result[0]['emp_name'].'_'.$result[0]['periode'].'.'.$typeFile[1];//$_FILES['filename']['name']; // <-- File Name
+            $file_name = $result[0]['emp_name'].'_'.$result[0]['periode'].'_'.$_FILES['filename']['name']; // <-- File Name
             $file_location = './upload/evidence/'.$file_name; // <-- LOKASI Upload File
             $file_date = substr($file_name, -8);
             $file_dir = 'upload/evidence/';
@@ -463,10 +463,10 @@ class Flaging_payment_controller {
             $allowed =  array('gif','png' ,'jpg','jpeg');
             $ext = pathinfo($file_name, PATHINFO_EXTENSION);
 
-            if($typeFile[0] != 'image' ) {
+            if(!in_array($ext,$allowed) ) {
 
                 $data['success'] = false;
-                $data['message'] = 'Format File Image, your format '.$typeFile[0];
+                $data['message'] = 'Format File gif,png,jpg,jpeg. ';
 
                 return $data;
             }
