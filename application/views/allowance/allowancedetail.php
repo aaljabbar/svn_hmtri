@@ -14,18 +14,18 @@
 <div class="space-4"></div>
 <div class="row">
     <div class="col-md-12">
-        <table id="grid-table"></table>
-        <div id="grid-pager"></div>
+        <table id="grid-table-detail"></table>
+        <div id="grid-pager-detail"></div>
     </div>
 </div>
 
 <script>
 
     jQuery(function($) {
-        var grid_selector = "#grid-table";
-        var pager_selector = "#grid-pager";
+        var grid_selector = "#grid-table-detail";
+        var pager_selector = "#grid-pager-detail";
 
-        jQuery("#grid-table").jqGrid({
+        jQuery("#grid-table-detail").jqGrid({
             url: '<?php echo WS_JQGRID."allowance.allowancedetail_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
@@ -78,7 +78,7 @@
 
             },
             sortorder:'',
-            pager: '#grid-pager',
+            pager: '#grid-pager-detail',
             jsonReader: {
                 root: 'rows',
                 id: 'id',
@@ -96,7 +96,7 @@
 
         });
 
-        jQuery('#grid-table').jqGrid('navGrid', '#grid-pager',
+        jQuery('#grid-table-detail').jqGrid('navGrid', '#grid-pager-detail',
             {   //navbar options
                 edit: true,
                 editicon: 'fa fa-pencil blue bigger-120',

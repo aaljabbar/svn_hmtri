@@ -29,16 +29,22 @@ class Empsalary extends Abstract_model {
 									empsal.empsalary_id,
  									empsal.emp_master_id,
  									empsal.salary,
- 									empsal.pay_date,
  									empsal.valid_from,
  									empsal.valid_until,
  									empsal.created_date,
  									empsal.created_by,
  									empsal.update_by,
  									empsal.update_date,
- 									empsal.p_reference_list_id
+ 									empsal.p_reference_list_id,
+                                    emp.emp_name, 
+                                    emp.nik,
+                                    reference_name
+
                                 ";
-    public $fromClause      = " empsalary empsal ";
+    public $fromClause      = " empsalary empsal 
+                                join empmaster emp on empsal.emp_master_id = emp.emp_master_id
+                                join preferencelist c on empsal.p_reference_list_id = c.p_reference_list_id
+                                ";
 
     public $refs            = array();
 

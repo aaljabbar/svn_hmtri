@@ -185,4 +185,44 @@ function getParameterListByCode3($code){
     return $data;
 }
 
+function getDataRef1($table){
+    $ci =& get_instance();
+    $ci->load->model('helper/helper_util');
+    $table = $ci->helper_util;
+    $result = $table->getDataref1($table);
+    //$data = "<option value=''> </option>";
+    $data = "<select>";
+    foreach ($result as $value) {
+        $data .= "<option value='" . $value['id'] . "'>" . strtoupper($value['name']) . "</option>";
+    }
+    $data .= "</select>";
+    return $data;
+}
+function getDataRef2($table){
+    $ci =& get_instance();
+    $ci->load->model('helper/helper_util');
+    $table = $ci->helper_util;
+    $result = $table->getDataref2($table);
+    //$data = "<option value=''> </option>";
+    $data = "<select >";
+    foreach ($result as $value) {
+        $data .= "<option value='" . $value['id'] . "'>" . strtoupper($value['name']) . "</option>";
+    }
+    $data .= "</select>";
+    return $data;
+}
+
+function getDataRef3($table){
+    $ci =& get_instance();
+    $ci->load->model('helper/helper_util');
+    $table = $ci->helper_util;
+    $result = $table->getDataref1($table);
+    //$data = "<option value=''> </option>";
+    $data = '<option>-- Choose Allowance Type --</option>';
+    foreach ($result as $value) {
+        $data .= "<option value='" . $value['id'] . "'>" . strtoupper($value['name']) . "</option>";
+    }
+    return $data;
+}
+
 ?>

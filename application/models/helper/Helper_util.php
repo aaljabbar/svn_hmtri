@@ -38,6 +38,25 @@ class Helper_util extends Abstract_model {
             return $q->result_array();
     }
 
+    function getDataref1($table){
+     
+        $sql = "
+            SELECT ALLOWANCE_TYPE_ID id, DESC_ALLOWANCE name  from allowancetype " ;
+     
+            //die($sql);
+            $q = $this->db->query($sql);
+            return $q->result_array();
+    }
+    function getDataref2($table){
+    
+        $sql = "
+           SELECT ALLOWANCETRF_ID id, TRF_AMOUNT name 
+              from allowancetariff " ;
+            //die($sql);
+            $q = $this->db->query($sql);
+            return $q->result_array();
+    }
+
 }
 
 /* End of file Icons.php */

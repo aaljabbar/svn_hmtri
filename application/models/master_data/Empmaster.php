@@ -50,7 +50,8 @@ class Empmaster extends Abstract_model {
  									emp.tmpt_lhr,
  									emp.start_dat,
  									emp.end_dat,
- 									emp.status,
+                                    emp.status stat,
+ 									b.reference_name status,
  									emp.emp_code,
  									emp.bpjs_tk_code,
  									emp.bpjs_kes_code,
@@ -60,7 +61,9 @@ class Empmaster extends Abstract_model {
  									emp.update_by,
                                     emp.jenis_kelamin
                                 ";
-    public $fromClause      = " empmaster emp ";
+    public $fromClause      = " empmaster emp 
+                                left join preferencelist b on p_reference_list_id = emp.status and p_reference_type_id = 6
+                            ";
 
     public $refs            = array();
 

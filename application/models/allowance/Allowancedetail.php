@@ -15,7 +15,7 @@ class Allowancedetail extends Abstract_model {
 								'allowancedet_id'=> array (  'pkey' => true,  'type' => 'int' , 'nullable' => false , 'unique' => false , 'display' =>  'Allowancedet Id' ),
  								'allow_batch_id'=> array (  'type' => 'int' , 'nullable' => true , 'unique' => false , 'display' =>  'Allow Batch Id' ),
  								'allowance_type_id'=> array (  'type' => 'int' , 'nullable' => true , 'unique' => false , 'display' =>  'Allowance Type Id' ),
- 								'allowance_dat'=> array (  'type' => 'date' , 'nullable' => true , 'unique' => false , 'display' =>  'Allowance Dat' ),
+ 								'allowance_dat'=> array (  'type' => 'date' , 'nullable' => true , 'unique' => true , 'display' =>  'Allowance Dat' ),
  								'description'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Description' ),
  								'created_date'=> array (  'type' => 'date' , 'nullable' => true , 'unique' => false , 'display' =>  'Created Date' ),
  								'created_by'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Created By' ),
@@ -34,9 +34,14 @@ class Allowancedetail extends Abstract_model {
  									allowancedetail.created_by,
  									allowancedetail.update_by,
  									allowancedetail.update_date,
- 									allowancedetail.allowancetrf_id
+ 									allowancedetail.allowancetrf_id,
+                                    b.desc_allowance,
+                                    c.trf_amount
                                 ";
-    public $fromClause      = " allowancedetail allowancedetail ";
+    public $fromClause      = " allowancedetail allowancedetail
+                                join allowancetype b on allowancedetail.allowance_type_id = b.allowance_type_id
+                                left join allowancetariff c on allowancedetail.allowancetrf_id = c.allowancetrf_id
+     ";
 
     public $refs            = array();
 
@@ -57,6 +62,15 @@ class Allowancedetail extends Abstract_model {
             $this->record['updated_date'] = date('Y-m-d');
             $this->record['updated_by'] = $userdata['user_name'];
             */
+            $this->record['created_by'] = $userdata['user_name'];
+
+            $this->db->set('allowance_dat',"to_date('".$this->record['allowance_dat']."','yyyy-mm-dd')",false);
+            $this->db->set('allowancetrf_id',$this->getAllowanceTariffById($this->record['allowance_type_id']),false);
+            $this->db->set('created_date',"sysdate",false);
+
+            unset($this->record['allowance_dat']);
+            unset($this->record['allowancetrf_id']);
+
             $this->record[$this->pkey] = $this->generate_id($this->table, $this->pkey);
 
         }else {
@@ -65,10 +79,30 @@ class Allowancedetail extends Abstract_model {
             /* $this->record['updated_date'] = date('Y-m-d');
             $this->record['updated_by'] = $userdata['user_name']; */
             //if false please throw new Exception
+            $this->db->set('allowancetrf_id',$this->getAllowanceTariffById($this->record['allowance_type_id']),false);
+            $this->db->set('update_date',"sysdate",false);
+
+            $this->record['update_by'] = $userdata['user_name'];
+            unset($this->record['allowancetrf_id']);
         }
         return true;
     }
+   
+    function getAllowanceTariffById($id){
+        $sql = "   SELECT ALLOWANCETRF_ID
+                        from allowancetariff 
+                        where ALLOWANCE_TYPE_ID = ?
+                        and rownum = 1
+                ";
+                 //die($sql);
+        $query = $this->db->query($sql, array($id));
 
+        foreach ($query->result_array() as $row)
+        {
+           $ret = $row['allowancetrf_id'];
+        }
+        return $ret;
+    }
 }
 
 /* End of file Icons.php */

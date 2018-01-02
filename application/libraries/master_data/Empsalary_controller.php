@@ -12,7 +12,7 @@ class Empsalary_controller {
         $limit = getVarClean('rows','int',5);
         $sidx = getVarClean('sidx','str','empsalary_id');
         $sord = getVarClean('sord','str','desc');
-
+        $celValue = getVarClean('celValue','str','0');
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
         try {
@@ -36,7 +36,7 @@ class Empsalary_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array();
+            $req_param['where'] = array("empsal.emp_master_id = ".$celValue);
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();

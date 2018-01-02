@@ -6,12 +6,24 @@
 */
 class Allowancedetail_controller {
 
+    public function getListParam1(){
+        $table  = getVarClean('table','str','0');
+        echo getDataref1($table);
+        exit();
+    }
+    public function getListParam2(){
+        $table  = getVarClean('table','str','0');
+        echo getDataref2($table);
+        exit();
+    }
+
     function read() {
 
         $page = getVarClean('page','int',1);
         $limit = getVarClean('rows','int',5);
         $sidx = getVarClean('sidx','str','allowancedet_id');
         $sord = getVarClean('sord','str','desc');
+        $celValue = getVarClean('celValue','str','0');
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -36,7 +48,7 @@ class Allowancedetail_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array();
+            $req_param['where'] = array( "allow_batch_id = ".$celValue );
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
@@ -137,7 +149,77 @@ class Allowancedetail_controller {
         return $data;
     }
 
+    function createForm($dataJson) {
 
+        $ci = & get_instance();
+        $ci->load->model('allowance/allowancedetail');
+        $table = $ci->allowancedetail;
+
+        $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
+
+        $jsonItems = json_encode($dataJson);
+        $items = jsonDecode($jsonItems);
+
+        if (!is_array($items)){
+            $data['message'] = 'Invalid items parameter';
+            return $data;
+        }
+
+        $table->actionType = 'CREATE';
+        $errors = array();
+
+        if (isset($items[0])){
+            $numItems = count($items);
+            for($i=0; $i < $numItems; $i++){
+                try{
+
+                    $table->db->trans_begin(); //Begin Trans
+
+                        $table->setRecord($items[$i]);
+                        $table->create();
+
+                    $table->db->trans_commit(); //Commit Trans
+
+                }catch(Exception $e){
+
+                    $table->db->trans_rollback(); //Rollback Trans
+                    $errors[] = $e->getMessage();
+                }
+            }
+
+            $numErrors = count($errors);
+            if ($numErrors > 0){
+                $data['message'] = $numErrors." from ".$numItems." record(s) failed to be saved.<br/><br/><b>System Response:</b><br/>- ".implode("<br/>- ", $errors)."";
+            }else{
+                $data['success'] = true;
+                $data['message'] = 'Data added successfully';
+            }
+            $data['rows'] =$items;
+        }else {
+
+            try{
+                $table->db->trans_begin(); //Begin Trans
+
+                    $table->setRecord($items);
+                    $table->create();
+
+                $table->db->trans_commit(); //Commit Trans
+
+                $data['success'] = true;
+                $data['message'] = 'Data added successfully';
+                logging('create data allowancedetail');
+
+            }catch (Exception $e) {
+                $table->db->trans_rollback(); //Rollback Trans
+
+                $data['message'] = $e->getMessage();
+                $data['rows'] = $items;
+            }
+
+        }
+        return $data;
+
+    }
     function create() {
 
         $ci = & get_instance();

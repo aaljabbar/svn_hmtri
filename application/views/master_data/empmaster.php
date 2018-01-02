@@ -17,12 +17,7 @@
 </div>
 <!-- end breadcrumb -->
 <div class="space-4"></div>
-<div class="row">
-    <div class="col-md-12">
-        <table id="grid-table"></table>
-        <div id="grid-pager"></div>
-    </div>
-</div>
+
 
 <div class="space-4"></div>
 
@@ -43,17 +38,33 @@
         <div class="portlet-body form">
                 <ul class="nav nav-tabs ">
                     <li class="active">
-                        <a href="#tab_5_1" data-toggle="tab"> <b>Personal Info</b> </a>
+                        <a href="#tab_5_4" data-toggle="tab"> <b>Employee Data</b> </a>
                     </li>
-                    <li>
-                        <a href="#tab_5_2" data-toggle="tab"> <b>Detail Info</b> </a>
+                    <li class="" >
+                        <a href="#tab_5_1" id="litab_5_1" data-toggle="tab"> <b>Personal Info</b> </a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="#tab_5_3" data-toggle="tab"> <b>Salary</b> </a>
-                    </li>
+                    </li> -->
                 </ul>
                 <div class="tab-content">
-                <div class="tab-pane active" id="tab_5_1">
+                <div class="tab-pane active" id="tab_5_4">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table id="grid-table"></table>
+                            <div id="grid-pager"></div>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="row">
+                        <div class="col-md-12" id="detail_placeholder" style="display:none;">
+                            <table id="grid-table_salary"></table>
+                            <div id="grid-pager_salary"></div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="temp_cellValue" name="">
+                </div>
+                <div class="tab-pane " id="tab_5_1">
                     <div class="space-4"></div>
                     <!-- BEGIN FORM-->
                         <form action="#" class="form-horizontal" id="form_data" method="post" enctype="multipart/form-data" accept-charset="utf-8">
@@ -127,6 +138,29 @@
                                                     <textarea id="address" name="address" required class="form-control required" rows="3"></textarea> </div>
                                             </div>
                                         </div>
+                                     
+                               <!--  <h5><b>Finance</b></h5>
+                                    <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Salary Rate</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" id="salary_rate" name="salary_rate" > </div>
+                                            </div>
+                                        </div>
+                                    <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Salary Valid From</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control datepickerform" id="valid_from" name="valid_from" > </div>
+                                            </div>
+                                        </div>
+                                    <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Payment Date</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control datepickerform" id="payment_date" name="payment_date" > </div>
+                                            </div>
+                                        </div> -->
                                     </div>
                                     <div class="col-md-5">
                                         <div class="col-md-12">
@@ -155,7 +189,31 @@
                                                         <input type="text" id="start_dat" name="start_dat" required class="form-control datepickerform required"> </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Status</label>
+                                                    <div class="col-md-9">
+                                                        <select id="status" name="status" required class="form-control required">
+                                                            <?php echo  getParameterListByCode2('6'); ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">BPJS TK Code</label>
+                                                    <div class="col-md-9">
+                                                        <input type="text" name="bpjs_tk_code" id="bpjs_tk_code" class="form-control"> </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">BPJS Kes Code</label>
+                                                    <div class="col-md-9">
+                                                        <input type="text" name="bpjs_kes_code" id="bpjs_kes_code" class="form-control"> </div>
+                                                </div>
+                                            </div>
+                                            </div>
                                     </div>
 
                                 </div>
@@ -176,127 +234,8 @@
                         </form>
                         <!-- END FORM-->
                     </div>
-                    <div class="tab-pane" id="tab_5_2">
-                        <div class="space-4"></div>
-                    <!-- BEGIN FORM-->
-                        <form action="#" class="form-horizontal" id="form_data_2">
-                            <div class="form-body">
-                                <!--/row-->
-                                 <h5><b>Detail Info </b></h5>
-                                <div class="row">
-                                <div class="col-md-6">
-                                    <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">Status</label>
-                                                <div class="col-md-9">
-                                                    <select id="status" name="status" required class="form-control required">
-                                                        <?php echo  getParameterListByCode2('6'); ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="col-md-12">
-
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <h5><b>Finance </b></h5>
-
-                                <div class="row">
-                                <div class="col-md-6">
-                                    <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">Salary Rate</label>
-                                                <div class="col-md-9">
-                                                    <input type="text" class="form-control"> </div>
-                                            </div>
-                                        </div>
-                                    <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">Valid From</label>
-                                                <div class="col-md-9">
-                                                    <input type="text" class="form-control"> </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">BPJS Tk</label>
-                                                <div class="col-md-9">
-                                                    <input type="text" name="bpjs_tk_code" id="bpjs_tk_code" class="form-control"> </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">BPJS Kesehatan</label>
-                                                <div class="col-md-9">
-                                                    <input type="text" name="bpjs_kes_code" id="bpjs_kes_code" class="form-control"> </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">Salary Payment Date</label>
-                                                <div class="col-md-9">
-                                                    <input type="text" class="form-control"> </div>
-                                            </div>
-                                        </div>
-                                         <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">Bank Name</label>
-                                                <div class="col-md-9">
-                                                    <input type="text" class="form-control"> </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">Bank Account</label>
-                                                <div class="col-md-9">
-                                                    <input type="text" class="form-control"> </div>
-                                            </div>
-                                        </div>
-                                        <!-- <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">Account Name</label>
-                                                <div class="col-md-9">
-                                                    <input type="text" class="form-control"> </div>
-                                            </div>
-                                        </div> -->
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="form-actions">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            <div class="col-md-offset-3 col-md-9">
-                                                <button type="submit" class="btn green">Submit</button>
-                                                <button type="button" class="btn default">Reset</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6"> </div>
-
-                                </div>
-                            </div>
-                        </form>
-                        <!-- END FORM-->
-                    </div>
                     <div class="tab-pane" id="tab_5_3">
-                        <div class="space-4"></div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <table id="grid-table_salary"></table>
-                                    <div id="grid-pager_salary"></div>
-                                </div>
-                            </div>
+                        
                     </div>
                 </div>
 
@@ -336,6 +275,10 @@
      $('#update_date').val( $('#grid-table').jqGrid('getCell', rowid, 'update_date') );
      $('#update_by').val( $('#grid-table').jqGrid('getCell', rowid, 'update_by') );*/
 
+  }
+  function newDataForm(){
+    $('#litab_5_1').trigger('click');
+    resetForm('form_data');
   }
   function resetForm(form){
     $('#'+form)[0].reset();
@@ -526,6 +469,22 @@
                 /*do something when selected*/
                 $('#temp_rowid').val(rowid);
                 loadDataEmp(rowid);
+                var celValue = $('#grid-table').jqGrid('getCell', rowid, 'emp_master_id');
+                var celCode = $('#grid-table').jqGrid('getCell', rowid, 'emp_name');
+
+                var grid_detail = jQuery("#grid-table_salary");
+                if (rowid != null) {
+                    grid_detail.jqGrid('setGridParam', {
+                        url: "<?php echo WS_JQGRID."master_data.empsalary_controller/crud"; ?>",
+                        postData: {celValue: celValue}
+                    });
+                    var strCaption = 'Salary  :: ' + celCode;
+                    grid_detail.jqGrid('setCaption', strCaption);
+                    $("#temp_cellValue").val(celValue);
+                    $("#grid-table_salary").trigger("reloadGrid");
+                    $("#detail_placeholder").show();
+                }
+                responsive_jqgrid("#grid-table_salary", "#grid-pager_salary");
             },
             sortorder:'',
             pager: '#grid-pager',
@@ -548,9 +507,9 @@
 
         jQuery('#grid-table').jqGrid('navGrid', '#grid-pager',
             {   //navbar options
-                edit: true,
+                edit: false,
                 editicon: 'fa fa-pencil blue bigger-120',
-                add: true,
+                add: false,
                 addicon: 'fa fa-plus-circle purple bigger-120',
                 del: true,
                 delicon: 'fa fa-trash-o red bigger-120',
@@ -566,7 +525,6 @@
                 view: false,
                 viewicon: 'fa fa-search-plus grey bigger-120'
             },
-
             {
                 // options for the Edit Dialog
                 closeAfterEdit: true,
@@ -669,8 +627,17 @@
                     var form = $(e[0]);
                 }
             }
-        );
 
+        )
+        .navButtonAdd('#grid-pager',{
+           caption:"", 
+           buttonicon:'fa fa-plus-circle purple bigger-120', 
+           onClickButton: function(){ 
+             newDataForm();
+           }, 
+           position:"first"
+        });
+        
     });
 
     function responsive_jqgrid(grid_selector, pager_selector) {
@@ -693,44 +660,98 @@
             datatype: "json",
             mtype: "POST",
             colModel: [
-				{label: 'ID', name: 'empsalary_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
- 				{label: 'Emp Master Id',name: 'emp_master_id' ,width: 100, align: 'right',editable: true,
-  					  editoptions:{
-   						     size: 30,
-  						     maxlength:22
-  					 },editrules: {required: false}
-   				 },
- 				{label: 'Salary',name: 'salary' ,width: 100, align: 'right',editable: true,
-  					  editoptions:{
-   						     size: 30,
-  						     maxlength:22
-  					 },editrules: {required: false}
-   				 },
- 				{label: 'Pay Date',name: 'pay_date' ,width: 100, align: 'left',editable: true,
-  					  editoptions:{
-   						     size: 30,
-  						     maxlength:7
-  					 },editrules: {required: false}
-   				 },
- 				{label: 'Valid From',name: 'valid_from' ,width: 100, align: 'left',editable: true,
-  					  editoptions:{
-   						     size: 30,
-  						     maxlength:7
-  					 },editrules: {required: false}
-   				 },
- 				{label: 'Valid Until',name: 'valid_until' ,width: 100, align: 'left',editable: true,
-  					  editoptions:{
-   						     size: 30,
-  						     maxlength:7
-  					 },editrules: {required: false}
-   				 },
- 				{label: 'P Reference List Id',name: 'p_reference_list_id' ,width: 100, align: 'right',editable: true,
-  					  editoptions:{
-   						     size: 30,
-  						     maxlength:22
-  					 },editrules: {required: false}
-   				 }
-
+                {label: 'ID', name: 'empsalary_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true}, 
+                {label: 'Emp Master Id',name: 'emp_master_id' ,width: 100, align: 'right',editable: false,hidden:true,
+                      editoptions:{
+                             size: 30,
+                             maxlength:22
+                     },editrules: {required: false}
+                 }, 
+                 {label: 'Nik',name: 'nik' ,width: 100, align: 'left',editable: false,hidden:true,
+                      editoptions:{
+                             size: 30,
+                             maxlength:22
+                     },editrules: {required: false}
+                 }, 
+                 {label: 'Emp Name',name: 'emp_name' ,width: 100, align: 'left',editable: false,hidden:true,
+                      editoptions:{
+                             size: 30,
+                             maxlength:22
+                     },editrules: {required: false}
+                 }, 
+                 {label: 'Salary',name: 'salary' ,width: 100, align: 'right',editable: true,hidden:true,
+                      editoptions:{
+                             size: 30,
+                             maxlength:22
+                     },editrules: {edithidden: true, required: true}
+                 }, 
+                {label: 'Salary',name: 'salary' ,width: 100, align: 'right',editable: false,
+                      editoptions:{
+                             size: 30,
+                             maxlength:22
+                     },editrules: {required: true},
+                     formatter:'currency', formatoptions:{decimalSeparator:",", thousandsSeparator: ".", decimalPlaces: 0, prefix: " "},
+                 }, 
+                 {label: 'Valid From',name: 'valid_from' ,width: 100, align: 'left',editable: true,
+                    editoptions: {
+                            dataInit: function (element) {
+                                $(element).prop('readonly',true);
+                                $(element).datepicker({
+                                    autoclose: true,
+                                    format: 'yyyy-mm-dd',
+                                    orientation: 'up',
+                                    todayHighlight: true
+                                });
+                            },
+                            size: 25
+                        },editrules: {required: true}
+                 }, 
+                 {label: 'Valid Until',name: 'valid_until' ,width: 100, align: 'left',editable: true,
+                    editoptions: {
+                            dataInit: function (element) {
+                                $(element).prop('readonly',true);
+                                $(element).datepicker({
+                                    autoclose: true,
+                                    format: 'yyyy-mm-dd',
+                                    orientation: 'up',
+                                    todayHighlight: true
+                                });
+                            },
+                            size: 25
+                        },editrules: {required: false}
+                 }, 
+                 {
+                    label: 'Payment Type',
+                    name: 'p_reference_list_id',
+                    width: 150,
+                    align: "left",
+                    editable: true,
+                    edittype: 'select',
+                    hidden: true,
+                    editrules: {edithidden: true, required: true},
+                    editoptions: {dataUrl: '<?php echo WS_JQGRID.'allowance.allowancetariff_controller/getListParam'; ?>',
+                        postData: function (rowid) {
+                            paramid = 5;
+                            return { paramid: paramid };
+                        },
+                        dataInit: function (elem) {
+                            $(elem).width(240);  // set the width which you need
+                        }
+                    }
+                },
+                {label: 'Payment Type',name: 'reference_name' ,width: 100, align: 'left',editable: false,hidden:false,
+                      editoptions:{
+                             size: 30,
+                             maxlength:22
+                     },editrules: {required: false}
+                 },
+                {label: 'P Reference List Id',name: 'p_reference_list_id' ,width: 100, align: 'right',editable: false,hidden:true,
+                      editoptions:{
+                             size: 30,
+                             maxlength:22
+                     },editrules: {required: false}
+                 }
+              
             ],
             height: '100%',
             autowidth: true,
