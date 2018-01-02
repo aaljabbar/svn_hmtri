@@ -4,7 +4,7 @@
             <!-- modal title -->
             <div class="modal-header no-padding">
                 <div class="table-header">
-                    <span class="form-add-edit-title"> Evidence </span>
+                    <span class="form-add-edit-title"> Picture </span>
                 </div>
             </div>
 

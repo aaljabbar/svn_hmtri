@@ -419,12 +419,6 @@ class Flaging_payment_controller {
             $ci = & get_instance();
             $ci->load->model('process/flaging_payment');
             $table = $ci->flaging_payment;
-
-            
-
-            
-
-
             
             $req_param = array(
                 "sort_by" => null,
@@ -452,8 +446,6 @@ class Flaging_payment_controller {
             if(empty($_FILES['filename']['name'])){
                 throw new Exception('File tidak boleh kosong');
             }
-
-            //$tes = explode('/',$_FILES['filename']['type'])
 
             $file_name = $result[0]['emp_name'].'_'.$result[0]['periode'].'_'.$_FILES['filename']['name']; // <-- File Name
             $file_location = './upload/evidence/'.$file_name; // <-- LOKASI Upload File

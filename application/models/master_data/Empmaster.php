@@ -59,7 +59,8 @@ class Empmaster extends Abstract_model {
  									emp.created_date,
  									emp.update_date,
  									emp.update_by,
-                                    emp.jenis_kelamin
+                                    emp.jenis_kelamin,
+                                    emp.next_pay_dtm
                                 ";
     public $fromClause      = " empmaster emp 
                                 left join preferencelist b on p_reference_list_id = emp.status and p_reference_type_id = 6

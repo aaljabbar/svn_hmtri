@@ -82,6 +82,8 @@
     });
 
 </script>
+<?php $this->load->view('lov/lov_upload_file_allowance'); ?>
+<?php $this->load->view('lov/lov_show_picture'); ?>
 <script>
 
     jQuery(function($) {
@@ -163,6 +165,12 @@
                      },editrules: {required: false}
                  },
                 {label: 'End Dat',name: 'end_dat' ,width: 100, align: 'left',editable: true,
+                      editoptions:{
+                             size: 30,
+                             maxlength:7
+                     },editrules: {required: false}
+                 },
+                 {label: 'Next Pay dtm',name: 'next_pay_dtm' ,width: 100, align: 'left',editable: true,
                       editoptions:{
                              size: 30,
                              maxlength:7
@@ -388,6 +396,14 @@
 
     }
 
+    function paymentLov(allow_batch_id){
+        modal_lov_upload_show(allow_batch_id);
+    }
+
+    function showPicture(path_name){
+        modal_lov_show_picture_show(path_name);
+    }
+
 </script>
 <script>
 
@@ -401,31 +417,47 @@
             mtype: "POST",
             colModel: [
                 {label: 'ID', name: 'allow_batch_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true}, 
-				{label: 'Batch Number', name: 'allow_batch_id',  width: 50, sorttype: 'number', editable: false, hidden: false}, 
- 				{label: 'Emp Master Id',name: 'emp_master_id' ,width: 100, align: 'left',editable: true,hidden:true,
-  					  editoptions:{
-   						     size: 30,
-  						     maxlength:22
-  					 },editrules: {required: false}
-   				 }, 
-                 {label: 'Name',name: 'emp_name' ,width: 100, align: 'left',editable: true,
+        				{label: 'Batch Number', name: 'allow_batch_id',  width: 50, sorttype: 'number', editable: false, hidden: false},
+                {name: 'Options',width: 100, align: "center",
+                  formatter:function(cellvalue, options, rowObject) {
+                      var allow_batch_id = rowObject['allow_batch_id'];
+                      var status = rowObject['status'];
+                      var path_name = rowObject['path_name'];
+
+
+                      if (path_name == null && (status == null || status == 'TRF' )){
+                          //return '<a class="btn btn-danger btn-xs" href="#" onclick="payment('+payrollsummary_id+');">Transfer</a>';
+
+                          return '<a class="btn btn-danger btn-xs radius-4" href="#" onclick="paymentLov('+allow_batch_id+');">Transfer</a>';
+                      }else{
+                          return '<a class="btn btn-sm green-jungle radius-4 btn-xs" href="#" onclick="showPicture(\''+path_name+'\');">View</a>';
+                      }
+                  }
+                },
+         				{label: 'Emp Master Id',name: 'emp_master_id' ,width: 100, align: 'left',editable: true,hidden:true,
+          					  editoptions:{
+           						     size: 30,
+          						     maxlength:22
+          					 },editrules: {required: false}
+           				 }, 
+                 {label: 'Name',name: 'emp_name' ,width: 100, align: 'left', hidden: true,editable: true,
                       editoptions:{
                              size: 30,
                              maxlength:22
                      },editrules: {required: false}
                  }, 
- 				{label: 'Period',name: 'period' ,width: 100, align: 'left',editable: true,
-  					  editoptions:{
-   						     size: 30,
-  						     maxlength:10
-  					 },editrules: {required: false}
-   				 }, 
- 				{label: 'Status',name: 'status' ,width: 100, align: 'left',editable: true,
-  					  editoptions:{
-   						     size: 30,
-  						     maxlength:10
-  					 },editrules: {required: false}
-   				 }
+         				{label: 'Period',name: 'period' ,width: 100, align: 'left',editable: true,
+          					  editoptions:{
+           						     size: 30,
+          						     maxlength:10
+          					 },editrules: {required: false}
+           				 }, 
+         				{label: 'Status',name: 'status' ,width: 100, align: 'left',editable: true,
+          					  editoptions:{
+           						     size: 30,
+          						     maxlength:10
+          					 },editrules: {required: false}
+           				 }
               
             ],
             height: '200',

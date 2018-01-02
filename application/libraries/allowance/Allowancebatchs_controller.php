@@ -650,6 +650,134 @@ class Allowancebatchs_controller {
         }
         return $data;
     }
+
+    function readUpdate(){
+
+
+
+        $page = getVarClean('page','int',1);
+        $limit = getVarClean('rows','int',5);
+        $sidx = getVarClean('t_bphtb_registration_id', 'int', 0);
+        $sord = getVarClean('sord', 'str', 'asc');
+        $allow_batch_id = getVarClean('allow_batch_id','int',0);
+
+        $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
+
+        try {
+
+            ////////////////////
+            global $_FILES;
+
+            $ci = & get_instance();
+            $ci->load->model('allowance/allowancebatchs');
+            $table = $ci->allowancebatchs;
+            
+            $req_param = array(
+                "sort_by" => null,
+                "sord" => null,
+                "limit" => null,
+                "field" => null,
+                "where" => null,
+                "where_in" => null,
+                "where_not_in" => null,
+                "search" => null,
+                "search_field" => null,
+                "search_operator" =>  null,
+                "search_str" =>  null
+            );
+
+            // Filter Table
+            $req_param['where'] = array();
+
+            $table->setCriteria("allow_batch_id = ".$allow_batch_id);
+
+            $result = $table->getAll();
+            $count = count($result);
+
+            //read file excel
+            if(empty($_FILES['filename']['name'])){
+                throw new Exception('File tidak boleh kosong');
+            }
+
+            $file_name = $result[0]['emp_name'].'_'.$result[0]['period'].'_'.$_FILES['filename']['name']; // <-- File Name
+            $file_location = './upload/allowance/'.$file_name; // <-- LOKASI Upload File
+            $file_date = substr($file_name, -8);
+            $file_dir = 'upload/allowance/';
+
+            $allowed =  array('gif','png' ,'jpg','jpeg');
+            $ext = pathinfo($file_name, PATHINFO_EXTENSION);
+
+            if(!in_array($ext,$allowed) ) {
+
+                $data['success'] = false;
+                $data['message'] = 'Format File gif,png,jpg,jpeg. ';
+
+                return $data;
+            }
+
+            if (!move_uploaded_file($_FILES['filename']['tmp_name'], $file_location)){
+                $data['success'] = false;
+                $data['message'] = 'Upload Gagal';
+
+                return $data;
+            }
+
+
+
+            $table->setJQGridParam($req_param);
+
+            if ($count > 0) $total_pages = ceil($count / $limit);
+            else $total_pages = 1;
+
+            if ($page > $total_pages) $page = $total_pages;
+            $start = $limit * $page - 1; // do not put $limit*($page - 1)
+
+           
+            if ($page == 0) $data['page'] = 1;
+            else $data['page'] = $page;
+
+            $data['total'] = $total_pages;
+            $data['records'] = $count;
+
+            /*$result[0]['total_transfer'] = $result[0]['total_transfer'] + $result[0]['tot_remain'];
+            $result[0]['payment_status'] = 'TRF';
+            $result[0]['tot_remain'] = 0;*/
+
+            $result[0]['status'] = 'TRF';
+            $result[0]['path_name'] = $file_dir.''.$file_name;
+
+           // $update = $this->update($result[0]);
+
+            if (!is_array($result[0])){
+                $data['message'] = 'Invalid items parameter';
+                return $data;
+            }
+
+            // $data['message'] = $result[0];
+            // return $data;
+
+            $table->actionType = 'UPDATE';
+
+            $table->db->trans_begin(); //Begin Trans
+
+            $table->setRecord($result[0]);
+            $table->update();
+
+            $table->db->trans_commit();
+
+
+            //$data['rows'] = $update['rows'];
+            $data['success'] = true;
+            $data['message'] = 'Data update successfully';
+            logging('update data  allowancebatchs');
+            $data['rows'] = $table->getAll();
+        
+        }catch (Exception $e) {
+            $data['message'] = $e->getMessage();
+        }
+
+        return $data;
+    }
 }
 
 /* End of file Icons_controller.php */

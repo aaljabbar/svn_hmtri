@@ -19,7 +19,8 @@ class Allowancebatchs extends Abstract_model {
  								'update_date'=> array (  'type' => 'date' , 'nullable' => true , 'unique' => false , 'display' =>  'Update Date' ),
  								'created_by'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Created By' ),
  								'update_by'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Update By' ),
- 								'status'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Status' )
+ 								'status'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Status' ),
+                                'path_name'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Path Name' )
                             );
 
     public $selectClause    =   " 
@@ -31,7 +32,9 @@ class Allowancebatchs extends Abstract_model {
  									allowancebatchs.created_by,
  									allowancebatchs.update_by,
  									allowancebatchs.status,
-                                    b.emp_name
+                                    allowancebatchs.path_name,
+                                    b.emp_name,
+                                    b.next_pay_dtm
                                 ";
     public $fromClause      = " allowancebatchs allowancebatchs 
                                 join empmaster b 
@@ -71,6 +74,7 @@ class Allowancebatchs extends Abstract_model {
 
             $this->record['update_by'] = $userdata['user_name'];
             $this->db->set('update_date',"sysdate",false);
+            unset($this->record['update_date']);
         }
         return true;
     }
