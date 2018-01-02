@@ -56,7 +56,17 @@ class Helper_util extends Abstract_model {
             $q = $this->db->query($sql);
             return $q->result_array();
     }
-
+    function getDataref3($table){
+     
+        $sql = "
+                  SELECT ALLOWANCE_TYPE_ID id, DESCRIPTION name  from V_TRF_ALLOWANCE 
+                  order by DESCRIPTION asc
+            " ;
+     
+            //die($sql);
+            $q = $this->db->query($sql);
+            return $q->result_array();
+    }
 }
 
 /* End of file Icons.php */

@@ -9,7 +9,7 @@ class Allowancedetail extends Abstract_model {
 
     public $table           = 'allowancedetail';
     public $pkey            = 'allowancedet_id';
-    public $alias           = 'allowancedetail';
+    public $alias           = 'a';
 
     public $fields          = array(
 								'allowancedet_id'=> array (  'pkey' => true,  'type' => 'int' , 'nullable' => false , 'unique' => false , 'display' =>  'Allowancedet Id' ),
@@ -25,22 +25,23 @@ class Allowancedetail extends Abstract_model {
                             );
 
     public $selectClause    =   " 
-									allowancedetail.allowancedet_id,
- 									allowancedetail.allow_batch_id,
- 									allowancedetail.allowance_type_id,
- 									allowancedetail.allowance_dat,
- 									allowancedetail.description,
- 									allowancedetail.created_date,
- 									allowancedetail.created_by,
- 									allowancedetail.update_by,
- 									allowancedetail.update_date,
- 									allowancedetail.allowancetrf_id,
-                                    b.desc_allowance,
+									a.allowancedet_id,
+ 									a.allow_batch_id,
+ 									a.allowance_type_id,
+ 									a.allowance_dat,
+ 									a.description,
+ 									a.created_date,
+ 									a.created_by,
+ 									a.update_by,
+ 									a.update_date,
+ 									a.allowancetrf_id,
+                                    b.desc_allowance || ' - ' || reference_name desc_allowance,
                                     c.trf_amount
                                 ";
-    public $fromClause      = " allowancedetail allowancedetail
-                                join allowancetype b on allowancedetail.allowance_type_id = b.allowance_type_id
-                                left join allowancetariff c on allowancedetail.allowancetrf_id = c.allowancetrf_id
+    public $fromClause      = " allowancedetail a
+                                   LEFT JOIN allowancetariff c ON a.allowancetrf_id = c.allowancetrf_id
+                                  LEFT JOIN allowancetype b ON b.ALLOWANCE_TYPE_ID = c.ALLOWANCE_TYPE_ID
+                                  LEFT JOIN preferencelist d on d.P_REFERENCE_LIST_ID =  c.REFERENCE_LIST_ID  
      ";
 
     public $refs            = array();
@@ -87,7 +88,7 @@ class Allowancedetail extends Abstract_model {
         }
         return true;
     }
-   
+
     function getAllowanceTariffById($id){
         $sql = "   SELECT ALLOWANCETRF_ID
                         from allowancetariff 

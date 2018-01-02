@@ -462,7 +462,7 @@
             ],
             height: '200',
             width: '100%',
-            autowidth: true,
+            autowidth: false,
             viewrecords: true,
             rowNum: 10,
             rowList: [10,20,50],
@@ -672,16 +672,16 @@
             page: 1,
             rownumbers: true, // show row numbers
             rownumWidth: 35,
-            shrinkToFit: false,
+            shrinkToFit: true,
 //            scrollbar : false,
             postData:{celValue:encodeURIComponent(parentRowKey)},
             colModel: [
                 { label: 'ID', name: 'allow_batch_id', key: true, width:10, sorttype:'number', editable: false,hidden:true },
-                { label: 'Description', name: 'desc_allowance', width:200, align:"left", editable:false},
-                { label: 'Estimated Amount', name: 'amount', width:125, align:"right", editable:false}
+                { label: 'Description', name: 'desc_allowance', width:250, align:"left", editable:false},
+                { label: 'Estimated Amount', name: 'amount', width:150, align:"right", editable:false, formatter:'currency', formatoptions:{decimalSeparator:",", thousandsSeparator: ".", decimalPlaces: 0, prefix: " "}}
             ],
 //            loadonce: true,
-            width: 600,
+            width: "100%",
             height: '100%',
             jsonReader: {
                 root: 'rows',
@@ -738,7 +738,7 @@
                         }
                     }
                 },
-                {label: 'Allowance Type',name: 'desc_allowance' ,width: 100, align: 'left',editable: false,
+                {label: 'Allowance Type',name: 'desc_allowance' ,width: 150, align: 'left',editable: false,
                       editoptions:{
                              size: 30,
                              maxlength:22
@@ -759,20 +759,19 @@
                              maxlength:7
                      },editrules: {required: true}
                  }, 
-                {label: 'Description',name: 'description' ,width: 100, align: 'left',editable: true,
-                      editoptions:{
-                             size: 30,
-                             maxlength:60
-                     },editrules: {required: false}
-                 }, 
-                {label: 'Rate',name: 'trf_amount' ,width: 100, align: 'right',editable: false,
+                 {label: 'Rate',name: 'trf_amount' ,width: 75, align: 'right',editable: false,
                       editoptions:{
                              size: 30,
                              maxlength:22
                      },editrules: {required: false},
                      formatter:'currency', formatoptions:{decimalSeparator:",", thousandsSeparator: ".", decimalPlaces: 0, prefix: " "},
-                 }
-              
+                 },
+                {label: 'Description',name: 'description' ,width: 100, align: 'left',editable: true,
+                      editoptions:{
+                             size: 30,
+                             maxlength:60
+                     },editrules: {required: false}
+                 }              
             ],
             height: '200',
             width: '100%',

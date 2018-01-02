@@ -42,6 +42,10 @@ class Allowancebatchs_controller {
                                 'period' => date('Ym')
                );
                $summary = $this->createForm($dataSummary);
+               
+               if($summary['id'] == ''){
+                    throw new Exception($summary['message']);
+               }
 
                $item = json_decode($dataform, true);
                $dataRec = array();
@@ -51,15 +55,15 @@ class Allowancebatchs_controller {
                     $dataRec[$i] = array(
                                     'allowancedet_id' => '',
                                     'allow_batch_id' => $summary['id'],
-                                    'allowance_type_id' => $value['allowance_type_id'],
+                                    'allowancetrf_id' => $value['allowancetrf_id'],
                                     'description' => $value['description'],
                                     'allowance_dat' => $value['allowance_dat'],
-                                    'allowancetrf_id'=> $table->getAllowanceTariffById($value['allowance_type_id'])
+                                    'allowance_type_id'=> $table->getAllowanceTypeById($value['allowancetrf_id'])
                     );
 
                     $i++;
                }
-               
+
                $this->createFormAllowanceDetail($dataRec);
 
                $data['success'] = true;

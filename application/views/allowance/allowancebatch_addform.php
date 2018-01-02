@@ -32,6 +32,7 @@
 <span  class="btn btn-default btn-xs" >
     <i class="fa fa-user" ></i>  <?php echo getVarClean('emp_name','str','');?> 
     <input type="hidden" name="emp_master_id" id="emp_master_id">
+    <input type="hidden" name="emp_name" id="emp_name" value="<?php echo getVarClean('emp_name','str','');?> ">
 </span>
 
 
@@ -66,7 +67,7 @@
                                           <div class="btn-group">
                                               <button type="button" class="btn btn-default btn-xs" onclick="submitForm()">
                                                   <i class="fa fa-check"></i> Submit</button>
-                                              <button type="button" class="btn btn-default btn-xs" onclick="reloadForm()">
+                                              <button type="button" class="btn btn-default btn-xs" onclick="resetForm('ALL')">
                                                   <i class="fa fa-undo"></i> Reset  </button>
                                           </div>
                                   </div>
@@ -132,12 +133,26 @@ function setCaption(){
     $('#totalWeekend').html(weekend);
     $('#totalWeekday').html(weekday);
 }
+
+function resetForm(id){
+  if(id == 'ALL'){
+      param = {emp_master_id:$('#emp_master_id').val(),emp_name:$('#emp_name').val()}
+      id = 'allowance.allowancebatch_addform';
+      loadContentWithParams(id,param);
+  }else{
+      $('.'+id).removeClass('btn-primary');
+      $('.'+id).addClass('btn-default');
+      $('.'+id).removeAttr('allowance_type_id');
+      $('.'+id).removeAttr('description');
+  }
+}
+
 function submitForm(){
     jmlClass = $('.dateAllow').length;
     jmlSet  = $('.set').length;
     emp_master_id  = $('#emp_master_id').val().trim();
-    if(jmlSet != jmlClass){
-      swal({title: 'Info', text: 'Please Set All Data', html: true, type: "info"});
+    if(jmlSet != jmlClass || jmlClass < 1){
+      swal({title: 'Info', text: 'Please set all data or choose date', html: true, type: "info"});
     }else{
       dataform = {}
       i =0;
@@ -146,7 +161,7 @@ function submitForm(){
         description = $(this).attr('description');
         date = $(this).attr('valClass');
         dataform[i] = { allowance_dat:date, 
-                        allowance_type_id:allowance_type_id,
+                        allowancetrf_id:allowance_type_id,
                         description:description
                       };
         i++;
@@ -157,9 +172,14 @@ function submitForm(){
         url: "<?php echo WS_JQGRID.'allowance.allowancebatchs_controller/submitDataForm'; ?>",
         data: { emp_master_id:emp_master_id, dataform:dataform},
         success: function (data) {
-             //
-             //ret = JSON.parse(data);
-             swal({title: 'Info', text: 'Success', html: true, type: "info"});
+             ret = JSON.parse(data);
+             if(ret.success){
+
+              swal({title: 'Info', text: 'Success', html: true, type: "info"});
+              loadForm();
+             }else{
+              swal({title: 'warning', text: ret.message, html: true, type: "warning"});
+             }
             }
      });
     }

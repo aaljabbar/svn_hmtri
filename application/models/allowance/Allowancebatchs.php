@@ -81,9 +81,14 @@ class Allowancebatchs extends Abstract_model {
     function getSummaryDetail(){
         $this->table = "v_allowanceDetail";
         $this->selectClause = " allow_batch_id, DESC_ALLOWANCE,amount ";
-        $this->fromClause = " (select allow_batch_id, DESC_ALLOWANCE,sum(trf_amount) amount
+        $this->fromClause = "  (select allow_batch_id, DESC_ALLOWANCE,sum(trf_amount) amount
                                 from v_allowanceDetail
-                                group by allow_batch_id, desc_allowance ) ";
+                                group by allow_batch_id, desc_allowance
+                                union all 
+                                select allow_batch_id, 'Total' DESC_ALLOWANCE,sum(trf_amount) amount
+                                from v_allowanceDetail
+                                group by allow_batch_id
+                                 ) ";
         
     }
     function generateDate($start, $end){
@@ -172,7 +177,21 @@ class Allowancebatchs extends Abstract_model {
         }
         return $ret;
     }
+    function getAllowanceTypeById($id){
+        $sql = "   SELECT ALLOWANCE_TYPE_ID
+                        from V_TRF_ALLOWANCE 
+                        where ALLOWANCETRF_ID = ?
+                        and rownum = 1
+                ";
+                 //die($sql);
+        $query = $this->db->query($sql, array($id));
 
+        foreach ($query->result_array() as $row)
+        {
+           $ret = $row['allowance_type_id'];
+        }
+        return $ret;
+    }
 }
 
 /* End of file Icons.php */

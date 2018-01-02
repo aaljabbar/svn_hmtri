@@ -224,5 +224,16 @@ function getDataRef3($table){
     }
     return $data;
 }
-
+function getDataRef4($table){
+    $ci =& get_instance();
+    $ci->load->model('helper/helper_util');
+    $table = $ci->helper_util;
+    $result = $table->getDataref3($table);
+    //$data = "<option value=''> </option>";
+    $data = '<option>-- Choose Allowance Type --</option>';
+    foreach ($result as $value) {
+        $data .= "<option value='" . $value['id'] . "'>" . strtoupper($value['name']) . "</option>";
+    }
+    return $data;
+}
 ?>

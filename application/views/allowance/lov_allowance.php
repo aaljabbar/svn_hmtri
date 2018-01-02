@@ -25,20 +25,20 @@
                                           </div>
                                       </div>
                                   </div>
-                                   <div class="col-md-12">
+                                  <!--  <div class="col-md-12">
                                       <div class="form-group">
                                           <label class="control-label col-md-3">Status</label>
                                           <div class="col-md-9">
                                               <input class="form-control " type="text" readonly name="statusLov" id="statusLov">
                                           </div>
                                       </div>
-                                  </div>
+                                  </div> -->
                                   <div class="col-md-12">
                                     <div class="form-group">
                                           <label class="control-label col-md-3"> </label>
                                           <div class="col-md-9">
                                             <select class="form-control required" required name="allowance_typeLov" id="allowance_typeLov">
-                                              <?php echo getDataRef3('allowancetype');?>
+                                              <?php echo getDataRef4('allowancetype');?>
                                             </select>
                                       </div>
                                     </div>
@@ -122,31 +122,37 @@
         }
 
         function setData(){
-          if($('#tipeLov').val() > 0){
-
-            $('.dateAllow').each(function(){
-                allowance_type_id = $('#allowance_typeLov').val();
-                messageLov = $('#messageLov').val();
-                $(this).attr('allowance_type_id',allowance_type_id);
-                $(this).attr('description',messageLov);
-                $(this).removeClass('btn-default');
-                $(this).addClass('btn-primary');
-                $(this).addClass('set');
-
-            });
-             
+          if(!$('#allowance_typeLov').val()){
+            swal({title: 'Info', text: 'Please choose Allowance Type', html: true, type: "info"});
           }else{
-                id  = $('#idLov').val();
-                allowance_type_id = $('#allowance_typeLov').val();
-                messageLov = $('#messageLov').val();
-                $('.'+id).attr('allowance_type_id',allowance_type_id);
-                $('.'+id).attr('description',messageLov);
-                $('.'+id).removeClass('btn-default');
-                $('.'+id).addClass('btn-primary');
-                $('.'+id).addClass('set');
 
+            if($('#tipeLov').val() > 0){
+
+              $('.dateAllow').each(function(){
+                  allowance_type_id = $('#allowance_typeLov').val();
+                  messageLov = $('#messageLov').val();
+                  $(this).attr('allowance_type_id',allowance_type_id);
+                  $(this).attr('description',messageLov);
+                  $(this).removeClass('btn-default');
+                  $(this).addClass('btn-primary');
+                  $(this).addClass('set');
+
+              });
+               
+            }else{
+                  id  = $('#idLov').val();
+                  allowance_type_id = $('#allowance_typeLov').val();
+                  messageLov = $('#messageLov').val();
+                  $('.'+id).attr('allowance_type_id',allowance_type_id);
+                  $('.'+id).attr('description',messageLov);
+                  $('.'+id).removeClass('btn-default');
+                  $('.'+id).addClass('btn-primary');
+                  $('.'+id).addClass('set');
+
+            }
+              $("#modal_allowance").modal('toggle');
           }
-            $("#modal_allowance").modal({backdrop: 'static'});
+          
         }
     
 </script>
