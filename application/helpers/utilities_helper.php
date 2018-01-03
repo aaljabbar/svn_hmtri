@@ -230,10 +230,11 @@ function getDataRef4($table){
     $table = $ci->helper_util;
     $result = $table->getDataref3($table);
     //$data = "<option value=''> </option>";
-    $data = '<option>-- Choose Allowance Type --</option>';
+    $data = "<select >";
     foreach ($result as $value) {
         $data .= "<option value='" . $value['id'] . "'>" . strtoupper($value['name']) . "</option>";
     }
+    $data .= "</select >";
     return $data;
 }
 ?>

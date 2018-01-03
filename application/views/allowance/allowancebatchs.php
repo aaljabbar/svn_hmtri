@@ -728,13 +728,13 @@
                     edittype: 'select',
                     hidden: true,
                     editrules: {edithidden: true, required: true},
-                    editoptions: {dataUrl: '<?php echo WS_JQGRID.'allowance.allowancedetail_controller/getListParam1'; ?>',
+                    editoptions: {dataUrl: '<?php echo WS_JQGRID.'allowance.allowancedetail_controller/getListParam3'; ?>',
                         postData: function (rowid) {
                             paramid = 4;
                             return { paramid: paramid, table:'1' };
                         },
                         dataInit: function (elem) {
-                            $(elem).width(240);  // set the width which you need
+                            $(elem).width(350);  // set the width which you need
                         }
                     }
                 },
@@ -767,6 +767,7 @@
                      formatter:'currency', formatoptions:{decimalSeparator:",", thousandsSeparator: ".", decimalPlaces: 0, prefix: " "},
                  },
                 {label: 'Description',name: 'description' ,width: 100, align: 'left',editable: true,
+                      edittype: 'textarea',
                       editoptions:{
                              size: 30,
                              maxlength:60

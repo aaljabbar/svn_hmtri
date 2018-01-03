@@ -16,6 +16,11 @@ class Allowancedetail_controller {
         echo getDataref2($table);
         exit();
     }
+    public function getListParam3(){
+        $table  = getVarClean('table','str','0');
+        echo getDataref4($table);
+        exit();
+    }
 
     function read() {
 
