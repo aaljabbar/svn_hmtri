@@ -66,11 +66,12 @@ class Allowancedetail extends Abstract_model {
             $this->record['created_by'] = $userdata['user_name'];
 
             $this->db->set('allowance_dat',"to_date('".$this->record['allowance_dat']."','yyyy-mm-dd')",false);
-            $this->db->set('allowancetrf_id',$this->getAllowanceTariffById($this->record['allowance_type_id']),false);
+            //$this->db->set('allowancetrf_id',$this->getAllowanceTariffById($this->record['allowance_type_id']),false);
+            $this->db->set('allowance_type_id',$this->getAllowanceTypeById($this->record['allowancetrf_id']),false);
             $this->db->set('created_date',"sysdate",false);
 
             unset($this->record['allowance_dat']);
-            unset($this->record['allowancetrf_id']);
+            unset($this->record['allowance_type_id']);
 
             $this->record[$this->pkey] = $this->generate_id($this->table, $this->pkey);
 
@@ -80,11 +81,11 @@ class Allowancedetail extends Abstract_model {
             /* $this->record['updated_date'] = date('Y-m-d');
             $this->record['updated_by'] = $userdata['user_name']; */
             //if false please throw new Exception
-            $this->db->set('allowancetrf_id',$this->getAllowanceTariffById($this->record['allowance_type_id']),false);
+            $this->db->set('allowance_type_id',$this->getAllowanceTypeById($this->record['allowancetrf_id']),false);
             $this->db->set('update_date',"sysdate",false);
 
             $this->record['update_by'] = $userdata['user_name'];
-            unset($this->record['allowancetrf_id']);
+            unset($this->record['allowance_type_id']);
         }
         return true;
     }
@@ -101,6 +102,21 @@ class Allowancedetail extends Abstract_model {
         foreach ($query->result_array() as $row)
         {
            $ret = $row['allowancetrf_id'];
+        }
+        return $ret;
+    }
+    function getAllowanceTypeById($id){
+        $sql = "   SELECT ALLOWANCE_TYPE_ID
+                        from V_TRF_ALLOWANCE 
+                        where ALLOWANCETRF_ID = ?
+                        and rownum = 1
+                ";
+                 //die($sql);
+        $query = $this->db->query($sql, array($id));
+
+        foreach ($query->result_array() as $row)
+        {
+           $ret = $row['allowance_type_id'];
         }
         return $ret;
     }
