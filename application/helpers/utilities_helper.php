@@ -237,4 +237,16 @@ function getDataRef4($table){
     $data .= "</select >";
     return $data;
 }
+function getDataRef5($table){
+    $ci =& get_instance();
+    $ci->load->model('helper/helper_util');
+    $table = $ci->helper_util;
+    $result = $table->getDataref3($table);
+    //$data = "<option value=''> </option>";
+    $data = "";
+    foreach ($result as $value) {
+        $data .= "<option value='" . $value['id'] . "'>" . strtoupper($value['name']) . "</option>";
+    }
+    return $data;
+}
 ?>

@@ -221,7 +221,15 @@
             multiboxonly: true,
             onSelectRow: function (rowid) {
                 /*do something when selected*/
+                var celValue = $('#grid-table_emp').jqGrid('getCell', rowid, 'emp_master_id');
+                var celCode = $('#grid-table_emp').jqGrid('getCell', rowid, 'emp_name');
+
+                    $("#temp_cellValue").val(celValue);
+                    $("#temp_emp_master_id").val(celValue);
+                    $("#emp_name").val(celCode);
                 
+            },
+            ondblClickRow: function(rowid){
                 var celValue = $('#grid-table_emp').jqGrid('getCell', rowid, 'emp_master_id');
                 var celCode = $('#grid-table_emp').jqGrid('getCell', rowid, 'emp_name');
                 
@@ -240,7 +248,6 @@
                     $("#detail_placeholder2").show();
                 }
                 responsive_jqgrid("#grid-table", "#grid-pager");
-                
             },
             sortorder:'',
             pager: '#grid-pager_emp',

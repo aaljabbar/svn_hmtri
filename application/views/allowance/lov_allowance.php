@@ -38,7 +38,7 @@
                                           <label class="control-label col-md-3"> </label>
                                           <div class="col-md-9">
                                             <select class="form-control required" required name="allowance_typeLov" id="allowance_typeLov">
-                                              <?php echo getDataRef4('allowancetype');?>
+                                              <?php echo getDataRef5('allowancetype');?>
                                             </select>
                                       </div>
                                     </div>
