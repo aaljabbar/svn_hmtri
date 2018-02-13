@@ -227,10 +227,29 @@
                     $("#temp_cellValue").val(celValue);
                     $("#temp_emp_master_id").val(celValue);
                     $("#emp_name").val(celCode);
+
+                    var celValue = $('#grid-table_emp').jqGrid('getCell', rowid, 'emp_master_id');
+                    var celCode = $('#grid-table_emp').jqGrid('getCell', rowid, 'emp_name');
+                    
+                    var grid_detail = jQuery("#grid-table");
+                    if (rowid != null) {
+                        grid_detail.jqGrid('setGridParam', {
+                            url: "<?php echo WS_JQGRID."allowance.allowancebatchs_controller/crud"; ?>",
+                            postData: {celValue: celValue}
+                        });
+                        var strCaption = 'Allowance  :: ' + celCode;
+                        grid_detail.jqGrid('setCaption', strCaption);
+                        $("#temp_cellValue").val(celValue);
+                        $("#temp_emp_master_id").val(celValue);
+                        $("#emp_name").val(celCode);
+                        $("#grid-table").trigger("reloadGrid");
+                        $("#detail_placeholder2").show();
+                    }
+                    responsive_jqgrid("#grid-table", "#grid-pager");
                 
             },
             ondblClickRow: function(rowid){
-                var celValue = $('#grid-table_emp').jqGrid('getCell', rowid, 'emp_master_id');
+               /* var celValue = $('#grid-table_emp').jqGrid('getCell', rowid, 'emp_master_id');
                 var celCode = $('#grid-table_emp').jqGrid('getCell', rowid, 'emp_name');
                 
                 var grid_detail = jQuery("#grid-table");
@@ -247,7 +266,7 @@
                     $("#grid-table").trigger("reloadGrid");
                     $("#detail_placeholder2").show();
                 }
-                responsive_jqgrid("#grid-table", "#grid-pager");
+                responsive_jqgrid("#grid-table", "#grid-pager");*/
             },
             sortorder:'',
             pager: '#grid-pager_emp',
